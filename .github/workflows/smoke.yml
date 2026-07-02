@@ -1,0 +1,37 @@
+name: smoke
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Byte-compile own modules
+        run: |
+          python -m compileall -q dataset preprocessing postprocessing experimental scripts infer_shape.py
+          python -m compileall -q model -x 'model/dinov2'
+
+  smoke-cpu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+          cache: pip
+      - name: Install CPU test dependencies
+        run: |
+          pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+          pip install numpy pillow scikit-learn trimesh omegaconf tqdm einops timm \
+            transformers diffusers opencv-python-headless scikit-image imageio \
+            matplotlib plyfile pymeshlab hydra-core torchdiffeq fpsample
+      # CPU layers must pass; CUDA-only checks report SKIP on this runner
+      - name: Layered smoke test
+        run: python scripts/smoke_test.py
