@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShapeR mesh viewer</title>
+<link rel="icon" href="data:,">
+<style>
+  :root { color-scheme: dark; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+  body { font: 13px/1.5 system-ui, sans-serif; background: #16181d; color: #d6d8de; }
+  #canvas { position: absolute; inset: 0; }
+  .panel {
+    position: absolute; background: rgba(22, 24, 29, .88); border: 1px solid #2c2f37;
+    border-radius: 8px; padding: 10px 14px; backdrop-filter: blur(4px);
+  }
+  #hud { top: 12px; left: 12px; max-width: 280px; }
+  #hud h1 { font-size: 14px; font-weight: 600; margin-bottom: 2px; color: #fff; }
+  #hud .hint { color: #8b8f99; }
+  #stats { bottom: 12px; left: 12px; font-variant-numeric: tabular-nums; display: none; }
+  #stats td { padding: 0 0 0 12px; text-align: right; }
+  #stats td:first-child { padding: 0; text-align: left; color: #8b8f99; }
+  #controls { top: 12px; right: 12px; display: flex; gap: 6px; padding: 8px; }
+  button {
+    font: inherit; color: #d6d8de; background: #262a32; border: 1px solid #363b45;
+    border-radius: 6px; padding: 5px 10px; cursor: pointer;
+  }
+  button:hover { background: #2f343e; }
+  button.active { background: #3d5afe22; border-color: #5c6bc0; color: #aab6fe; }
+  #drop {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    border: 2px dashed transparent; transition: border-color .15s, background .15s;
+    pointer-events: none;
+  }
+  #drop.armed { border-color: #5c6bc0; background: #3d5afe11; }
+  #drop .box { text-align: center; pointer-events: auto; }
+  #drop .box p { color: #8b8f99; margin-top: 6px; }
+  #drop.hidden { display: none; }
+  input[type=file] { display: none; }
+</style>
+</head>
+<body>
+<div id="canvas"></div>
+
+<div id="hud" class="panel">
+  <h1 id="title">ShapeR mesh viewer</h1>
+  <div class="hint">Drop a .glb / .gltf anywhere — output of infer_shape.py</div>
+</div>
+
+<div id="controls" class="panel">
+  <button id="btn-open">Open…</button>
+  <button id="btn-wire" title="W">Wireframe</button>
+  <button id="btn-zup" title="Z — rotate a Z-up mesh upright">Z-up</button>
+  <button id="btn-grid" class="active" title="G">Grid</button>
+  <button id="btn-reset" title="R">Reset view</button>
+</div>
+
+<table id="stats" class="panel">
+  <tr><td>vertices</td><td id="s-verts">–</td></tr>
+  <tr><td>triangles</td><td id="s-tris">–</td></tr>
+  <tr><td>size (m)</td><td id="s-size">–</td></tr>
+</table>
+
+<div id="drop">
+  <div class="box panel">
+    <button id="btn-choose">Choose a .glb file</button>
+    <p>…or drag &amp; drop it here</p>
+  </div>
+</div>
+<input type="file" id="file" accept=".glb,.gltf">
+
+<script src="vendor/three-bundle.js"></script>
+<script>
+(() => {
+  const container = document.getElementById('canvas');
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setSize(innerWidth, innerHeight);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  container.appendChild(renderer.domElement);
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x16181d);
+
+  const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.001, 1000);
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+
+  // Studio-ish lighting: soft sky/ground + key + rim
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x30343c, 1.4));
+  const key = new THREE.DirectionalLight(0xffffff, 2.2);
+  key.position.set(3, 5, 4);
+  scene.add(key);
+  const rim = new THREE.DirectionalLight(0x99aaff, 0.8);
+  rim.position.set(-4, 2, -3);
+  scene.add(rim);
+
+  const grid = new THREE.Group();
+  grid.add(new THREE.GridHelper(2, 20, 0x444a56, 0x2a2e36));
+  grid.add(new THREE.AxesHelper(0.3));
+  scene.add(grid);
+
+  let model = null;
+  let wireframe = false;
+  let zUp = false;
+  const loader = new GLTFLoader();
+
+  function frame(object) {
+    const box = new THREE.Box3().setFromObject(object);
+    const size = box.getSize(new THREE.Vector3());
+    const center = box.getCenter(new THREE.Vector3());
+    const radius = Math.max(size.x, size.y, size.z, 1e-4);
+    controls.target.copy(center);
+    camera.position.copy(center).add(new THREE.Vector3(0.8, 0.55, 1).multiplyScalar(radius * 1.6));
+    camera.near = radius / 100;
+    camera.far = radius * 100;
+    camera.updateProjectionMatrix();
+    controls.update();
+    // scale grid to model footprint
+    grid.position.set(center.x, box.min.y, center.z);
+    return size;
+  }
+
+  function setWireframe(on) {
+    wireframe = on;
+    document.getElementById('btn-wire').classList.toggle('active', on);
+    if (!model) return;
+    model.traverse(o => { if (o.isMesh) o.material.wireframe = on; });
+  }
+
+  function show(gltf, name) {
+    if (model) scene.remove(model);
+    model = gltf.scene;
+    if (zUp) model.rotation.x = -Math.PI / 2;
+    scene.add(model);
+    let verts = 0, tris = 0;
+    model.traverse(o => {
+      if (o.isMesh && o.geometry) {
+        verts += o.geometry.attributes.position.count;
+        tris += (o.geometry.index ? o.geometry.index.count : o.geometry.attributes.position.count) / 3;
+        if (!o.material || !o.material.isMeshStandardMaterial) {
+          o.material = new THREE.MeshStandardMaterial({ color: 0xb8bcc8, roughness: 0.65, metalness: 0.05 });
+        }
+        o.material.side = THREE.DoubleSide;
+      }
+    });
+    const size = frame(model);
+    setWireframe(wireframe);
+    document.getElementById('title').textContent = name;
+    document.getElementById('s-verts').textContent = verts.toLocaleString();
+    document.getElementById('s-tris').textContent = Math.round(tris).toLocaleString();
+    document.getElementById('s-size').textContent =
+      [size.x, size.y, size.z].map(v => v.toFixed(3)).join(' × ');
+    document.getElementById('stats').style.display = 'block';
+    document.getElementById('drop').classList.add('hidden');
+  }
+
+  function loadFile(file) {
+    const url = URL.createObjectURL(file);
+    loader.load(url, gltf => { URL.revokeObjectURL(url); show(gltf, file.name); },
+      undefined,
+      err => { URL.revokeObjectURL(url); alert('Could not load ' + file.name + ':\n' + err.message); });
+  }
+
+  // Drag & drop + file picker
+  const drop = document.getElementById('drop');
+  addEventListener('dragover', e => { e.preventDefault(); drop.classList.remove('hidden'); drop.classList.add('armed'); });
+  addEventListener('dragleave', e => { if (!e.relatedTarget) drop.classList.remove('armed'); });
+  addEventListener('drop', e => {
+    e.preventDefault(); drop.classList.remove('armed');
+    if (model) drop.classList.add('hidden');
+    const f = [...e.dataTransfer.files].find(f => /\.(glb|gltf)$/i.test(f.name));
+    if (f) loadFile(f);
+  });
+  const fileInput = document.getElementById('file');
+  fileInput.addEventListener('change', () => fileInput.files[0] && loadFile(fileInput.files[0]));
+  document.getElementById('btn-open').onclick = () => fileInput.click();
+  document.getElementById('btn-choose').onclick = () => fileInput.click();
+
+  // Controls
+  document.getElementById('btn-wire').onclick = () => setWireframe(!wireframe);
+  const setZUp = on => {
+    zUp = on;
+    document.getElementById('btn-zup').classList.toggle('active', on);
+    if (model) { model.rotation.x = on ? -Math.PI / 2 : 0; frame(model); }
+  };
+  document.getElementById('btn-zup').onclick = () => setZUp(!zUp);
+  document.getElementById('btn-grid').onclick = e => {
+    grid.visible = !grid.visible;
+    e.currentTarget.classList.toggle('active', grid.visible);
+  };
+  document.getElementById('btn-reset').onclick = () => model && frame(model);
+  addEventListener('keydown', e => {
+    if (e.key === 'w' || e.key === 'W') setWireframe(!wireframe);
+    if (e.key === 'g' || e.key === 'G') document.getElementById('btn-grid').click();
+    if (e.key === 'z' || e.key === 'Z') setZUp(!zUp);
+    if (e.key === 'r' || e.key === 'R') model && frame(model);
+  });
+
+  addEventListener('resize', () => {
+    camera.aspect = innerWidth / innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth, innerHeight);
+  });
+
+  camera.position.set(1.2, 0.8, 1.6);
+  (function tick() { requestAnimationFrame(tick); controls.update(); renderer.render(scene, camera); })();
+})();
+</script>
+</body>
+</html>
