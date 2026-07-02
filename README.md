@@ -46,6 +46,8 @@ python infer_shape.py --input_pkl ADT1292__stool.pkl --config balance
 
 This codebase assumes that a sequence has already been processed using the Aria MPS pipeline, along with an 3D object instance detector, resulting in the pickle files with the preprocessed data required for ShapeR ingestion.
 
+Don't have Aria captures? The experimental [photos → ShapeR pipeline](experimental/README.md) turns ordinary photos into input pickles using Depth-Anything-V3, and [`viewer/`](viewer/README.md) contains a drag-and-drop viewer for the generated `.glb` meshes.
+
 We release the **ShapeR Evaluation Dataset** containing preprocessed samples from Aria glasses captures. Each sample is a pickle file with point clouds, multi-view images, camera parameters, text captions, and ground truth meshes.
 
 For a detailed walkthrough of the data format, see the **[`explore_data.ipynb`](explore_data.ipynb)** notebook which includes:
@@ -77,6 +79,9 @@ ShapeR/
 │   └── helper.py           # Fisheye rectification, camera utils
 ├── postprocessing/
 │   └── helper.py           # Mesh cleanup, visualization
+├── experimental/           # Photos → ShapeR input pipeline (Depth-Anything-V3)
+├── viewer/                 # Drag-and-drop viewer for generated .glb meshes
+├── scripts/                # Environment setup and smoke test
 ├── checkpoints/            # Model weights (downloaded automatically)
 └── data/                   # Input pickle files
 ```
