@@ -9,7 +9,7 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { width: 100%; height: 100%; overflow: hidden; }
   body { font: 14px/1.5 system-ui, sans-serif; color: #1c2430; }
-  #canvas { position: absolute; inset: 0; }
+  #canvas { position: absolute; inset: 0; touch-action: none; }
   .panel {
     position: absolute; background: rgba(255, 255, 255, .92); border: 1px solid #d5dae2;
     border-radius: 10px; padding: 12px 14px; backdrop-filter: blur(6px);
@@ -51,6 +51,13 @@
   }
   #toast.show { opacity: 1; }
   input[type=file] { display: none; }
+  /* ruimere knoppen op touch-apparaten (iPad) */
+  @media (pointer: coarse) {
+    button { padding: 10px 14px; }
+    .swatch { width: 30px; height: 30px; }
+    #toolbar { max-width: 96vw; overflow-x: auto; }
+    #hint { display: none; }
+  }
 </style>
 </head>
 <body>
