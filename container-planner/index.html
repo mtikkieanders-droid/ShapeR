@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Containerplanner</title>
+<link rel="icon" href="data:,">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; }
+  body { font: 14px/1.5 system-ui, sans-serif; color: #1c2430; }
+  #canvas { position: absolute; inset: 0; }
+  .panel {
+    position: absolute; background: rgba(255, 255, 255, .92); border: 1px solid #d5dae2;
+    border-radius: 10px; padding: 12px 14px; backdrop-filter: blur(6px);
+    box-shadow: 0 2px 10px rgba(20, 30, 50, .08);
+  }
+  h1 { font-size: 15px; font-weight: 650; }
+  .sub { color: #66707e; font-size: 12px; margin-bottom: 10px; }
+  #left { top: 14px; left: 14px; width: 208px; }
+  .row { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; align-items: center; }
+  .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: #66707e; margin: 8px 0 4px; }
+  button {
+    font: inherit; color: #1c2430; background: #fff; border: 1px solid #c6cdd8;
+    border-radius: 7px; padding: 6px 10px; cursor: pointer;
+  }
+  button:hover { background: #f1f4f8; }
+  button.primary { background: #1f4e79; border-color: #1f4e79; color: #fff; }
+  button.primary:hover { background: #266092; }
+  button.danger { color: #a33; border-color: #d8b6b6; }
+  button:disabled { opacity: .45; cursor: default; }
+  .swatch { width: 22px; height: 22px; border-radius: 6px; border: 2px solid transparent; cursor: pointer; }
+  .swatch.active { border-color: #1c2430; }
+  input[type=number] { width: 56px; font: inherit; padding: 4px 6px; border: 1px solid #c6cdd8; border-radius: 6px; }
+  input[type=range] { width: 110px; }
+  #counts { top: 14px; right: 14px; min-width: 150px; font-variant-numeric: tabular-nums; }
+  #counts td { padding: 1px 0 1px 14px; text-align: right; font-weight: 600; }
+  #counts td:first-child { padding: 0; text-align: left; color: #66707e; font-weight: 400; }
+  #toolbar { bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; gap: 6px; padding: 8px; white-space: nowrap; }
+  #hint { bottom: 14px; left: 14px; color: #66707e; font-size: 12px; background: rgba(255,255,255,.8); padding: 6px 10px; border-radius: 8px; }
+  #calib { bottom: 64px; left: 50%; transform: translateX(-50%); display: none; }
+  #calib.open { display: block; }
+  #calib table td { padding: 2px 6px; font-size: 12px; }
+  #calib .val { display: inline-block; width: 52px; text-align: right; font-variant-numeric: tabular-nums; color: #66707e; }
+  #sel { display: none; border-top: 1px solid #e2e6ec; margin-top: 8px; padding-top: 8px; }
+  #sel.open { display: block; }
+  #toast {
+    position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+    background: #1c2430; color: #fff; padding: 8px 16px; border-radius: 8px;
+    opacity: 0; transition: opacity .25s; pointer-events: none; font-size: 13px;
+  }
+  #toast.show { opacity: 1; }
+  input[type=file] { display: none; }
+</style>
+</head>
+<body>
+<div id="canvas"></div>
+
+<div id="left" class="panel">
+  <h1>Containerplanner</h1>
+  <div class="sub">Sleep containers, stapel ze en deel je indeling.</div>
+  <div class="lbl">Toevoegen</div>
+  <div class="row">
+    <button id="add20" class="primary">+ 20ft</button>
+    <button id="add40" class="primary">+ 40ft</button>
+  </div>
+  <div class="lbl">Kleur</div>
+  <div class="row" id="swatches"></div>
+  <div class="lbl">Max. stapelhoogte</div>
+  <div class="row"><input type="number" id="maxstack" min="1" max="8" value="4"> <span class="sub" style="margin:0">containers</span></div>
+  <div id="sel">
+    <div class="lbl">Geselecteerde container</div>
+    <div class="row">
+      <button id="btn-rotate" title="R">↻ Draai</button>
+      <button id="btn-delete" class="danger" title="Delete">✕ Verwijder</button>
+    </div>
+  </div>
+</div>
+
+<table id="counts" class="panel">
+  <tr><td>20ft</td><td id="c20">0</td></tr>
+  <tr><td>40ft</td><td id="c40">0</td></tr>
+  <tr><td>TEU</td><td id="cteu">0</td></tr>
+  <tr><td>totaal</td><td id="ctot">0</td></tr>
+</table>
+
+<div id="toolbar" class="panel">
+  <button id="btn-splat">Terrein (splat) laden…</button>
+  <button id="btn-calib">Kalibratie</button>
+  <button id="btn-save">Opslaan</button>
+  <button id="btn-load">Laden…</button>
+  <button id="btn-share">Deel-link</button>
+  <button id="btn-png">PNG</button>
+  <button id="btn-pdf">PDF</button>
+</div>
+
+<div id="calib" class="panel">
+  <div class="lbl" style="margin-top:0">Terrein-kalibratie (eenmalig instellen, wordt mee opgeslagen)</div>
+  <table>
+    <tr><td>Positie X</td><td><input type="range" id="k-px" min="-100" max="100" step="0.1" value="0"></td><td class="val" id="v-px">0.0</td>
+        <td>Rotatie X°</td><td><input type="range" id="k-rx" min="-180" max="180" step="0.5" value="180"></td><td class="val" id="v-rx">180</td></tr>
+    <tr><td>Hoogte Y</td><td><input type="range" id="k-py" min="-20" max="20" step="0.05" value="0"></td><td class="val" id="v-py">0.0</td>
+        <td>Rotatie Y°</td><td><input type="range" id="k-ry" min="-180" max="180" step="0.5" value="0"></td><td class="val" id="v-ry">0</td></tr>
+    <tr><td>Positie Z</td><td><input type="range" id="k-pz" min="-100" max="100" step="0.1" value="0"></td><td class="val" id="v-pz">0.0</td>
+        <td>Rotatie Z°</td><td><input type="range" id="k-rz" min="-180" max="180" step="0.5" value="0"></td><td class="val" id="v-rz">0</td></tr>
+    <tr><td>Schaal</td><td><input type="range" id="k-s" min="0.05" max="20" step="0.05" value="1"></td><td class="val" id="v-s">1.00</td>
+        <td colspan="3"><button id="k-center">Auto-centreer</button> <button id="k-vis">Verberg terrein</button></td></tr>
+  </table>
+</div>
+
+<div id="hint">Klik + sleep een container om te verplaatsen · <b>R</b> = draaien · <b>Delete</b> = verwijderen · rechtermuisknop = camera</div>
+<div id="toast"></div>
+<input type="file" id="file-splat" accept=".ply,.splat,.ksplat,.spz">
+<input type="file" id="file-layout" accept=".json">
+
+<script src="vendor/planner-bundle.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
