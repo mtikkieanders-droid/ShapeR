@@ -1,0 +1,9 @@
+# Extra dependencies for the experimental photo -> ShapeR preprocessing
+# pipeline (experimental/prepare_capture.py and experimental/workaround_dataproc.py).
+#
+# Install AFTER the core environment (requirements.txt / scripts/setup_env.sh):
+#   pip install -r requirements-experimental.txt
+
+depth-anything-3
+fpsample
+rembg[cli]

@@ -1,0 +1,46 @@
+# Core dependencies for ShapeR inference (see INSTALL.md for full context).
+#
+# Install with:
+#   pip install -r requirements.txt
+# or run scripts/setup_env.sh, which also handles the three packages that
+# CANNOT live in this file because they must build against the installed
+# torch, in this order:
+#   pip install flash-attn --no-build-isolation --no-cache-dir
+#   pip install torch-cluster -f https://data.pyg.org/whl/torch-2.7.1+cu128.html
+#   pip install "git+https://github.com/nihalsid/torchsparse@legacy" --no-build-isolation
+#
+# NOTE: the LEGACY torchsparse fork is required — newer torchsparse versions
+# have incompatible data structures.
+
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch==2.7.1
+torchvision==0.22.1
+torchaudio==2.7.1
+
+numpy
+tqdm
+hydra-core
+matplotlib
+opencv-python
+imageio[ffmpeg,pyav]
+easydict
+munch
+plyfile
+transformers
+trimesh
+scikit-image
+diffusers
+gradio
+peft
+einops
+pymeshlab
+sophuspy
+fast_simplification
+scikit-learn
+timm
+plotly
+torchdiffeq
+sentencepiece
+protobuf
+pyrender
+jupyter

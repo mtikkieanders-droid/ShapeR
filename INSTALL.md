@@ -1,5 +1,23 @@
 # Installation
 
+## Quick path (recommended)
+
+The scripted setup encodes all steps below in the right order and verifies the result:
+
+```bash
+conda create -n shaper python=3.10
+conda activate shaper
+bash scripts/setup_env.sh
+python scripts/smoke_test.py
+```
+
+`scripts/smoke_test.py` reports PASS/FAIL/SKIP per layer (core imports, CUDA,
+CUDA-built packages, ShapeR modules); everything must PASS on the machine you
+run inference on. For the experimental photo-to-3D preprocessing pipeline,
+additionally run `pip install -r requirements-experimental.txt`.
+
+The manual steps below remain as reference and for troubleshooting.
+
 ## Requirements
 
 - Python 3.10
