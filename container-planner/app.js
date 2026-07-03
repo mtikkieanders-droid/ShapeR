@@ -266,7 +266,11 @@
     return {
       version: 1,
       maxStack: state.maxStack,
-      splat: { ...state.splat, url: /^https?:/.test(state.splat.url) ? state.splat.url : "" },
+      splat: {
+        ...state.splat,
+        url: /^https?:/.test(state.splat.url) ? state.splat.url : "",
+        file: splatFileName,
+      },
       containers: containers.map((c) => ({
         t: c.userData.type,
         x: +c.position.x.toFixed(3), y: +c.position.y.toFixed(3), z: +c.position.z.toFixed(3),
@@ -275,7 +279,7 @@
     };
   }
 
-  function deserialize(data) {
+  function deserialize(data, { skipSplat = false } = {}) {
     for (const c of [...containers]) removeContainer(c);
     state.maxStack = data.maxStack || 4;
     document.getElementById("maxstack").value = state.maxStack;
@@ -283,7 +287,7 @@
       state.splat = { ...state.splat, ...data.splat };
       syncCalibUI();
       // only http(s) urls can be re-fetched; local file names are informational
-      if (/^https?:/.test(state.splat.url)) loadSplat({ url: state.splat.url });
+      if (!skipSplat && /^https?:/.test(state.splat.url)) loadSplat({ url: state.splat.url });
       else applySplatTransform();
     }
     for (const rec of data.containers || []) {
@@ -304,6 +308,8 @@
 
   // ---------------------------------------------------------------- splat
   let splatMesh = null;
+  let splatBytes = null;      // raw file bytes, kept for project-file export
+  let splatFileName = "";
 
   function applySplatTransform() {
     if (!splatMesh) return;
@@ -318,7 +324,22 @@
     splatMesh.visible = s.visible;
   }
 
-  function loadSplat(source) {
+  async function loadSplat(source) {
+    // normalize to bytes so the terrain can be embedded in project files
+    if (source.url) {
+      toast("Terrein downloaden…");
+      try {
+        const resp = await fetch(source.url);
+        if (!resp.ok) throw new Error("HTTP " + resp.status);
+        source = {
+          fileBytes: new Uint8Array(await resp.arrayBuffer()),
+          fileName: source.url.split(/[?#]/)[0].split("/").pop() || "terrain.splat",
+        };
+      } catch (err) {
+        toast("Terrein-download mislukt: " + err.message);
+        return;
+      }
+    }
     if (splatMesh) { scene.remove(splatMesh); splatMesh.dispose?.(); splatMesh = null; }
     toast("Terrein laden…");
     try {
@@ -330,6 +351,9 @@
       toast("Laden mislukt: " + err.message);
       return;
     }
+    splatBytes = source.fileBytes instanceof Uint8Array
+      ? source.fileBytes : new Uint8Array(source.fileBytes);
+    splatFileName = source.fileName || "terrain.splat";
     applySplatTransform();
     scene.add(splatMesh);
     onChanged();
@@ -430,19 +454,57 @@
   }
 
   // save / load / share
-  $("btn-save").onclick = () => {
-    const blob = new Blob([JSON.stringify(serialize(), null, 2)], { type: "application/json" });
+  // Project file: "CPLN1" + uint32-LE JSON length + layout JSON + raw splat bytes.
+  // One file carries terrain + calibration + layout, so a client only needs
+  // the app link and this file — no hosting or accounts.
+  const PROJECT_MAGIC = "CPLN1";
+
+  function download(blob, name) {
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "container-layout.json";
+    a.download = name;
     a.click();
     URL.revokeObjectURL(a.href);
+  }
+
+  $("btn-save").onclick = () => {
+    const json = new TextEncoder().encode(JSON.stringify(serialize()));
+    const header = new DataView(new ArrayBuffer(4));
+    header.setUint32(0, json.length, true);
+    const parts = [new TextEncoder().encode(PROJECT_MAGIC), header.buffer, json];
+    if (splatBytes) parts.push(splatBytes);
+    download(new Blob(parts, { type: "application/octet-stream" }), "indeling.containerplan");
+    toast(splatBytes
+      ? "Project opgeslagen (mét terrein) — deel dit ene bestand"
+      : "Project opgeslagen (nog geen terrein geladen)");
   };
+
+  async function loadProjectOrLayout(file) {
+    const buf = new Uint8Array(await file.arrayBuffer());
+    const magic = new TextDecoder().decode(buf.slice(0, PROJECT_MAGIC.length));
+    if (magic === PROJECT_MAGIC) {
+      const jsonLen = new DataView(buf.buffer, buf.byteOffset).getUint32(PROJECT_MAGIC.length, true);
+      const start = PROJECT_MAGIC.length + 4;
+      const data = JSON.parse(new TextDecoder().decode(buf.slice(start, start + jsonLen)));
+      deserialize(data, { skipSplat: true });
+      const splat = buf.slice(start + jsonLen);
+      if (splat.length) {
+        await loadSplat({ fileBytes: splat, fileName: data.splat?.file || "terrain.splat" });
+        applySplatTransform(); // saved calibration wins over load defaults
+      }
+      toast("Project geladen");
+      return;
+    }
+    // fall back to plain layout JSON (older exports)
+    deserialize(JSON.parse(new TextDecoder().decode(buf)));
+    toast("Indeling geladen");
+  }
+
   $("btn-load").onclick = () => $("file-layout").click();
   $("file-layout").addEventListener("change", async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    try { deserialize(JSON.parse(await file.text())); toast("Indeling geladen"); }
+    try { await loadProjectOrLayout(file); }
     catch { toast("Kon dit bestand niet lezen"); }
   });
   $("btn-share").onclick = async () => {

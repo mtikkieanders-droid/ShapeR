@@ -23,7 +23,7 @@ python -m http.server 8000
 | Draaien / verwijderen | selecteer, dan **R** / **Delete** (of de knoppen) |
 | Terrein laden | **Terrein (splat) laden…** — `.ply`, `.splat`, `.spz`, `.ksplat` |
 | Terrein uitlijnen | **Kalibratie**: positie/rotatie/schaal + Auto-centreer; wordt in de layout opgeslagen |
-| Opslaan / delen | **Opslaan** (JSON-bestand), **Laden…**, **Deel-link** (layout in de URL); autosave in de browser |
+| Opslaan / delen | **Opslaan** maakt één `.containerplan`-projectbestand met terrein + kalibratie + indeling erin; **Laden…** opent het weer (ook oude `.json`-layouts). **Deel-link** deelt alleen de indeling via de URL; autosave in de browser |
 | Export | **PNG** of **PDF** (met datum en containertelling) |
 
 De teller rechtsboven toont 20ft/40ft-aantallen en TEU live.
@@ -41,6 +41,15 @@ De teller rechtsboven toont 20ft/40ft-aantallen en TEU live.
   staat standaard op 180° (3DGS-conventie), zet met *Auto-centreer* het
   terrein rond de oorsprong en schuif de hoogte tot de containers op de
   grond staan. De kalibratie reist mee met de layout.
+
+## Werkwijze met klanten (zonder hosting of accounts)
+
+1. Jij: open de app, laad de drone-splat, kalibreer, klik **Opslaan** →
+   één `.containerplan`-bestand (≈ zo groot als de splat).
+2. Deel de app-link + dat ene bestand (Drive, WeTransfer, mail).
+3. Klant: opent de link, klikt **Laden…**, kiest het bestand — het plot staat
+   er gekalibreerd en wel. De klant stuurt zijn variant terug als
+   `.containerplan` of als PDF.
 
 ## Publiceren
 
