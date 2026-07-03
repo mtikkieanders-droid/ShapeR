@@ -345,17 +345,59 @@
     try {
       splatMesh = new SplatMesh({
         ...source,
-        onLoad: () => { toast("Terrein geladen — gebruik Kalibratie om het uit te lijnen"); },
+        onProgress: (ev) => {
+          if (ev.lengthComputable) toast(`Terrein laden… ${Math.round(ev.loaded / ev.total * 100)}%`);
+        },
+        onLoad: (mesh) => afterSplatLoad(mesh),
       });
     } catch (err) {
       toast("Laden mislukt: " + err.message);
       return;
     }
+    splatMesh.initialized?.catch?.((err) =>
+      toast("Terrein kon niet gelezen worden — is dit een .ply/.splat/.spz/.ksplat? (" + err + ")"));
     splatBytes = source.fileBytes instanceof Uint8Array
       ? source.fileBytes : new Uint8Array(source.fileBytes);
     splatFileName = source.fileName || "terrain.splat";
     applySplatTransform();
     scene.add(splatMesh);
+    onChanged();
+  }
+
+  function splatWorldBox(mesh) {
+    mesh.updateMatrixWorld(true);
+    return mesh.getBoundingBox(true).clone().applyMatrix4(mesh.matrixWorld);
+  }
+
+  function frameTerrain() {
+    if (!splatMesh) return;
+    const box = splatWorldBox(splatMesh);
+    const size = box.getSize(new THREE.Vector3());
+    const center = box.getCenter(new THREE.Vector3());
+    const radius = Math.max(size.x, size.z, 10);
+    controls.target.copy(center);
+    camera.position.copy(center).add(new THREE.Vector3(0.75, 0.6, 0.75).multiplyScalar(radius * 0.9));
+    controls.update();
+  }
+
+  function afterSplatLoad(mesh) {
+    // scans rarely sit at the origin; put them in view automatically
+    const box = splatWorldBox(mesh);
+    const size = box.getSize(new THREE.Vector3());
+    const center = box.getCenter(new THREE.Vector3());
+    const offOrigin = Math.hypot(center.x, center.z) > 25 || Math.abs(box.min.y) > 4;
+    if (offOrigin) {
+      state.splat.pos[0] -= center.x;
+      state.splat.pos[1] -= box.min.y;
+      state.splat.pos[2] -= center.z;
+      syncCalibUI();
+      applySplatTransform();
+    }
+    frameTerrain();
+    const dims = [size.x, size.y, size.z].map((v) => v.toFixed(0)).join(" × ");
+    toast(`Terrein geladen (${dims} m)` +
+      (offOrigin ? " — automatisch gecentreerd" : "") +
+      " — fijnafstelling via Kalibratie");
     onChanged();
   }
 
@@ -422,6 +464,7 @@
   });
   $("btn-calib").onclick = () => $("calib").classList.toggle("open");
   $("k-center").onclick = autoCenterSplat;
+  $("k-frame").onclick = frameTerrain;
   $("k-vis").onclick = (e) => {
     state.splat.visible = !state.splat.visible;
     e.target.textContent = state.splat.visible ? "Verberg terrein" : "Toon terrein";
