@@ -310,6 +310,44 @@
   let splatMesh = null;
   let splatBytes = null;      // raw file bytes, kept for project-file export
   let splatFileName = "";
+  let splatWatchdog = null;
+
+  function sniffFormat(bytes) {
+    const dv = new DataView(bytes.buffer, bytes.byteOffset);
+    const m = dv.getUint32(0, true);
+    if ((m & 0xffffff) === 0x796c70) return "PLY";
+    if ((m & 0xffff) === 0x8b1f) return "SPZ";
+    if (m === 0x04034b50) return "ZIP-container";
+    if (bytes.length % 32 === 0)
+      return `.splat, ${(bytes.length / 32).toLocaleString("nl-NL")} splats`;
+    return "onbekend formaat";
+  }
+
+  // Bounding box that ignores stray far-away splats (drone scans have them),
+  // via 1..99 percentile of sampled splat centers.
+  function robustSplatBox(mesh) {
+    try {
+      const xs = [], ys = [], zs = [];
+      let count = 0;
+      mesh.forEachSplat((i, center) => {
+        count++;
+        if (count % 7 === 0) { xs.push(center.x); ys.push(center.y); zs.push(center.z); }
+      });
+      if (xs.length < 100) throw new Error("too few samples");
+      const pct = (arr, p) => {
+        arr.sort((a, b) => a - b);
+        return arr[Math.floor(p * (arr.length - 1))];
+      };
+      const box = new THREE.Box3(
+        new THREE.Vector3(pct(xs, 0.01), pct(ys, 0.01), pct(zs, 0.01)),
+        new THREE.Vector3(pct(xs, 0.99), pct(ys, 0.99), pct(zs, 0.99))
+      );
+      mesh.updateMatrixWorld(true);
+      return box.applyMatrix4(mesh.matrixWorld);
+    } catch {
+      return splatWorldBox(mesh);
+    }
+  }
 
   function applySplatTransform() {
     if (!splatMesh) return;
@@ -341,7 +379,14 @@
       }
     }
     if (splatMesh) { scene.remove(splatMesh); splatMesh.dispose?.(); splatMesh = null; }
-    toast("Terrein laden…");
+    const bytes = source.fileBytes instanceof Uint8Array
+      ? source.fileBytes : new Uint8Array(source.fileBytes);
+    source.fileBytes = bytes;
+    toast(`Terrein laden… (${sniffFormat(bytes)}, ${(bytes.length / 1e6).toFixed(0)}MB)`);
+    clearTimeout(splatWatchdog);
+    splatWatchdog = setTimeout(() => toast(
+      "Terrein laden duurt erg lang — mogelijk een niet-ondersteund formaat. " +
+      "Probeer een export als .ply of .spz."), 30000);
     try {
       splatMesh = new SplatMesh({
         ...source,
@@ -354,10 +399,11 @@
       toast("Laden mislukt: " + err.message);
       return;
     }
-    splatMesh.initialized?.catch?.((err) =>
-      toast("Terrein kon niet gelezen worden — is dit een .ply/.splat/.spz/.ksplat? (" + err + ")"));
-    splatBytes = source.fileBytes instanceof Uint8Array
-      ? source.fileBytes : new Uint8Array(source.fileBytes);
+    splatMesh.initialized?.catch?.((err) => {
+      clearTimeout(splatWatchdog);
+      toast("Terrein kon niet gelezen worden — is dit een .ply/.splat/.spz/.ksplat? (" + err + ")");
+    });
+    splatBytes = bytes;
     splatFileName = source.fileName || "terrain.splat";
     applySplatTransform();
     scene.add(splatMesh);
@@ -371,18 +417,22 @@
 
   function frameTerrain() {
     if (!splatMesh) return;
-    const box = splatWorldBox(splatMesh);
+    const box = robustSplatBox(splatMesh);
     const size = box.getSize(new THREE.Vector3());
     const center = box.getCenter(new THREE.Vector3());
     const radius = Math.max(size.x, size.z, 10);
+    camera.far = Math.max(2000, radius * 20);
+    camera.updateProjectionMatrix();
     controls.target.copy(center);
     camera.position.copy(center).add(new THREE.Vector3(0.75, 0.6, 0.75).multiplyScalar(radius * 0.9));
     controls.update();
   }
 
   function afterSplatLoad(mesh) {
+    clearTimeout(splatWatchdog);
     // scans rarely sit at the origin; put them in view automatically
-    const box = splatWorldBox(mesh);
+    // (robust bounds: stray far-away splats would skew centering and framing)
+    const box = robustSplatBox(mesh);
     const size = box.getSize(new THREE.Vector3());
     const center = box.getCenter(new THREE.Vector3());
     const offOrigin = Math.hypot(center.x, center.z) > 25 || Math.abs(box.min.y) > 4;
