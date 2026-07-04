@@ -323,6 +323,28 @@
     return "onbekend formaat";
   }
 
+  // Decode a few records as antimatter15 .splat and check they make sense;
+  // tools ship all kinds of layouts under the same extension.
+  function splatContentCheck(bytes) {
+    const dv = new DataView(bytes.buffer, bytes.byteOffset);
+    const n = Math.floor(bytes.length / 32);
+    const record = (i) => ({
+      pos: [0, 4, 8].map((o) => dv.getFloat32(i * 32 + o, true)),
+      scale: [12, 16, 20].map((o) => dv.getFloat32(i * 32 + o, true)),
+    });
+    let bad = 0;
+    for (const i of [0, Math.floor(n / 2), n - 1]) {
+      const r = record(i);
+      const finite = [...r.pos, ...r.scale].every(Number.isFinite);
+      const scaleOk = r.scale.every((s) => s > 1e-8 && s < 100);
+      const posOk = r.pos.every((p) => Math.abs(p) < 1e6);
+      if (!finite || !scaleOk || !posOk) bad++;
+    }
+    const s = record(0);
+    const fmt = (a) => a.map((v) => Number.isFinite(v) ? +v.toPrecision(3) : String(v)).join(", ");
+    return { bad, detail: `pos[${fmt(s.pos)}] schaal[${fmt(s.scale)}]` };
+  }
+
   // Bounding box that ignores stray far-away splats (drone scans have them),
   // via 1..99 percentile of sampled splat centers.
   function robustSplatBox(mesh) {
@@ -382,11 +404,23 @@
     const bytes = source.fileBytes instanceof Uint8Array
       ? source.fileBytes : new Uint8Array(source.fileBytes);
     source.fileBytes = bytes;
-    toast(`Terrein laden… (${sniffFormat(bytes)}, ${(bytes.length / 1e6).toFixed(0)}MB)`);
+    const format = sniffFormat(bytes);
+    toast(`Terrein laden… (${format}, ${(bytes.length / 1e6).toFixed(0)}MB)`);
+    let contentNote = "";
+    if (format.startsWith(".splat")) {
+      const chk = splatContentCheck(bytes);
+      contentNote = " Eerste record: " + chk.detail;
+      if (chk.bad > 0) {
+        clearTimeout(splatWatchdog);
+        toast("Dit bestand heeft de .splat-indeling niet (waarden onlogisch: " +
+          chk.detail + "). Probeer de .ply- of .spz-export van je tool.", 15000);
+        return;
+      }
+    }
     clearTimeout(splatWatchdog);
     splatWatchdog = setTimeout(() => toast(
-      "Terrein laden duurt erg lang — mogelijk een niet-ondersteund formaat. " +
-      "Probeer een export als .ply of .spz."), 30000);
+      "Terrein laden blijft hangen — de inhoud wijkt af van het standaardformaat. " +
+      "Probeer de .ply- of .spz-export van je tool." + contentNote, 15000), 12000);
     try {
       splatMesh = new SplatMesh({
         ...source,
@@ -468,11 +502,11 @@
   const $ = (id) => document.getElementById(id);
   const toastEl = $("toast");
   let toastTimer = null;
-  function toast(msg) {
+  function toast(msg, duration = 2600) {
     toastEl.textContent = msg;
     toastEl.classList.add("show");
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toastEl.classList.remove("show"), 2600);
+    toastTimer = setTimeout(() => toastEl.classList.remove("show"), duration);
   }
 
   $("add20").onclick = () => addContainer("20ft");
