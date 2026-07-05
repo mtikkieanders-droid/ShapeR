@@ -333,7 +333,8 @@
       if (h.userData.isKnob) {
         // rotation drag: spin the container, snapping to 45°
         h.material.color.setHex(0x0a66c2);
-        drag = { c: selected, rotate: true, startRot: selected.userData.rot, valid: true, handle: h };
+        drag = { c: selected, rotate: true, startRot: selected.userData.rot,
+                 start: selected.position.clone(), valid: true, handle: h };
       } else {
         // corner drag: move the container by this exact corner
         h.material.color.setHex(0xff6d00);
@@ -435,8 +436,8 @@
   renderer.domElement.addEventListener("pointerup", (e) => {
     if (!drag) { controls.enabled = true; return; }
     if (!drag.valid) {
-      if (drag.rotate) { setRotation(drag.c, drag.startRot); drag.c.position.y = 0; }
-      else drag.c.position.copy(drag.start);
+      if (drag.rotate) setRotation(drag.c, drag.startRot);
+      drag.c.position.copy(drag.start);   // restore full pre-drag pose (incl. stack height)
     }
     if (drag.handle) drag.handle.material.color.setHex(drag.rotate ? 0x2ea3ff : 0xffb300);
     snapMarker.visible = false;
