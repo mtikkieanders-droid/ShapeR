@@ -65,7 +65,7 @@
 
 <div id="left" class="panel">
   <h1>Containerplanner</h1>
-  <div class="sub">Sleep containers, stapel ze en deel je indeling. <span id="version">v0.8</span></div>
+  <div class="sub">Sleep containers, stapel ze en deel je indeling. <span id="version">v0.9</span></div>
   <div class="lbl">Toevoegen</div>
   <div class="row">
     <button id="add20" class="primary">+ 20ft</button>
@@ -78,9 +78,11 @@
   <div id="sel">
     <div class="lbl">Geselecteerde container</div>
     <div class="row">
-      <button id="btn-rotate" title="R">↻ Draai</button>
+      <button id="btn-rot-l" title="Shift+R">↺ 45°</button>
+      <button id="btn-rot-r" title="R">↻ 45°</button>
       <button id="btn-delete" class="danger" title="Delete">✕ Verwijder</button>
     </div>
+    <div class="sub" style="margin:0">Sleep de blauwe knop om vrij te draaien · gele hoeken voor exacte plaatsing</div>
   </div>
 </div>
 
@@ -115,7 +117,7 @@
   </table>
 </div>
 
-<div id="hint">Klik + sleep een container om te verplaatsen · sleep een <b>hoekgreep</b> om die hoek exact te plaatsen · <b>R</b> = draaien · <b>Delete</b> = verwijderen · rechtermuisknop = camera</div>
+<div id="hint">Sleep een container om te verplaatsen · <b>gele hoek</b> = die hoek exact plaatsen · <b>blauwe knop</b> = vrij draaien (45°) · <b>R</b>/<b>Shift+R</b> = draaien · <b>Delete</b> = verwijderen · rechtermuisknop = camera</div>
 <div id="toast"></div>
 <input type="file" id="file-splat" accept=".ply,.splat,.ksplat,.spz">
 <input type="file" id="file-layout" accept=".json,.containerplan">
