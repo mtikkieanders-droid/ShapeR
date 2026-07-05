@@ -119,6 +119,38 @@
     return { y, valid, support };
   }
 
+  // Snap the dragged footprint flush against (or edge-aligned with) nearby
+  // containers on the same level — like corner castings in a real depot.
+  const EDGE_SNAP = 0.7;
+  function edgeSnap(c, x, z, y) {
+    const fp = footprintAt(c, x, z);
+    let dx = null, dz = null;
+    for (const o of containers) {
+      if (o === c || Math.abs(o.position.y - y) > 0.01) continue;
+      const of = fpOf(o);
+      const xNear = fp.minX < of.maxX + EDGE_SNAP && fp.maxX > of.minX - EDGE_SNAP;
+      const zNear = fp.minZ < of.maxZ + EDGE_SNAP && fp.maxZ > of.minZ - EDGE_SNAP;
+      // faces flush + edges aligned
+      const xCands = [of.maxX - fp.minX, of.minX - fp.maxX, of.minX - fp.minX, of.maxX - fp.maxX];
+      const zCands = [of.maxZ - fp.minZ, of.minZ - fp.maxZ, of.minZ - fp.minZ, of.maxZ - fp.maxZ];
+      if (zNear) {
+        for (const d of xCands) {
+          if (Math.abs(d) < EDGE_SNAP && (dx === null || Math.abs(d) < Math.abs(dx))) dx = d;
+        }
+      }
+      if (xNear) {
+        for (const d of zCands) {
+          if (Math.abs(d) < EDGE_SNAP && (dz === null || Math.abs(d) < Math.abs(dz))) dz = d;
+        }
+      }
+    }
+    return {
+      x: dx !== null ? x + dx : x,
+      z: dz !== null ? z + dz : z,
+      snapped: dx !== null || dz !== null,
+    };
+  }
+
   function select(c) {
     if (selected) selected.userData.mesh.material.emissive.setHex(0x000000);
     selected = c;
@@ -197,18 +229,28 @@
     if (!drag) return;
     const hit = pointerToGround(e);
     if (!hit) return;
-    let x = Math.round(hit.x / SNAP) * SNAP;
-    let z = Math.round(hit.z / SNAP) * SNAP;
-    const land = computeLanding(drag.c, x, z);
-    // magnetic stack alignment: same footprint directly on top
+    const gx = Math.round(hit.x / SNAP) * SNAP;
+    const gz = Math.round(hit.z / SNAP) * SNAP;
+    let x = gx, z = gz;
+    const land = computeLanding(drag.c, hit.x, hit.z);
     if (land.support) {
+      // magnetic stack alignment: same footprint directly on top
       const s = land.support;
       if (s.userData.type === drag.c.userData.type && s.userData.rot % 180 === drag.c.userData.rot % 180) {
         const near = Math.abs(s.position.x - x) < 1.5 && Math.abs(s.position.z - z) < 1.5;
         if (near) { x = s.position.x; z = s.position.z; }
       }
+    } else {
+      // edge/corner snapping against neighbours on this level
+      const es = edgeSnap(drag.c, hit.x, hit.z, land.y);
+      if (es.snapped) { x = es.x; z = es.z; }
     }
-    const land2 = computeLanding(drag.c, x, z);
+    let land2 = computeLanding(drag.c, x, z);
+    if (!land2.valid && (x !== gx || z !== gz)) {
+      // snapped spot collides — fall back to the plain grid position
+      x = gx; z = gz;
+      land2 = computeLanding(drag.c, x, z);
+    }
     drag.c.position.set(x, land2.y, z);
     drag.valid = land2.valid;
     setDragVisual(drag.c, true, land2.valid);
@@ -712,6 +754,6 @@
   // expose a minimal hook for automated tests
   window.__planner = {
     containers, addContainer, serialize, deserialize, computeLanding, state,
-    loadSplat, camera, scene, getSplatMesh: () => splatMesh,
+    loadSplat, camera, scene, getSplatMesh: () => splatMesh, edgeSnap,
   };
 })();
