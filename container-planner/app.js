@@ -151,10 +151,44 @@
     };
   }
 
+  // Corner handles on the selected container: drag one to place that exact
+  // corner, snapping to corners of other containers or the grid.
+  let handleGroup = null;
+  function detachHandles() {
+    if (handleGroup?.parent) handleGroup.parent.remove(handleGroup);
+    handleGroup = null;
+  }
+  function attachHandles(c) {
+    detachHandles();
+    if (!c) return;
+    const { L, W } = TYPES[c.userData.type];
+    handleGroup = new THREE.Group();
+    for (const [lx, lz] of [[-L / 2, -W / 2], [L / 2, -W / 2], [L / 2, W / 2], [-L / 2, W / 2]]) {
+      const h = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.5, 0.5, 0.18, 24),
+        new THREE.MeshBasicMaterial({ color: 0xffb300, depthTest: false, transparent: true, opacity: 0.9 })
+      );
+      h.position.set(lx, 0.09, lz);
+      h.renderOrder = 10;
+      h.userData = { isHandle: true, corner: [lx, lz] };
+      handleGroup.add(h);
+    }
+    c.add(handleGroup);
+  }
+
+  function pickHandle(e) {
+    if (!handleGroup) return null;
+    pointer.set((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
+    raycaster.setFromCamera(pointer, camera);
+    const hits = raycaster.intersectObjects(handleGroup.children);
+    return hits.length ? hits[0].object : null;
+  }
+
   function select(c) {
     if (selected) selected.userData.mesh.material.emissive.setHex(0x000000);
     selected = c;
     if (c) c.userData.mesh.material.emissive.setHex(0x3a3410);
+    attachHandles(c);
     document.getElementById("sel").classList.toggle("open", !!c);
   }
 
@@ -217,16 +251,58 @@
 
   renderer.domElement.addEventListener("pointerdown", (e) => {
     if (e.button !== 0) return;
+    const h = pickHandle(e);
+    if (h && selected) {
+      // corner drag: move the container by this exact corner
+      h.material.color.setHex(0xff6d00);
+      controls.enabled = false;
+      drag = { c: selected, start: selected.position.clone(), valid: true, corner: h.userData.corner, handle: h };
+      renderer.domElement.setPointerCapture(e.pointerId);
+      return;
+    }
     const c = pickContainer(e);
     select(c);
     if (!c) return;
     controls.enabled = false;
-    drag = { c, start: c.position.clone(), valid: true };
+    drag = { c, start: c.position.clone(), valid: true, corner: null };
     renderer.domElement.setPointerCapture(e.pointerId);
   });
 
+  function moveByCorner(e) {
+    const hit = pointerToGround(e);
+    if (!hit) return;
+    const c = drag.c;
+    const off = new THREE.Vector3(drag.corner[0], 0, drag.corner[1])
+      .applyAxisAngle(new THREE.Vector3(0, 1, 0), c.rotation.y);
+    // snap the dragged corner to the nearest corner of another container…
+    let cx = hit.x, cz = hit.z, best = null;
+    for (const o of containers) {
+      if (o === c) continue;
+      const of = fpOf(o);
+      for (const [ox, oz] of [[of.minX, of.minZ], [of.maxX, of.minZ], [of.maxX, of.maxZ], [of.minX, of.maxZ]]) {
+        const d = Math.hypot(ox - cx, oz - cz);
+        if (d < EDGE_SNAP && (!best || d < best.d)) best = { x: ox, z: oz, d };
+      }
+    }
+    if (best) { cx = best.x; cz = best.z; }
+    else { cx = Math.round(cx / SNAP) * SNAP; cz = Math.round(cz / SNAP) * SNAP; }
+    let x = cx - off.x, z = cz - off.z;
+    let land = computeLanding(c, x, z);
+    if (!land.valid && best) {
+      // …but fall back to the grid when the snapped spot collides
+      cx = Math.round(hit.x / SNAP) * SNAP;
+      cz = Math.round(hit.z / SNAP) * SNAP;
+      x = cx - off.x; z = cz - off.z;
+      land = computeLanding(c, x, z);
+    }
+    c.position.set(x, land.y, z);
+    drag.valid = land.valid;
+    setDragVisual(c, true, land.valid);
+  }
+
   renderer.domElement.addEventListener("pointermove", (e) => {
     if (!drag) return;
+    if (drag.corner) { moveByCorner(e); return; }
     const hit = pointerToGround(e);
     if (!hit) return;
     const gx = Math.round(hit.x / SNAP) * SNAP;
@@ -259,6 +335,7 @@
   renderer.domElement.addEventListener("pointerup", (e) => {
     if (!drag) { controls.enabled = true; return; }
     if (!drag.valid) drag.c.position.copy(drag.start);
+    if (drag.handle) drag.handle.material.color.setHex(0xffb300);
     setDragVisual(drag.c, false, true);
     drag = null;
     controls.enabled = true;
