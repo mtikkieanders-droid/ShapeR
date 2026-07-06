@@ -17,6 +17,7 @@
   const state = {
     color: COLORS[0],
     maxStack: 4,
+    stackMode: false,   // when on, dragging places containers on the roof under the pointer
     splat: { url: "", pos: [0, 0, 0], rotDeg: [180, 0, 0], scale: 1, visible: true },
   };
 
@@ -198,6 +199,47 @@
     if (dLx === null && dLz === null) return { x, z, snapped: false };
     const nw = rot2(cl.x + (dLx || 0), cl.z + (dLz || 0), -rad);   // back to world
     return { x: nw.x, z: nw.z, snapped: true };
+  }
+
+  // Stack mode: place the dragged container on the roof of whichever container
+  // sits under the pointer, aligned (center-snap for a matching footprint, else
+  // edge-snap so offset "pyramid" stacks still line up).
+  function supportUnder(c, x, z) {
+    let best = null;
+    for (const o of containers) {
+      if (o === c || !pointInFootprint(x, z, o)) continue;
+      if (!best || o.position.y > best.position.y) best = o;
+    }
+    return best;
+  }
+  function placeStacked(c, hitX, hitZ, rotDeg) {
+    const sup = supportUnder(c, hitX, hitZ);
+    if (!sup) {
+      const x = Math.round(hitX / SNAP) * SNAP, z = Math.round(hitZ / SNAP) * SNAP;
+      const land = landingAt(c, x, z, rotDeg);
+      return { x, z, y: 0, valid: land.valid && land.y === 0, support: null };
+    }
+    const y = sup.position.y + H;
+    const { L, W } = TYPES[c.userData.type];
+    let x = Math.round(hitX / SNAP) * SNAP, z = Math.round(hitZ / SNAP) * SNAP;
+    const sameFoot = sup.userData.type === c.userData.type &&
+      ((((sup.userData.rot - rotDeg) % 180) + 180) % 180) < 1;
+    if (sameFoot && Math.abs(sup.position.x - hitX) < L / 2 && Math.abs(sup.position.z - hitZ) < W / 2) {
+      x = sup.position.x; z = sup.position.z;         // clean aligned stack
+    } else {
+      const es = edgeSnap(c, x, z, y, rotDeg);        // aligned offset stack
+      if (es.snapped) { x = es.x; z = es.z; }
+    }
+    let valid = y + H <= state.maxStack * H + 0.01 && overlapRatioAt(c, x, z, rotDeg, sup) > 0.3;
+    if (valid) {
+      const corners = cornersAt(c, x, z, rotDeg);
+      for (const o of containers) {
+        if (o === c || !obbOverlap(corners, cornersOf(o))) continue;
+        const oBase = o.position.y, oTop = oBase + H;
+        if (y < oTop - 0.01 && y + H > oBase + 0.01) { valid = false; break; }
+      }
+    }
+    return { x, z, y, valid, support: sup };
   }
 
   // Corner handles on the selected container: drag one to place that exact
@@ -412,6 +454,13 @@
     if (drag.corner) { moveByCorner(e); return; }
     const hit = pointerToGround(e);
     if (!hit) return;
+    if (state.stackMode) {
+      const r = placeStacked(drag.c, hit.x, hit.z, drag.c.userData.rot);
+      drag.c.position.set(r.x, r.y, r.z);
+      drag.valid = r.valid;
+      setDragVisual(drag.c, true, r.valid);
+      return;
+    }
     const gx = Math.round(hit.x / SNAP) * SNAP;
     const gz = Math.round(hit.z / SNAP) * SNAP;
     let x = gx, z = gz;
@@ -455,6 +504,7 @@
 
   addEventListener("keydown", (e) => {
     if (e.target.tagName === "INPUT") return;
+    if (e.key === "s" || e.key === "S") { setStackMode(!state.stackMode); return; }
     if (!selected) return;
     if (e.key === "r" || e.key === "R") rotateSelected(e.shiftKey ? -45 : 45);
     if (e.key === "Delete" || e.key === "Backspace") removeContainer(selected);
@@ -583,17 +633,19 @@
     if (!head.startsWith("ply") || end < 0) return null;
     const lines = head.slice(0, end).split(/\r?\n/);
     let vertexCount = 0, inVertex = false;
-    const props = [];
+    const props = [], comments = [];
     let format = "";
     for (const ln of lines) {
-      const t = ln.trim().split(/\s+/);
+      const s = ln.trim();
+      const t = s.split(/\s+/);
+      if (t[0] === "comment" || t[0] === "obj_info") comments.push(s);
       if (t[0] === "format") format = t[1] || "";
       if (t[0] === "element") { inVertex = t[1] === "vertex"; if (inVertex) vertexCount = +t[2] || 0; }
       if (t[0] === "property" && inVertex) props.push(t[t.length - 1]);
     }
     const has = (re) => props.some((p) => re.test(p));
     const isGaussian = has(/^scale_/) && has(/^rot_/) && (has(/^f_dc_/) || has(/^opacity$/));
-    return { format, vertexCount, props, isGaussian };
+    return { format, vertexCount, props, isGaussian, comments };
   }
 
   // Bounding box that ignores stray far-away splats (drone scans have them),
@@ -656,34 +708,48 @@
       ? source.fileBytes : new Uint8Array(source.fileBytes);
     source.fileBytes = bytes;
     const format = sniffFormat(bytes);
-    toast(`Terrein laden… (${format}, ${(bytes.length / 1e6).toFixed(0)}MB)`);
+    const sizeMB = (bytes.length / 1e6).toFixed(1);
+    toast(`Terrein laden… (${format}, ${sizeMB}MB)`);
+    setTerrainInfo(`${source.fileName || "terrein"} · ${format} · ${sizeMB} MB — laden…`);
     let contentNote = "";
     if (format === "PLY") {
       const info = plyHeaderInfo(bytes);
       window.__lastPlyInfo = info;
+      const gen = (info?.comments || []).find((c) => /generat|created|producer|tool|by /i.test(c))
+        || (info?.comments || [])[0] || "";
       if (info && !info.isGaussian) {
         clearTimeout(splatWatchdog);
-        toast("Dit PLY-bestand is een mesh/pointcloud (eigenschappen: " +
-          info.props.slice(0, 8).join(", ") + "…), geen gaussian-splat. " +
-          "Exporteer als 3DGS-splat: een .ply mét scale_/rot_/f_dc_, of een .spz-bestand.", 16000);
+        setTerrainInfo(
+          `❌ PLY is een mesh/pointcloud, GEEN gaussian-splat.\n` +
+          `Eigenschappen: ${info.props.slice(0, 12).join(", ")}\n` +
+          (gen ? gen + "\n" : "") +
+          `Oplossing: exporteer 3DGS — een .ply mét scale_/rot_/f_dc_, of een .spz.`);
+        toast("Dit PLY-bestand is geen gaussian-splat (mesh/pointcloud) — zie Terrein-info links.", 16000);
         return;
       }
-      if (info) contentNote = ` PLY: ${info.vertexCount.toLocaleString("nl-NL")} gaussians`;
+      if (info) {
+        contentNote = ` PLY: ${info.vertexCount.toLocaleString("nl-NL")} gaussians`;
+        setTerrainInfo(`PLY · ${info.vertexCount.toLocaleString("nl-NL")} gaussians${gen ? "\n" + gen : ""}`);
+      }
     }
     if (format.startsWith(".splat")) {
       const chk = splatContentCheck(bytes);
       contentNote = " Eerste record: " + chk.detail;
       if (chk.bad > 0) {
         clearTimeout(splatWatchdog);
-        toast("Dit bestand heeft de .splat-indeling niet (waarden onlogisch: " +
-          chk.detail + "). Probeer de .ply- of .spz-export van je tool.", 15000);
+        setTerrainInfo(`❌ Bestand heeft de .splat-indeling niet.\n` +
+          `Eerste record: ${chk.detail}\n` +
+          `Oplossing: exporteer 3DGS — .ply mét scale_/rot_/f_dc_, of .spz.`);
+        toast("Dit bestand heeft de .splat-indeling niet — zie Terrein-info links.", 15000);
         return;
       }
     }
     clearTimeout(splatWatchdog);
-    splatWatchdog = setTimeout(() => toast(
-      "Terrein laden blijft hangen — de inhoud wijkt af van het standaardformaat. " +
-      "Probeer de .ply- of .spz-export van je tool." + contentNote, 15000), 12000);
+    splatWatchdog = setTimeout(() => {
+      setTerrainInfo(`⏳ Laden blijft hangen (${format}, ${sizeMB}MB).${contentNote}\n` +
+        `De inhoud wijkt af van het standaardformaat — probeer een .ply mét scale_/rot_/f_dc_ of .spz.`);
+      toast("Terrein laden blijft hangen — zie Terrein-info links.", 15000);
+    }, 12000);
     try {
       splatMesh = new SplatMesh({
         ...source,
@@ -742,6 +808,7 @@
     }
     frameTerrain();
     const dims = [size.x, size.y, size.z].map((v) => v.toFixed(0)).join(" × ");
+    setTerrainInfo(`✓ Terrein geladen · ${dims} m` + (offOrigin ? " · automatisch gecentreerd" : ""));
     toast(`Terrein geladen (${dims} m)` +
       (offOrigin ? " — automatisch gecentreerd" : "") +
       " — fijnafstelling via Kalibratie");
@@ -771,6 +838,21 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => toastEl.classList.remove("show"), duration);
   }
+
+  const infoEl = $("terraininfo");
+  function setTerrainInfo(text) {           // persistent readout so iPad users can read it
+    if (!text) { infoEl.style.display = "none"; return; }
+    infoEl.textContent = text;
+    infoEl.style.display = "block";
+  }
+
+  const stackBtn = $("btn-stack");
+  function setStackMode(on) {
+    state.stackMode = on;
+    stackBtn.textContent = on ? "Stapelen: aan" : "Naast elkaar";
+    stackBtn.classList.toggle("active", on);
+  }
+  stackBtn.onclick = () => setStackMode(!state.stackMode);
 
   $("add20").onclick = () => addContainer("20ft");
   $("add40").onclick = () => addContainer("40ft");

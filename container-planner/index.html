@@ -65,7 +65,7 @@
 
 <div id="left" class="panel">
   <h1>Containerplanner</h1>
-  <div class="sub">Sleep containers, stapel ze en deel je indeling. <span id="version">v1.0</span></div>
+  <div class="sub">Sleep containers, stapel ze en deel je indeling. <span id="version">v1.1</span></div>
   <div class="lbl">Toevoegen</div>
   <div class="row">
     <button id="add20" class="primary">+ 20ft</button>
@@ -75,6 +75,8 @@
   <div class="row" id="swatches"></div>
   <div class="lbl">Max. stapelhoogte</div>
   <div class="row"><input type="number" id="maxstack" min="1" max="8" value="4"> <span class="sub" style="margin:0">containers</span></div>
+  <div class="lbl">Plaatsen</div>
+  <div class="row"><button id="btn-stack" title="S">Naast elkaar</button></div>
   <div id="sel">
     <div class="lbl">Geselecteerde container</div>
     <div class="row">
@@ -84,6 +86,7 @@
     </div>
     <div class="sub" style="margin:0">Sleep de blauwe knop om vrij te draaien · sleep een van de 8 gele hoeken om die exact op een hoek van een andere container te klikken</div>
   </div>
+  <div id="terraininfo" style="display:none; margin-top:10px; border-top:1px solid #e2e6ec; padding-top:8px; font-size:11px; line-height:1.45; color:#4a5462; word-break:break-word; white-space:pre-wrap"></div>
 </div>
 
 <table id="counts" class="panel">
