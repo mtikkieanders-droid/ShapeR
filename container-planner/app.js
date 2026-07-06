@@ -212,15 +212,21 @@
     if (!c) return;
     const { L, W } = TYPES[c.userData.type];
     handleGroup = new THREE.Group();
-    for (const [lx, lz] of [[-L / 2, -W / 2], [L / 2, -W / 2], [L / 2, W / 2], [-L / 2, W / 2]]) {
-      const h = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.6, 0.6, 0.18, 24),
-        new THREE.MeshBasicMaterial({ color: 0xffb300, depthTest: false, transparent: true, opacity: 0.92 })
-      );
-      h.position.set(lx, H + 0.05, lz);
-      h.renderOrder = 10;
-      h.userData = { isHandle: true, corner: [lx, lz] };
-      handleGroup.add(h);
+    // all 8 box corners are grabbable: bottom ring (amber) + top ring (light)
+    const cornersXZ = [[-L / 2, -W / 2], [L / 2, -W / 2], [L / 2, W / 2], [-L / 2, W / 2]];
+    for (const level of [0, H]) {
+      for (const [lx, lz] of cornersXZ) {
+        const h = new THREE.Mesh(
+          new THREE.SphereGeometry(0.5, 16, 12),
+          new THREE.MeshBasicMaterial({
+            color: level ? 0xffd45e : 0xffb300, depthTest: false, transparent: true, opacity: 0.92,
+          })
+        );
+        h.position.set(lx, level ? H : 0.12, lz);
+        h.renderOrder = 10;
+        h.userData = { isHandle: true, corner: [lx, lz], localY: level };
+        handleGroup.add(h);
+      }
     }
     // rotation knob: sits beyond the "front" (+X) end; drag it to spin (45° snaps)
     const knob = new THREE.Mesh(
