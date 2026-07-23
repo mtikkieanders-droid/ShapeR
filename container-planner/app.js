@@ -892,6 +892,14 @@
     state.splat.url = file.name; // informational; not shareable
     loadSplat({ fileBytes: bytes, fileName: file.name });
   });
+  $("btn-demo").onclick = () => {
+    if (!window.DEMO_TERRAIN_PLY_B64) { toast("Voorbeeldterrein niet beschikbaar in deze build."); return; }
+    const bin = atob(window.DEMO_TERRAIN_PLY_B64);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    state.splat.url = "";
+    loadSplat({ fileBytes: bytes, fileName: "voorbeeld-terrein.ply" });
+  };
   $("btn-calib").onclick = () => $("calib").classList.toggle("open");
   $("k-center").onclick = autoCenterSplat;
   $("k-frame").onclick = frameTerrain;
