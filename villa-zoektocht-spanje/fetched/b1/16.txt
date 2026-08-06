@@ -1,0 +1,2 @@
+URL: https://www.white-javea.com/en/sea-view-villa-for-sale-in-javea/
+ERROR: URLError(SSLCertVerificationError(1, "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'www.white-javea.com'. (_ssl.c:1000)"))

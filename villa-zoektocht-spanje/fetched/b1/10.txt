@@ -1,0 +1,571 @@
+URL: https://www.kyero.com/en/javea-villas-for-sale-0l1895g2?min_price=500000&max_price=700000
+FINAL_URL: https://www.kyero.com/en/javea-villas-for-sale-0l1895g2?min_price=500000&max_price=700000
+HTTP: 200
+TITLE: Villas for sale in Javea | Kyero
+METADESC: 112 villas for sale in Javea. Find your dream home in Javea, Spain from over 10,000 estate agents on Kyero.com
+LDJSON: {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.kyero.com/"},{"@type":"ListItem","position":2,"name":"Spain","item":"https://www.kyero.com/en/spain"},{"@type":"ListItem","position":3,"name":"Valencia region","item":"https://www.kyero.com/en/valencia-region-property-for-sale-0l55540"},{"@type":"ListItem","position":4,"name":"Alicante province","item":"https://www.kyero.com/en/alicante-province-property-for-sale-0l3"},{"@type":"ListItem","position":5,"name":"Costa Blanca","item":"https://www.kyero.com/en/costa-blanca-property-for-sale-0l55613"}]}
+LINKS (property-like):
+https://www.kyero.com/en/alicante-province-property-for-sale-0l3 | Alicante
+https://www.kyero.com/en/murcia-province-property-for-sale-0l30 | Murcia
+https://www.kyero.com/en/tenerife-property-for-sale-0l55570 | Tenerife
+https://www.kyero.com/en/costa-del-sol-property-for-sale-0l55625 | Costa Del Sol
+https://www.kyero.com/en/costa-blanca-property-for-sale-0l55613 | Costa Blanca
+https://www.kyero.com/en/almeria-province-property-for-sale-0l4 | Almeria
+https://www.kyero.com/en/ibiza-property-for-sale-0l55564 | Ibiza
+https://www.kyero.com/en/mallorca-property-for-sale-0l55563 | Majorca
+https://www.kyero.com/en/malaga-property-for-sale-0l29 | Malaga
+https://www.kyero.com/en/andalucia-property-for-sale-0l55531 | Andalucia
+https://www.kyero.com/en/alicante-province-property-long-let-1l3 | Alicante
+https://www.kyero.com/en/murcia-province-property-long-let-1l30 | Murcia
+https://www.kyero.com/en/tenerife-property-long-let-1l55570 | Tenerife
+https://www.kyero.com/en/costa-del-sol-property-long-let-1l55625 | Costa Del Sol
+https://www.kyero.com/en/costa-blanca-property-long-let-1l55613 | Costa Blanca
+https://www.kyero.com/en/almeria-province-property-long-let-1l4 | Almeria
+https://www.kyero.com/en/ibiza-property-long-let-1l55564 | Ibiza
+https://www.kyero.com/en/mallorca-property-long-let-1l55563 | Majorca
+https://www.kyero.com/en/malaga-property-long-let-1l29 | Malaga
+https://www.kyero.com/en/andalucia-property-long-let-1l55531 | Andalucia
+https://www.kyero.com/en/advice/spain/best-properties-in-spain | Discover Spain
+https://www.kyero.com/da/javea-villaer-til-salg-0l1895g2?max_price=700000&amp;min_price=500000 | Dansk
+https://www.kyero.com/en/javea-villas-for-sale-0l1895g2?max_price=700000&amp;min_price=500000 | English
+https://www.kyero.com/es/javea-villas-en-venta-0l1895g2?max_price=700000&amp;min_price=500000 | Español
+https://www.kyero.com/nl/javea-villas-te-koop-0l1895g2?max_price=700000&amp;min_price=500000 | Nederlands
+https://www.kyero.com/no/javea-villaer-til-salgs-0l1895g2?max_price=700000&amp;min_price=500000 | Norsk
+https://www.kyero.com/en/javea-villas-for-sale-0l1895g2?max_price=700000 | 
+https://www.kyero.com/en/javea-villas-for-sale-0l1895g2?min_price=500000 | 
+https://www.kyero.com/en/javea-property-for-sale-0l1895?max_price=700000&amp;min_price=500000 | 
+https://www.kyero.com/en/valencia-region-property-for-sale-0l55540 | Valencia region
+https://www.kyero.com/en/property/21038831-villa-for-sale-javea?prime_boost_id=21038831 | Remote viewing available Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 Featured Villa in Javea, Alicante province € 
+https://www.kyero.com/en/property/20752268-villa-for-sale-javea?prime_boost_id=20752268 | With virtual tour Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 Featured Villa in Javea, Alicante province € 620,000
+https://www.kyero.com/en/property/19401025-villa-for-sale-javea?prime_boost_id=19401025 | Remote viewing available Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 Featured Villa in Javea, Alicante province € 
+https://www.kyero.com/en/property/19268033-villa-for-sale-javea | Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 Near beach Villa in Javea, Alicante province € 519,000 Refurbished vil
+https://www.kyero.com/en/property/18604323-villa-for-sale-javea | Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 Near beach Villa in Javea, Alicante province € 595,000 Javea – Ready t
+https://www.kyero.com/en/property/20964654-villa-for-sale-javea | With video Remote viewing available Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 Near beach Villa in Javea, Alicant
+https://www.kyero.com/en/property/19765013-villa-for-sale-javea | Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 Near beach Villa in Javea, Alicante province € 595,000 The property ha
+https://www.kyero.com/en/property/19918172-villa-for-sale-javea | With virtual tour Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 Near beach Villa in Javea, Alicante province € 595,0
+https://www.kyero.com/en/property/20519896-villa-for-sale-javea | Remote viewing available Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 New build Villa in Javea, Alicante province €
+https://www.kyero.com/en/property/21038832-villa-for-sale-javea | Remote viewing available Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 Villa in Javea, Alicante province € 699,000 T
+https://www.kyero.com/en/property/20845339-villa-for-sale-javea | Remote viewing available Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 Near beach Villa in Javea, Alicante province 
+https://www.kyero.com/en/property/20462121-villa-for-sale-javea | Remote viewing available Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 Near beach Villa in Javea, Alicante province 
+https://www.kyero.com/en/property/19613198-villa-for-sale-javea | Remote viewing available Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 Near beach Villa in Javea, Alicante province 
+https://www.kyero.com/en/property/21149966-villa-for-sale-javea | Remote viewing available Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 Near beach Villa in Javea, Alicante province 
+https://www.kyero.com/en/property/21173493-villa-for-sale-javea | Remote viewing available Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 Near beach Villa in Javea, Alicante province 
+https://www.kyero.com/en/property/20680375-villa-for-sale-javea | Remote viewing available Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 Near beach Villa in Javea, Alicante province 
+https://www.kyero.com/en/property/20617576-villa-for-sale-javea | Remote viewing available Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 Near beach Villa in Javea, Alicante province 
+https://www.kyero.com/en/property/20471050-villa-for-sale-javea | With video Remote viewing available Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 Villa in Javea, Alicante province 
+https://www.kyero.com/en/property/20519932-villa-for-sale-javea | Remote viewing available Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 New build Villa in Javea, Alicante province €
+https://www.kyero.com/en/property/20316165-villa-for-sale-javea | With video Remote viewing available Go to slide 1 Go to slide 2 Go to slide 3 Go to slide 4 Go to slide 5 Villa in Javea, Alicante province 
+https://www.kyero.com/en/javea-villas-for-sale-0l1895g2?max_price=700000&amp;min_price=500000&amp;page=2 | Next page
+https://www.kyero.com/en/javea-villas-for-sale-0l1895g2?max_price=700000&amp;min_price=500000&amp;page=3 | 3
+https://www.kyero.com/en/javea-villas-for-sale-0l1895g2?max_price=700000&amp;min_price=500000&amp;page=4 | 4
+https://www.kyero.com/en/javea-villas-for-sale-0l1895g2?max_price=700000&amp;min_price=500000&amp;page=5 | 5
+https://www.kyero.com/en/calpe-property-for-sale-0l1073 | Calpe
+https://www.kyero.com/en/finestrat-property-for-sale-0l1295 | Finestrat
+https://www.kyero.com/en/denia-property-for-sale-0l1232 | Denia
+https://www.kyero.com/en/benissa-property-for-sale-0l1018 | Benissa
+https://www.kyero.com/en/altea-property-for-sale-0l911 | Altea
+https://www.kyero.com/en/moraira-property-for-sale-0l1499 | Moraira
+https://www.kyero.com/en/polop-property-for-sale-0l1626 | Polop
+https://www.kyero.com/en/benitachell-property-for-sale-0l1620 | Benitachell
+https://www.kyero.com/en/benidorm-property-for-sale-0l999 | Benidorm
+https://www.kyero.com/en/la-nucia-property-for-sale-0l1521 | La Nucia
+https://www.kyero.com/en/alfaz-del-pi-property-for-sale-0l884 | Alfaz del Pi
+https://www.kyero.com/en/el-verger-property-for-sale-0l1881 | El Verger
+https://www.kyero.com/en/villajoyosa-property-for-sale-0l1887 | Villajoyosa
+https://www.kyero.com/en/pedreguer-property-for-sale-0l1575 | Pedreguer
+https://www.kyero.com/en/albir-property-for-sale-0l867 | Albir
+https://www.kyero.com/en/oliva-property-for-sale-0l53477 | Oliva
+https://www.kyero.com/en/orba-property-for-sale-0l73865 | Orba
+https://www.kyero.com/en/teulada-property-for-sale-0l1801 | Teulada
+https://www.kyero.com/en/cumbre-del-sol-property-for-sale-0l1225 | Cumbre Del Sol
+https://www.kyero.com/en/els-poblets-property-for-sale-0l1622 | Els Poblets
+https://www.kyero.com/en/javea-property-for-sale-0l1895 | Properties for sale in Javea
+https://www.kyero.com/en/javea-villas-for-sale-0l1895g2 | Villas for sale in Javea
+https://www.kyero.com/en/javea-apartments-for-sale-0l1895g1 | Apartments for sale in Javea
+https://www.kyero.com/en/javea-town-houses-for-sale-0l1895g3 | Town houses for sale in Javea
+https://www.kyero.com/en/javea-country-houses-for-sale-0l1895g4 | Country houses for sale in Javea
+https://www.kyero.com/en/javea-property-for-sale-0l1895?max_price=100000 | Cheap properties
+https://www.kyero.com/en/javea-property-for-sale-0l1895?min_price=1000000 | Luxury properties
+https://www.kyero.com/en/javea-property-for-sale-0l1895?f%5B%5D=new_build | New build properties
+https://www.kyero.com/en/javea-property-for-sale-0l1895?f%5B%5D=near_beach | Property near beach
+https://www.kyero.com/en/javea-property-for-sale-0l1895?f%5B%5D=pool | Property with pool
+https://www.kyero.com/en/javea-property-long-let-1l1895 | Property to rent in Javea
+https://www.kyero.com/en/javea-property-for-sale-0l1895?max_beds=1&amp;min_beds=1 | 1 bedroom
+https://www.kyero.com/en/javea-property-for-sale-0l1895?max_beds=2&amp;min_beds=2 | 2 bedroom
+https://www.kyero.com/en/javea-property-for-sale-0l1895?max_beds=3&amp;min_beds=3 | 3 bedroom
+https://www.kyero.com/en/javea-property-for-sale-0l1895?max_beds=4&amp;min_beds=4 | 4 bedroom
+https://www.kyero.com/en/javea-property-for-sale-0l1895?max_beds=5&amp;min_beds=5 | 5 bedroom
+https://www.facebook.com/KyeroProperty/ | 
+https://www.instagram.com/kyero_property/ | 
+BODY:
+ Villas for sale in Javea | Kyero 
+Spain 
+Spain
+Portugal
+France
+Italy
+Buy 
+Popular in Spain
+Alicante
+Murcia
+Tenerife
+Costa Del Sol
+Costa Blanca
+Almeria
+Ibiza
+Majorca
+Malaga
+Andalucia
+Browse all locations in Spain 
+Rent 
+Popular in Spain
+Alicante
+Murcia
+Tenerife
+Costa Del Sol
+Costa Blanca
+Almeria
+Ibiza
+Majorca
+Malaga
+Andalucia
+Browse all locations in Spain 
+Agents 
+Guides 
+Guides Home
+Location Guides
+Discover Spain
+Buying in Spain
+Moving to Spain
+Living in Spain
+Podcasts
+English Select a language
+Dansk 
+Deutsch 
+English 
+Español 
+Suomi 
+Français 
+Italiano 
+Nederlands 
+Norsk 
+Polski 
+Português 
+Русский 
+Svenska 
+Log in 
+Sign up 
+Menu 
+€500K - €700K 
+Type 1 
+Beds 
+Filters 
+Create alert 
+Map View 
+Create alert 
+Map View 
+Min: €500,000 
+Max: €700,000 
+Villa 
+Home 
+Spain 
+Valencia region 
+Alicante province 
+Costa Blanca 
+Javea
+Villas for sale in Javea
+1 - 20 of 112 Recommended 
+Remote viewing available
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+Featured Villa in Javea, Alicante province
+€ 618,000
+This partially renovated villa is located in Javea, in the quiet Pinosol area, a short distance from Arenal beach. The property is single-storey a...
+Pool
+3
+2
+162 m²
+With virtual tour
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+Featured Villa in Javea, Alicante province
+€ 620,000
+This villa, located in the quiet Pinosol area of Jávea, Alicante, is an excellent opportunity for those seeking a peaceful residential environment...
+Pool
+Garden
+Parking
+3
+2
+108 m²
+Remote viewing available
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+Featured Villa in Javea, Alicante province
+€ 649,000
+Charming and Well-Loved Villa with Stunning Montgó and Valley Views – Priced to Sell
+This much-loved villa, located in the tranquil and private a...
+Pool
+Garden
+Parking
+4
+3
+180 m²
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+Near beach Villa in Javea, Alicante province
+€ 519,000
+Refurbished villa for sale in Jávea, situated in a unique rural setting.
+This single storey property is surrounded by orange groves, offering an ...
+Garden
+Parking
+4
+1
+150 m²
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+Near beach Villa in Javea, Alicante province
+€ 595,000
+Javea – Ready to move in 3 bedroom villa in wonderful environment!
+The villa with a constructed living area of 135.40m2 is located in a quiet loc...
+Pool
+Garden
+Parking
+3
+2
+135 m²
+With video
+Remote viewing available
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+Near beach Villa in Javea, Alicante province
+€ 595,000
+Situated in the highly desirable area of Adsubia, this charming villa combines comfort, privacy, and exceptional outdoor living. Located close to ...
+Pool
+Garden
+Parking
+3
+2
+266 m²
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+Near beach Villa in Javea, Alicante province
+€ 595,000
+The property has a living-dining room, a fully equipped kitchen, a single bedroom with built-in wardrobes, a double bedroom with wardrobe and a ba...
+Pool
+Garden
+Parking
+2
+1
+119 m²
+With virtual tour
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+Near beach Villa in Javea, Alicante province
+€ 595,000
+Presented here is a villa located in the sought-after area of Adsubia, in Jávea, Alicante, ideal for those seeking tranquility without sacrificing...
+Pool
+Garden
+Garage
+3
+2
+184 m²
+Remote viewing available
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+New build Villa in Javea, Alicante province
+€ 575,000
+New build villa for sale in Javea, the price includes the plot, garden, pool and house. This property can be delivered within 18 months. In the ho...
+Pool
+Garden
+2
+2
+125 m²
+Remote viewing available
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+Villa in Javea, Alicante province
+€ 699,000
+This villa in Javea Costa Nova sits on a generous plot and offers a high level of privacy. The property has a built area of 250 m² and features 4 ...
+Pool
+4
+4
+250 m²
+Remote viewing available
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+Near beach Villa in Javea, Alicante province
+€ 625,000
+Located in Jávea, this well-designed 150 m² villa sits on a 1,000 m² plot, offering comfort and practicality near the coast.
+It features a bright...
+Pool
+Garden
+Parking
+3
+3
+1,000 m²
+Remote viewing available
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+Near beach Villa in Javea, Alicante province
+€ 595,000
+Villa with great potential in one of the most sought-after areas of Montgó, Jávea, where the climate is especially stable, dry and sunny all year ...
+Garage
+2
+2
+120 m²
+Remote viewing available
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+Near beach Villa in Javea, Alicante province
+€ 695,000
+Beautiful traditional-style villa in Adsubia. Upon entering the property, we find a hall, perfect for receiving our guests. A master bedroom with ...
+Pool
+Garden
+Garage
+3
+3
+245 m²
+Remote viewing available
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+Near beach Villa in Javea, Alicante province
+€ 625,000
+3 bedroom Redonda style detached villa, located in a quiet area 3km from Granadella beach. The property comprises: 3 bedrooms (1 in each wing and...
+Pool
+Garden
+Parking
+3
+3
+135 m²
+Remote viewing available
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+Near beach Villa in Javea, Alicante province
+€ 525,000
+Situated on a highly sought-after residential urbanisation just a short drive from the vibrant coastal town of Jávea on the Costa Blanca, with its...
+Pool
+Garden
+Parking
+4
+3
+171 m²
+Remote viewing available
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+Near beach Villa in Javea, Alicante province
+€ 695,000
+This charming detached villa is located in one of the quietest areas of Javea, on a traffic-free street.Surrounded by a well-maintained Mediterran...
+Pool
+Garden
+Garage
+3
+3
+245 m²
+Remote viewing available
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+Near beach Villa in Javea, Alicante province
+€ 625,000
+This renovated villa in Jávea offers 150m² of constructed living space on a 1,000m² plot. The property features a fully integrated open-plan kitch...
+Pool
+Garden
+Parking
+3
+3
+165 m²
+With video
+Remote viewing available
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+Villa in Javea, Alicante province
+€ 640,000
+Lucas Fox presents this villa to be completely renovated, ideal for investors or for those looking to create their own custom villa in Jávea, in a...
+Pool
+Garden
+Parking
+3
+3
+378 m²
+Remote viewing available
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+New build Villa in Javea, Alicante province
+€ 575,000
+New build villa for sale in Javea, the price includes the plot, garden, pool and house. This property can be delivered within 18 months. In the ho...
+Pool
+Garden
+2
+2
+125 m²
+With video
+Remote viewing available
+Go to slide 1 
+Go to slide 2 
+Go to slide 3 
+Go to slide 4 
+Go to slide 5 
+Villa in Javea, Alicante province
+€ 550,000
+Located in the heart of the bustling Port of Jávea, this versatile two-storey townhouse offers an outstanding opportunity in one of the area’s mos...
+3
+2
+90 m²
+Next page 
+1 
+2 
+3 
+4 
+5 
+Javea
+Cities nearby
+Calpe 
+Finestrat 
+Denia 
+Benissa 
+Altea 
+Moraira 
+Polop 
+Benitachell 
+Benidorm 
+La Nucia 
+Alfaz del Pi 
+El Verger 
+Villajoyosa 
+Pedreguer 
+Albir 
+Oliva 
+Orba 
+Teulada 
+Cumbre Del Sol 
+Els Poblets 
+Top property types
+Properties for sale in Javea 
+Villas for sale in Javea 
+Apartments for sale in Javea 
+Town houses for sale in Javea 
+Country houses for sale in Javea 
+Explore Javea
+Cheap properties 
+Luxury properties 
+New build properties 
+Property near beach 
+Property with pool 
+Local estate agents 
+Property to rent in Javea 
+Search by bedrooms
+1 bedroom 
+2 bedroom 
+3 bedroom 
+4 bedroom 
+5 bedroom 
+Download our guide to buying in Spain
+Your email 
+Opt in to receive property recommendations, inspiration and tips on moving abroad 
+Get the guide 
+Your privacy is important to us. Read our privacy policy and terms 
+Location guides
+Find out what it is like to live, work and retire in Javea
+See guides 
+Newsletter
+Stay up to date 
+Receive property recommendations, inspiration and tips on moving abroad.
+Your country
+Spain 
+Interested in other countries? 
+Your email 
+Subscribe 
+Your privacy is important to us. Read our privacy policy and terms 
+Find property
+Property for sale in Spain 
+Property for sale in Portugal 
+Property for sale in France 
+Property for sale in Italy 
+Holiday homes for sale in Spain 
+Cave houses for sale in Spain 
+Ski homes for sale in France 
+All locations 
+Resources
+Estate agents in Spain 
+Estate agents in France 
+Estate agents in Italy 
+Estate agents in Portugal 
+Buyer Advice 
+Property Podcasts 
+Mortgage Calculator 
+Location Guides 
+Kyero
+About us 
+Contact us 
+Visitor FAQs 
+Work with us 
+Sign in or create an account 
+Professionals
+Advertise on Kyero 
+Agent contact 
+Estate agent FAQs 
+Market Data 
+Market Insight 
+Trustpilot 
+© Portal47 Ltd
+Terms 
+Privacy 
+Cookies 
+Cookie preferences 
+Sitemap 

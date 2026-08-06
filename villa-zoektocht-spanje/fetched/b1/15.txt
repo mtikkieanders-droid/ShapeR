@@ -1,0 +1,11 @@
+URL: https://www.aplaceinjavea.com/property/costa-nova/
+FINAL_URL: https://www.aplaceinjavea.com/property/costa-nova/
+HTTP: 200
+TITLE: One moment, please...
+METADESC: 
+LINKS (property-like):
+BODY:
+ 
+One moment, please... 
+Loader 
+Please wait while your request is being verified...
