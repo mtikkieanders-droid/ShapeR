@@ -1,16 +1,10 @@
 name: fetch-pages
 on:
-  workflow_dispatch:
-    inputs:
-      urls:
-        description: newline-separated URLs to fetch
-        required: true
-        type: string
-      batch:
-        description: batch label
-        required: false
-        default: b1
-        type: string
+  push:
+    branches:
+      - "claude/villa-spanje-search-u2k0f1"
+    paths:
+      - "villa-zoektocht-spanje/tools/urls.txt"
 permissions:
   contents: write
 concurrency:
@@ -22,16 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Fetch pages
-        env:
-          URLS: ${{ inputs.urls }}
-          BATCH: ${{ inputs.batch }}
         run: python3 villa-zoektocht-spanje/tools/fetch.py
       - name: Commit results
         run: |
           git config user.name "fetch-bot"
           git config user.email "fetch-bot@users.noreply.github.com"
           git add -A villa-zoektocht-spanje/fetched
-          git commit -m "Fetched pages batch ${BATCH:-b1}" || echo "nothing to commit"
+          git commit -m "Fetched pages (zoekronde Javea)" || echo "nothing to commit"
           git push
-        env:
-          BATCH: ${{ inputs.batch }}

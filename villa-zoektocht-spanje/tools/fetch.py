@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Fetch public listing pages and store readable text + structured data + links.
 
-Runs inside GitHub Actions (runner has open internet). Reads URLS (newline-
-separated) and BATCH from env, writes villa-zoektocht-spanje/fetched/<batch>/NN.txt
+Runs inside GitHub Actions (runner has open internet). Reads
+villa-zoektocht-spanje/tools/urls.txt: optional first line "batch=<label>",
+remaining lines URLs. Writes villa-zoektocht-spanje/fetched/<batch>/NN.txt
 """
 import os
 import re
@@ -12,8 +13,19 @@ import time
 import urllib.request
 from urllib.parse import urljoin
 
-URLS = [u.strip() for u in os.environ.get("URLS", "").splitlines() if u.strip()]
-BATCH = os.environ.get("BATCH", "b1") or "b1"
+_lines = []
+_batch = "b1"
+with open(os.path.join("villa-zoektocht-spanje", "tools", "urls.txt"), encoding="utf-8") as fh:
+    for ln in fh:
+        ln = ln.strip()
+        if not ln or ln.startswith("#"):
+            continue
+        if ln.startswith("batch="):
+            _batch = ln.split("=", 1)[1].strip() or _batch
+        else:
+            _lines.append(ln)
+URLS = _lines
+BATCH = _batch
 OUTDIR = os.path.join("villa-zoektocht-spanje", "fetched", BATCH)
 os.makedirs(OUTDIR, exist_ok=True)
 
