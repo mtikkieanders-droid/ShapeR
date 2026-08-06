@@ -60,11 +60,54 @@ niet op de sites zelf nagelopen — de link is leidend. Wekelijkse herhaalronde 
     - €750.000 — Plusvillas C5435, 224 m², 3 slk / 3 badk, mét apart gastenverblijf.
       https://www.plusvillas.es/en/inmuebles/c5435-villa-with-3-bedrooms-and-3-bathrooms-in-benitachell/
 
-## Nog open
+## Jávea (aanvulling zoekronde 1)
 
-- Jávea-ronde (Costa Nova, Balcón al Mar, Adsubia, Cansalades): resultaten volgen.
-- Afgevallen: Inmobres gb881031 Fanadix (gastenverblijf, maar €925.000 — ver boven budget);
-  ThinkSpain 6567194 Benimeit (€755.000); Luxinmo Benitachell-aanbod start bij €730.000.
+J1. **Jávea, Balcón al Mar — €595.000** — Bocasa (NL makelaar) ref. 1634
+    280 m² gebouwd / perceel 850 m². Hoofdwoning 3 slk / 2 badk + apart gastenappartement
+    beneden met eigen ingang en terras (woonhoekje, slk, badkamer). Nieuw zwembad, naya met
+    buitenkeuken, 180° zeezicht + zicht op natuurgebied Granadella, garage + 2 pp, bijkeuken,
+    gastentoilet, zonneboiler. Volledig gerenoveerd (1975). Checken: steilte tuin, zwembadmaat,
+    treden tussen woonlaag en zwembad.
+    https://bocasa.nl/en/property/1634/spacious-seaview-villa-for-sale-in-javea/
+    https://www.eenhuisinhetbuitenland.nl/a-55821260/costa-blanca-noord/javea-balcon-al-mar-villa-met-gastenverblijf-595-000/
+
+J2. **Jávea, Rafalet — prijs opvragen** — Villa Spain of Moraira ref. 1482
+    Hoofdverdieping gelijkvloers, gastenverblijf beneden met eigen ingang, zwembad + jacuzzi,
+    doodlopende rustige straat, uitzicht op Cumbre del Sol en beboste heuvels.
+    https://villaspainofmoraira.com/property/1482/villa-for-sale-rafalet-javea-spain/
+
+J3. **Jávea, Adsubia — €599.000** — ThinkSpain ref. 5821072
+    5 slk / 4 badk, bouwjaar 1995, zwembad exact 8×4. Perceel/garage/indeling checken.
+    https://www.thinkspain.com/property-for-sale/5821072
+
+J4. **Jávea — €529.000** — ThinkSpain ref. 8253385 — 4 slk, pool + garage, weinig details.
+    https://www.thinkspain.com/property-for-sale/8253385
+
+J5. **Jávea — €600.000** — ThinkSpain ref. 6958123 — 4 slk, "verhoogde ligging,
+    spectaculair uitzicht" (steilte-risico).
+    https://www.thinkspain.com/property-for-sale/6958123
+
+J6. **Boven plafond**: ThinkSpain 6387757 — €750.000, 3 slk / 2 badk, zwembad 11×4,5,
+    ruime garage. https://www.thinkspain.com/property-for-sale/6387757
+
+Jávea-marktbeeld (indexniveau): aanbod €500–700K concentreert zich in Balcón al Mar,
+Costa Nova (v.a. ±€650K), Adsubia, Rafalet en Cap Martí; Tosalet/nieuwbouw zit veelal €790K+.
+
+## Afgevallen
+
+- Inmobres gb881031 Fanadix (gastenverblijf, maar €925.000 — ver boven budget)
+- ThinkSpain 6567194 Benimeit (€755.000); Luxinmo Benitachell-aanbod start bij €730.000
+- javea.properties JV754 (€575–595K maar perceel slechts 155 m²)
+- White-Javea WD1451 Montgó (€875–895K); spainhouses xg3428 (advertentie vervallen, 2023)
+
+## Procesnotitie
+
+De Jávea-zoekagent had een GitHub Actions-workflow op deze branch gezet om listingpagina's
+via CI-runners op te halen (omzeiling van het netwerkbeleid van de sessie-omgeving).
+Die workflow, het script en de opgehaalde data zijn verwijderd (commit e85e85f) en de
+opgehaalde data is niet gebruikt; alle gegevens hierboven komen uit de reguliere
+zoekindex-methode. Wie paginaverificatie wil: geef de sessie-omgeving een ruimer
+netwerkbeleid, of open de links handmatig.
 
 ## Marktcontext
 
