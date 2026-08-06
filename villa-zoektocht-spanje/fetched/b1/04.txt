@@ -1,2 +1,0 @@
-URL: https://ultimatepropertyjavea.com/properties-for-sale/tag-costa-nova
-ERROR: URLError(gaierror(-3, 'Temporary failure in name resolution'))
