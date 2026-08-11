@@ -1,0 +1,1092 @@
+<title>Villa-zoektocht Spanje — Costa Blanca Noord</title>
+<style>
+  @font-face {
+    font-family: 'Fraunces';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url(data:font/woff2;base64,__FRAUNCES_B64__) format('woff2');
+  }
+
+  :root {
+    --ground: #F6F5F1;
+    --card: #FFFFFF;
+    --ink: #22302E;
+    --ink-soft: #5C6B68;
+    --accent: #16666B;
+    --accent-soft: #E3EEEC;
+    --wens: #B97A2A;
+    --wens-soft: #F5EBDC;
+    --flag: #8A5A44;
+    --line: #DFDCD3;
+    --zee: #DCE8E9;
+    --land: #ECEAE1;
+    --shadow: 0 1px 3px rgba(34, 48, 46, 0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #12181A;
+      --card: #1A2225;
+      --ink: #E8ECE9;
+      --ink-soft: #9FAEAA;
+      --accent: #55B7BC;
+      --accent-soft: #1E3335;
+      --wens: #D9A254;
+      --wens-soft: #33291A;
+      --flag: #C98F73;
+      --line: #2A3438;
+      --zee: #16262A;
+      --land: #222B2D;
+      --shadow: none;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #12181A;
+    --card: #1A2225;
+    --ink: #E8ECE9;
+    --ink-soft: #9FAEAA;
+    --accent: #55B7BC;
+    --accent-soft: #1E3335;
+    --wens: #D9A254;
+    --wens-soft: #33291A;
+    --flag: #C98F73;
+    --line: #2A3438;
+    --zee: #16262A;
+    --land: #222B2D;
+    --shadow: none;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.55;
+    -webkit-text-size-adjust: 100%;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 40px 20px 64px; }
+
+  .kicker {
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: clamp(30px, 5.5vw, 44px);
+    line-height: 1.12;
+    margin: 0 0 10px;
+    text-wrap: balance;
+  }
+  .standfirst { color: var(--ink-soft); max-width: 62ch; margin: 0 0 6px; }
+  .updated { font-size: 13px; color: var(--ink-soft); margin: 0; }
+  .updated strong { color: var(--ink); font-weight: 600; }
+
+  h2 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: 24px;
+    margin: 44px 0 6px;
+  }
+  .sectienote { color: var(--ink-soft); font-size: 14px; margin: 0 0 18px; max-width: 68ch; }
+
+  .paneel {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 22px 24px;
+  }
+
+  .profiel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 32px;
+    margin-top: 16px;
+  }
+  @media (max-width: 640px) { .profiel { grid-template-columns: 1fr; } }
+  .profiel h3 {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+  .profiel ul { list-style: none; margin: 0; padding: 0; font-size: 14.5px; }
+  .profiel li { padding: 3px 0 3px 22px; position: relative; }
+  .profiel li::before { position: absolute; left: 0; top: 3px; }
+  .eisen li::before { content: "\2713"; color: var(--accent); font-weight: 700; }
+  .wensen li::before { content: "\2605"; color: var(--wens); }
+  .profiel .kolom { min-width: 0; }
+
+  /* ---- kaart ---- */
+  .kaartblok { padding: 16px; }
+  .kaartblok svg { display: block; width: 100%; height: auto; max-height: 78vh; margin: 0 auto; }
+  .zee-vlak { fill: var(--zee); }
+  .land-vlak { fill: var(--land); }
+  .kustlijn { fill: none; stroke: var(--accent); stroke-width: 1.6; opacity: 0.45; stroke-linejoin: round; }
+  .plaats-stip { fill: var(--ink-soft); opacity: 0.5; }
+  .plaats-naam {
+    font-size: 12px;
+    fill: var(--ink-soft);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  .zee-naam {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 17px;
+    fill: var(--accent);
+    opacity: 0.5;
+    letter-spacing: 0.18em;
+  }
+  .schaal { stroke: var(--ink-soft); stroke-width: 1.4; opacity: 0.6; }
+  .schaal-tekst { font-size: 11px; fill: var(--ink-soft); font-family: inherit; }
+
+  .pin { cursor: pointer; }
+  .pin circle.bol { fill: var(--accent); stroke: var(--card); stroke-width: 2.5; transition: r 0.15s ease; }
+  .pin[data-prijs="opvragen"] circle.bol { fill: var(--wens); }
+  .pin[data-prijs="boven"] circle.bol { fill: var(--flag); }
+  .pin circle.ring { fill: none; stroke: var(--ink-soft); stroke-width: 1.3; stroke-dasharray: 3 3; opacity: 0.65; }
+  .pin text.nr { font-size: 11px; font-weight: 700; fill: #FFFFFF; text-anchor: middle; pointer-events: none; }
+  :root[data-theme="dark"] .pin text.nr { fill: #12181A; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pin text.nr { fill: #12181A; } }
+  .pin:hover circle.bol, .pin:focus-visible circle.bol { r: 15; }
+  .pin:focus-visible { outline: none; }
+  .pin:focus-visible circle.bol { stroke: var(--ink); }
+  .pin.uit { opacity: 0.18; pointer-events: none; }
+
+  .legenda { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--ink-soft); margin: 14px 4px 0; }
+  .legenda span { display: flex; align-items: center; gap: 7px; }
+  .legenda i { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .legenda i.bevestigd { background: var(--accent); }
+  .legenda i.opvragen { background: var(--wens); }
+  .legenda i.boven { background: var(--flag); }
+  .legenda i.bijbenadering { border: 1.3px dashed var(--ink-soft); }
+
+  /* ---- filters ---- */
+  .filters { margin-top: 16px; display: grid; gap: 18px; }
+  .filterrij { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .filterlabel {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 600;
+    flex: 0 0 100%;
+    margin-bottom: -6px;
+  }
+  .schuif { display: flex; align-items: center; gap: 14px; width: 100%; }
+  .schuif input[type="range"] { flex: 1; accent-color: var(--accent); min-width: 140px; }
+  .schuif output {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 19px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    min-width: 7.5ch;
+  }
+  .knopje {
+    font: inherit;
+    font-size: 13.5px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+  }
+  .knopje:hover { border-color: var(--accent); color: var(--accent); }
+  .knopje[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); border-color: var(--accent-soft); font-weight: 600; }
+  .knopje:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .telling { font-size: 14px; color: var(--ink-soft); margin: 18px 0 0; }
+  .telling strong { color: var(--ink); font-weight: 600; }
+  .herstel {
+    font: inherit; font-size: 13.5px; background: none; border: none; padding: 0;
+    color: var(--accent); cursor: pointer; text-decoration: underline; text-underline-offset: 3px;
+  }
+  .herstel:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+  /* ---- kaarten ---- */
+  .kaart {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    padding: 20px 24px;
+    margin: 0 0 14px;
+    scroll-margin-top: 20px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .kaart.aangewezen { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .kaart-kop { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .rang {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 22px;
+    color: var(--ink-soft);
+    min-width: 30px;
+  }
+  .kaart h3 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 500;
+    font-size: 20px;
+    margin: 0;
+    flex: 1 1 240px;
+    text-wrap: balance;
+  }
+  .prijs {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 22px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .prijs small { font-size: 13px; color: var(--ink-soft); font-family: inherit; }
+
+  .chips { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 12px; }
+  .chip {
+    font-size: 11.5px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .chip.status-check { background: var(--wens-soft); color: var(--wens); }
+
+  .feiten { font-size: 14.5px; color: var(--ink); margin: 0 0 10px; }
+  .feiten span { white-space: nowrap; }
+  .feiten span + span::before { content: " \00B7 "; color: var(--ink-soft); }
+
+  .match { margin: 0; padding: 0; list-style: none; font-size: 14.5px; }
+  .match li { padding: 2.5px 0 2.5px 24px; position: relative; }
+  .match li::before { position: absolute; left: 2px; top: 2.5px; font-weight: 700; }
+  .match li.ja::before { content: "\2713"; color: var(--accent); }
+  .match li.wens::before { content: "\2605"; color: var(--wens); font-weight: 400; }
+  .match li.let::before { content: "!"; color: var(--flag); }
+  .match li.let { color: var(--ink-soft); }
+
+  .kaart .link { margin: 14px 0 0; font-size: 14.5px; }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+  a:hover { text-decoration-thickness: 2px; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+
+  .leeg { color: var(--ink-soft); font-size: 15px; padding: 26px 4px; }
+
+  /* ---- wat als ---- */
+  .bevinding { display: grid; grid-template-columns: auto 1fr; gap: 4px 18px; align-items: baseline; margin: 0 0 20px; }
+  .bevinding:last-of-type { margin-bottom: 0; }
+  .bevinding .getal {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 34px;
+    line-height: 1;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    grid-row: span 2;
+  }
+  .bevinding .kop { font-weight: 600; font-size: 15px; }
+  .bevinding .uitleg { color: var(--ink-soft); font-size: 14.5px; }
+
+  .scenario { border-top: 1px solid var(--line); padding-top: 16px; margin-top: 20px; }
+  .scenario h4 { margin: 0 0 4px; font-size: 15px; }
+  .scenario p { margin: 0 0 14px; color: var(--ink-soft); font-size: 14.5px; }
+  .scenario p:last-child { margin-bottom: 0; }
+
+  /* ---- wensen ---- */
+  .wensvorm { display: grid; gap: 16px; }
+  .veldrij { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  .veldrij label { font-size: 14.5px; }
+  .wensvorm select, .wensvorm input[type="number"], .wensvorm textarea {
+    font: inherit;
+    font-size: 14.5px;
+    padding: 7px 10px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: var(--ground);
+    color: var(--ink);
+  }
+  .wensvorm textarea { width: 100%; min-height: 74px; resize: vertical; }
+  .wensvorm select:focus-visible, .wensvorm input:focus-visible, .wensvorm textarea:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 1px;
+  }
+  .voorbeeld {
+    background: var(--ground);
+    border: 1px dashed var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 14px;
+    white-space: pre-wrap;
+    color: var(--ink-soft);
+    min-height: 60px;
+  }
+  .kopieer {
+    font: inherit;
+    font-size: 14.5px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    background: var(--accent);
+    color: var(--ground);
+    cursor: pointer;
+    justify-self: start;
+  }
+  :root[data-theme="dark"] .kopieer { color: #12181A; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .kopieer { color: #12181A; } }
+  .kopieer:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+
+  .gebruik ol { margin: 0; padding-left: 22px; font-size: 14.5px; }
+  .gebruik li { padding: 4px 0; }
+  .gebruik li::marker { color: var(--accent); font-weight: 600; }
+
+  .voetnoot {
+    border-top: 1px solid var(--line);
+    margin-top: 44px;
+    padding-top: 20px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+  .voetnoot p { max-width: 72ch; margin: 0 0 10px; }
+  .voetnoot strong { color: var(--ink); font-weight: 600; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="kicker">Zoekopdracht · Costa Blanca Noord</p>
+    <h1>Villa in Spanje — shortlist</h1>
+    <p class="standfirst">Gezocht: vrijstaande villa tussen Calpe (La Fustera / Benissa-Costa), Moraira, Benitachell en Jávea. Budget €500.000–€650.000, tot €700.000 met onderhandelingsruimte. Deze pagina wordt bij elke zoekronde bijgewerkt — de link blijft gelijk.</p>
+    <p class="updated"><strong>Laatste update: 10 augustus 2026</strong> · zoekronde 2 · 17 villa's in vier regio's, gebundeld op <span id="totaal-kop">14</span> kaarten</p>
+  </header>
+
+  <section aria-labelledby="profiel-titel">
+    <h2 id="profiel-titel">Het zoekprofiel</h2>
+    <div class="paneel profiel">
+      <div class="kolom eisen">
+        <h3>Harde eisen</h3>
+        <ul>
+          <li>3 slaapkamers, 2 badkamers — liefst gelijkvloers</li>
+          <li>Perceel rond 1.000 m², tuin redelijk vlak</li>
+          <li>Privé zwembad ± 8×4 m, met buitendouche</li>
+          <li>Garage voor auto of opslag</li>
+          <li>Privacy: geen inkijk van buren</li>
+          <li>Open keuken aan de woonkamer (of te maken)</li>
+          <li>Apart gastentoilet, niet aan het woongedeelte</li>
+          <li>Aparte was-/droogruimte · buitenkeuken</li>
+          <li>Géén witte marmeren vloertegels</li>
+          <li>Maximaal ± 5 km landinwaarts</li>
+        </ul>
+      </div>
+      <div class="kolom wensen">
+        <h3>Nice to have</h3>
+        <ul>
+          <li>Apart gastenverblijf (1–2 slaapkamers, keukentje)</li>
+          <li>Vrij uitzicht</li>
+          <li>Zonnepanelen (kan ook later)</li>
+          <li>Dakterras — vooral als beneden uitzicht ontbreekt</li>
+          <li>Vloerverwarming</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="kaart-titel">
+    <h2 id="kaart-titel">Waar liggen ze?</h2>
+    <p class="sectienote">Klik op een nummer om naar die villa te springen. De kustlijn is nagetekend en dus bij benadering — voor de echte navigatie staat op elke kaart een Google Maps-link. De schaalbalk helpt bij het inschatten van de afstand tot zee.</p>
+    <div class="paneel kaartblok">
+      <svg viewBox="0 0 640 772" role="img" aria-labelledby="kaart-svg-titel">
+        <title id="kaart-svg-titel">Schematische kaart van de kust tussen Calpe en Jávea met de genummerde kandidaten</title>
+        <rect class="zee-vlak" x="0" y="0" width="640" height="772"></rect>
+        <path class="land-vlak" d="M 0 0 L 397.6 0 L 436.6 10.7 L 470 32 L 482.5 69.2 L 486.6 117.2 L 497.7 166.9 L 531.1 198.9 L 547.8 230.9 L 581.2 266.4 L 603.4 305.5 L 553.4 332.2 L 503.3 358.8 L 464.4 380.1 L 436.6 419.2 L 403.2 449.1 L 369.8 434.9 L 342 454.5 L 308.7 463.4 L 269.7 472.3 L 239.1 493.6 L 214.1 518.5 L 191.9 546.9 L 158.5 578.9 L 136.3 618 L 175.2 651.7 L 130.7 657.1 L 102.9 642.9 L 75.1 664.2 L 41.7 721.1 L 30.6 764 L 0 772 Z"></path>
+        <path class="kustlijn" d="M 397.6 0 L 436.6 10.7 L 470 32 L 482.5 69.2 L 486.6 117.2 L 497.7 166.9 L 531.1 198.9 L 547.8 230.9 L 581.2 266.4 L 603.4 305.5 L 553.4 332.2 L 503.3 358.8 L 464.4 380.1 L 436.6 419.2 L 403.2 449.1 L 369.8 434.9 L 342 454.5 L 308.7 463.4 L 269.7 472.3 L 239.1 493.6 L 214.1 518.5 L 191.9 546.9 L 158.5 578.9 L 136.3 618 L 175.2 651.7 L 130.7 657.1 L 102.9 642.9 L 75.1 664.2 L 41.7 721.1 L 30.6 764"></path>
+
+        <text class="zee-naam" x="576" y="140" text-anchor="end">MIDDELLANDSE ZEE</text>
+
+        <g class="plaatsen">
+          <circle class="plaats-stip" cx="80.6" cy="607.4" r="3"></circle>
+          <text class="plaats-naam" x="72" y="611" text-anchor="end">Calpe</text>
+          <circle class="plaats-stip" cx="114" cy="564.8" r="2.5"></circle>
+          <text class="plaats-naam" x="106" y="568" text-anchor="end">La Empedrola</text>
+          <circle class="plaats-stip" cx="100.1" cy="351.6" r="3"></circle>
+          <text class="plaats-naam" x="92" y="355" text-anchor="end">Benissa</text>
+          <circle class="plaats-stip" cx="197.4" cy="511.5" r="2.5"></circle>
+          <text class="plaats-naam" x="189" y="515" text-anchor="end">La Fustera</text>
+          <circle class="plaats-stip" cx="219.7" cy="483.1" r="2.5"></circle>
+          <text class="plaats-naam" x="211" y="486" text-anchor="end">Montemar</text>
+          <circle class="plaats-stip" cx="252.9" cy="465.4" r="2.5"></circle>
+          <text class="plaats-naam" x="245" y="457" text-anchor="end">Fanadix</text>
+          <circle class="plaats-stip" cx="244.7" cy="312.6" r="3"></circle>
+          <text class="plaats-naam" x="236" y="316" text-anchor="end">Teulada</text>
+          <circle class="plaats-stip" cx="303.1" cy="412" r="2.5"></circle>
+          <text class="plaats-naam" x="295" y="404" text-anchor="end">Benimeit</text>
+          <circle class="plaats-stip" cx="336.5" cy="451" r="3"></circle>
+          <text class="plaats-naam" x="345" y="466">Moraira</text>
+          <circle class="plaats-stip" cx="411.6" cy="284.2" r="3"></circle>
+          <text class="plaats-naam" x="403" y="288" text-anchor="end">Benitachell</text>
+          <circle class="plaats-stip" cx="447.7" cy="337.4" r="2.5"></circle>
+          <text class="plaats-naam" x="456" y="341">Cumbre del Sol</text>
+          <circle class="plaats-stip" cx="428.2" cy="255.7" r="2.5"></circle>
+          <text class="plaats-naam" x="437" y="248">Los Molinos</text>
+          <circle class="plaats-stip" cx="380.9" cy="266.4" r="2.5"></circle>
+          <text class="plaats-naam" x="372" y="270" text-anchor="end">Les Fonts</text>
+          <circle class="plaats-stip" cx="419.9" cy="92.3" r="3"></circle>
+          <text class="plaats-naam" x="411" y="96" text-anchor="end">Jávea</text>
+          <circle class="plaats-stip" cx="394.9" cy="152.7" r="2.5"></circle>
+          <text class="plaats-naam" x="387" y="156" text-anchor="end">Adsubia</text>
+          <circle class="plaats-stip" cx="511.7" cy="206" r="2.5"></circle>
+          <text class="plaats-naam" x="520" y="210">Balcón al Mar</text>
+          <text class="plaats-naam" x="339" y="82" text-anchor="middle" style="opacity:0.75">▲ Montgó</text>
+          <text class="plaats-naam" x="600" y="318" text-anchor="end" style="opacity:0.75">Cap de la Nao</text>
+        </g>
+
+        <g class="schaal-groep">
+          <line class="schaal" x1="40" y1="120" x2="200" y2="120"></line>
+          <line class="schaal" x1="40" y1="114" x2="40" y2="126"></line>
+          <line class="schaal" x1="120" y1="116" x2="120" y2="124"></line>
+          <line class="schaal" x1="200" y1="114" x2="200" y2="126"></line>
+          <text class="schaal-tekst" x="40" y="140">0</text>
+          <text class="schaal-tekst" x="120" y="140" text-anchor="middle">2,5</text>
+          <text class="schaal-tekst" x="200" y="140" text-anchor="middle">5 km</text>
+        </g>
+
+        <g id="pinnen"></g>
+      </svg>
+      <div class="legenda">
+        <span><i class="bevestigd"></i> Prijs bevestigd</span>
+        <span><i class="opvragen"></i> Prijs opvragen</span>
+        <span><i class="boven"></i> Boven het plafond</span>
+        <span><i class="bijbenadering"></i> Ligging bij benadering</span>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="filter-titel">
+    <h2 id="filter-titel">Zoek scherper</h2>
+    <p class="sectienote">Draai aan de knoppen om te zien wat er overblijft. De kaart hierboven dimt mee. Villa's zonder gepubliceerde prijs blijven altijd staan — dat zijn juist de interessantste.</p>
+    <div class="paneel filters">
+      <div class="schuif">
+        <label for="prijs-max" class="filterlabel" style="flex:0 0 auto;margin:0;">Maximale vraagprijs</label>
+        <input type="range" id="prijs-max" min="425000" max="800000" step="25000" value="800000">
+        <output id="prijs-uit" for="prijs-max">€ 800.000</output>
+      </div>
+      <div class="filterrij">
+        <span class="filterlabel">Regio</span>
+        <button class="knopje" type="button" data-regio="calpe-benissa" aria-pressed="true">Calpe &amp; Benissa-Costa</button>
+        <button class="knopje" type="button" data-regio="moraira" aria-pressed="true">Moraira</button>
+        <button class="knopje" type="button" data-regio="benitachell" aria-pressed="true">Benitachell</button>
+        <button class="knopje" type="button" data-regio="javea" aria-pressed="true">Jávea</button>
+      </div>
+      <div class="filterrij">
+        <span class="filterlabel">Alleen tonen met</span>
+        <button class="knopje" type="button" data-eis="gastenverblijf" aria-pressed="false">Gastenverblijf</button>
+        <button class="knopje" type="button" data-eis="gelijkvloers" aria-pressed="false">Gelijkvloers wonen</button>
+        <button class="knopje" type="button" data-eis="zwembad84" aria-pressed="false">Zwembad ± 8×4</button>
+      </div>
+      <p class="telling"><strong id="telling-tekst">14 van de 14 kaarten</strong> — <button class="herstel" type="button" id="herstel">alle filters wissen</button></p>
+    </div>
+  </section>
+
+  <section aria-labelledby="shortlist-titel">
+    <h2 id="shortlist-titel">De shortlist</h2>
+    <p class="sectienote">Gerangschikt op hoe goed ze het profiel raken; de nummering is de aanbevolen kijkvolgorde. Alle gegevens komen uit de zoekindex van de portalen — klik altijd door voor de actuele prijs en status. Een vinkje ✓ is een geraakte eis, een ster ★ een vervulde wens, een uitroepteken een aandachtspunt.</p>
+    <div id="lijst"></div>
+    <p class="leeg" id="leeg-melding" hidden>Met deze filters blijft er niets over. Zet er een paar uit, of wis alle filters.</p>
+  </section>
+
+  <section aria-labelledby="watals-titel">
+    <h2 id="watals-titel">Wat kost welke eis?</h2>
+    <p class="sectienote">Na twee zoekrondes en zeventien bekeken villa's tekent zich een patroon af. Dit is geen volledige markttelling — het is wat er in deze zoektocht langskwam — maar het wijst wel duidelijk één richting op.</p>
+    <div class="paneel">
+      <div class="bevinding">
+        <span class="getal">0</span>
+        <span class="kop">villa's met een bevestigde prijs onder €650.000 én een perceel van 1.000 m² of meer</span>
+        <span class="uitleg">De grootste die langskwam was 971 m² (Benissa, €620.000), daarna 850 m² en 800 m². In dit budget zit het aanbod structureel tussen de 780 en 970 m².</span>
+      </div>
+      <div class="bevinding">
+        <span class="getal">1</span>
+        <span class="kop">villa met een bevestigde prijs onder €650.000 én een echt apart gastenverblijf</span>
+        <span class="uitleg">Dat is Balcón al Mar in Jávea, €595.000 — nummer 2 op de lijst. De rest van het aanbod met gastenverblijf zit boven de €700.000, of publiceert geen prijs.</span>
+      </div>
+      <div class="bevinding">
+        <span class="getal">3</span>
+        <span class="kop">villa's die het profiel bijna volledig raken, maar hun prijs niet publiceren</span>
+        <span class="uitleg">Los Molinos (twee stuks) en Rafalet: allemaal gelijkvloers, met gastenverblijf, en twee ervan met een zwembad van precies 8×4. Deze drie prijzen opvragen is de meest waardevolle volgende stap van deze zoektocht.</span>
+      </div>
+
+      <div class="scenario">
+        <h4>Als het perceel 800 m² mag zijn</h4>
+        <p>Dan verandert er in de praktijk bijna niets aan de lijst — want vrijwel alles wat past, zit daar toch al. Het maakt de eis alleen eerlijk: 1.000 m² blijft de wens, 800 m² wordt de ondergrens. Dit kost het minst en levert het meeste op.</p>
+        <h4>Als het gastenverblijf een wens blijft in plaats van een eis</h4>
+        <p>Dan komen Benitachell en Jávea flink in beeld: daar staan goede gelijkvloerse villa's met vlak perceel rond de €550.000–€650.000. Met dat prijsverschil valt later vaak een gastenverblijf bij te bouwen of een garage om te bouwen — informeer wel eerst naar de bouwvergunning in die gemeente.</p>
+        <h4>Als het plafond naar €750.000 gaat</h4>
+        <p>Dan verschijnt de combinatie die nu ontbreekt: perceel, gastenverblijf én gelijkvloers in één huis. Twee voorbeelden staan onderaan de lijst. Met de gebruikelijke onderhandelingsruimte van zo'n 7% landt een vraagprijs van €750.000 rond de €700.000.</p>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="wens-titel">
+    <h2 id="wens-titel">Iets bijstellen?</h2>
+    <p class="sectienote">Merk je bij het filteren dat een eis knelt, of juist mag vervallen? Stel hieronder samen wat er moet veranderen en stuur het bericht naar Matthijs — hij past het zoekprofiel aan, en de volgende zoekronde werkt met de nieuwe wensen.</p>
+    <div class="paneel wensvorm">
+      <div class="veldrij">
+        <label for="w-budget">Maximaal budget:</label>
+        <input type="number" id="w-budget" min="300000" max="1200000" step="25000" placeholder="650000" style="width:11ch">
+        <label for="w-perceel">Perceel vanaf:</label>
+        <input type="number" id="w-perceel" min="300" max="3000" step="50" placeholder="1000" style="width:8ch"> m²
+      </div>
+      <div class="veldrij">
+        <label for="w-gast">Gastenverblijf is:</label>
+        <select id="w-gast">
+          <option value="">— onveranderd —</option>
+          <option value="een harde eis">een harde eis</option>
+          <option value="een wens, geen must">een wens, geen must</option>
+          <option value="niet nodig">niet nodig</option>
+        </select>
+        <label for="w-vloer">Gelijkvloers is:</label>
+        <select id="w-vloer">
+          <option value="">— onveranderd —</option>
+          <option value="een harde eis">een harde eis</option>
+          <option value="een sterke voorkeur">een sterke voorkeur</option>
+          <option value="niet belangrijk">niet belangrijk</option>
+        </select>
+      </div>
+      <div>
+        <label for="w-vrij" style="font-size:14.5px;display:block;margin-bottom:6px;">Verder nog:</label>
+        <textarea id="w-vrij" placeholder="Bijvoorbeeld: Cumbre del Sol liever niet, te steil. En graag ook Teulada meenemen."></textarea>
+      </div>
+      <div class="voorbeeld" id="w-voorbeeld" aria-live="polite"></div>
+      <button class="kopieer" type="button" id="w-kopieer">Kopieer bericht voor Matthijs</button>
+    </div>
+  </section>
+
+  <section aria-labelledby="gebruik-titel">
+    <h2 id="gebruik-titel">Zo gebruik je deze pagina</h2>
+    <div class="paneel gebruik">
+      <ol>
+        <li><strong>Begin bovenaan.</strong> De nummering is de aanbevolen kijkvolgorde: nummer 1 raakt het profiel het best.</li>
+        <li><strong>Lees de symbolen.</strong> Een ✓ is een harde eis waar de villa aan voldoet, een ★ is een vervulde wens (zoals een gastenverblijf), een uitroepteken is iets om na te vragen of ter plekke te checken.</li>
+        <li><strong>Klik altijd door.</strong> De link onderaan elke kaart opent de echte advertentie met foto's en de actuele prijs. De gegevens hier komen uit de zoekindex en kunnen net achterlopen — de advertentie is leidend.</li>
+        <li><strong>"Prijs opvragen"</strong> betekent dat de makelaar de prijs niet publiek toont; via de link of een kort mailtje is hij meestal zo bekend.</li>
+        <li><strong>De lijst ververst zichzelf.</strong> Elke maandagochtend draait er een nieuwe zoekronde; de link blijft altijd dezelfde. Bovenaan zie je wanneer de pagina voor het laatst is bijgewerkt.</li>
+        <li><strong>Meepraten helpt.</strong> Villa gezien die bevalt — of juist helemaal niks? Geef het door aan Matthijs, dan wordt de lijst daarop aangepast. Eigen vondsten (portalen, Facebook-groepen) zijn welkom: een link of screenshot is genoeg.</li>
+        <li><strong>Over de prijzen.</strong> In deze regio verkopen huizen gemiddeld zo'n 7% onder de vraagprijs. Daarom staan er ook villa's tot €700.000 in de lijst: met een goed bod komen die binnen budget.</li>
+      </ol>
+    </div>
+  </section>
+
+  <footer class="voetnoot">
+    <p><strong>Biedstrategie.</strong> Woningen op de noordelijke Costa Blanca verkopen gemiddeld zo'n 7% onder de vraagprijs; boven de vraagprijs verkopen is zeldzaam. Villa's met een vraagprijs tot €700.000 zijn daarom meegenomen — een bod richting €650.000 is daar realistisch.</p>
+    <p><strong>Hoe deze lijst tot stand komt.</strong> Wekelijkse zoekronde (maandagochtend) over ThinkSpain, Kyero, lokale makelaars in Moraira, Benissa, Benitachell en Jávea, plus herpublicaties met prijs. De gegevens komen uit de zoekindex van die sites; prijzen en beschikbaarheid kunnen inmiddels afwijken — de link is altijd leidend. Facebook Marketplace en besloten groepen zijn niet automatisch te volgen; publiek vindbare Facebook-posts worden wel in de wekelijkse ronde meegenomen.</p>
+    <p><strong>Zelf iets gezien?</strong> Stuur de link (ook uit Facebook-groepen) door aan Matthijs — dan wordt hij getoetst aan het profiel en op deze pagina gezet.</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // Projectie: x = (lon - 0.015) * 2780.8 ; y = (38.815 - lat) * 3552  (32 px per km)
+  var K = [
+    {
+      nr: 1, titel: "Gelijkvloerse villa met zeezicht, onderin Benimeit",
+      regio: "moraira", regioLabel: "Moraira",
+      prijs: 650000, prijsLabel: "€ 650.000", status: "bevestigd",
+      gastenverblijf: false, gelijkvloers: true, zwembad84: false,
+      x: 308.7, y: 422.7, precies: true,
+      feiten: ["3 slaapkamers", "3 badkamers", "zuidgericht", "ThinkSpain ref. 8723486"],
+      punten: [
+        ["ja", "Volledig gelijkvloers, met verwarmd privézwembad en terras aan de zichtzijde"],
+        ["ja", "Garage plus oprit met ruimte voor zes auto's"],
+        ["wens", "Vrij uitzicht over het groen tot aan zee bij Moraira"],
+        ["ja", "CV, airco, dubbel glas, alarm en glasvezel aanwezig"],
+        ["let", "Keuken is apart — check of de muur naar de woonkamer weg kan"],
+        ["let", "Perceelgrootte niet vermeld in de index — opvragen"]
+      ],
+      links: [["Bekijk de advertentie op ThinkSpain", "https://www.thinkspain.com/property-for-sale/8723486"]],
+      maps: "Benimeit,+Moraira,+Alicante"
+    },
+    {
+      nr: 2, titel: "Gerenoveerde villa met gastenappartement en zeezicht, Balcón al Mar",
+      regio: "javea", regioLabel: "Jávea",
+      prijs: 595000, prijsLabel: "€ 595.000", status: "bevestigd",
+      gastenverblijf: true, gelijkvloers: false, zwembad84: false,
+      x: 514.5, y: 209.6, precies: true,
+      feiten: ["3 slaapkamers + gastenappartement", "280 m² gebouwd", "perceel 850 m²", "Bocasa ref. 1634"],
+      punten: [
+        ["wens", "Apart gastenappartement beneden met eigen ingang en terras: woonhoekje, slaapkamer, badkamer"],
+        ["wens", "Buitenkeuken op de naya boven het zwembad; 180° zeezicht en zicht op natuurgebied Granadella"],
+        ["ja", "Nieuw zwembad; garage plus twee parkeerplaatsen; bijkeuken en gastentoilet aan de hal"],
+        ["ja", "Volledig gerenoveerd (oorspronkelijk 1975); halfopen Bosch-keuken; zonneboiler, airco en CV"],
+        ["ja", "Nederlandse makelaar (Bocasa) — makkelijk schakelen"],
+        ["let", "Woonlaag en zwembad liggen enkele treden uit elkaar; steilte van de tuin en zwembadmaat navragen"]
+      ],
+      links: [
+        ["Bekijk de advertentie bij Bocasa", "https://bocasa.nl/en/property/1634/spacious-seaview-villa-for-sale-in-javea/"],
+        ["tweede bron", "https://www.eenhuisinhetbuitenland.nl/a-55821260/costa-blanca-noord/javea-balcon-al-mar-villa-met-gastenverblijf-595-000/"]
+      ],
+      maps: "Balcón+al+Mar,+Jávea,+Alicante"
+    },
+    {
+      nr: 3, titel: "Gelijkvloers hoekperceel met gastenverblijf aan het zwembad, Los Molinos",
+      regio: "benitachell", regioLabel: "Benitachell",
+      prijs: null, prijsLabel: "prijs via link", status: "opvragen",
+      gastenverblijf: true, gelijkvloers: true, zwembad84: true,
+      x: 422.6, y: 248.6, precies: true,
+      feiten: ["3 slaapkamers + gastensuite", "Villa Spain of Moraira ref. 839"],
+      punten: [
+        ["wens", "Gastenverblijf op zwembadniveau met eigen ingang: keukentje, slaapkamer, doucheruimte"],
+        ["ja", "Zwembad 8×4 met Romeinse trap én douche bij het zwembad"],
+        ["ja", "Hoofdwoning geheel gelijkvloers, open keuken, master en-suite"],
+        ["ja", "Groot, vrijwel vlak hoekperceel in een rustige straat"],
+        ["wens", "Goed open uitzicht; tien minuten van Moraira én Jávea"],
+        ["let", "Prijs staat niet in de zoekindex — via de link of makelaar opvragen"]
+      ],
+      links: [["Bekijk de advertentie bij Villa Spain of Moraira", "https://www.villaspainofmoraira.com/property/839/los-molinos-benitachell-villa-for-sale-costa-blanca/"]],
+      maps: "Los+Molinos,+Benitachell,+Alicante"
+    },
+    {
+      nr: 4, titel: "Villa (2003) met apart gastenappartement en eigen oprit, Los Molinos",
+      regio: "benitachell", regioLabel: "Benitachell",
+      prijs: null, prijsLabel: "prijs via link", status: "opvragen",
+      gastenverblijf: true, gelijkvloers: true, zwembad84: true,
+      x: 436.6, y: 262.8, precies: true,
+      feiten: ["hoofdwoning gelijkvloers", "zuidoost", "Villa Spain of Moraira ref. 723"],
+      punten: [
+        ["wens", "Gastenappartement op lager niveau met eigen oprit: open woonkamer, Amerikaanse keuken, slaapkamer, douche én wasruimte"],
+        ["ja", "Rechthoekig zwembad 8×4 met Romeinse trap"],
+        ["ja", "Hoofdwoning gelijkvloers; open woon-eetkamer, en-suite plus familiebadkamer"],
+        ["wens", "Zeezicht, zuidoost gelegen; huis wordt als zeer goed onderhouden omschreven"],
+        ["let", "Prijs staat niet in de zoekindex — via de link of makelaar opvragen"]
+      ],
+      links: [["Bekijk de advertentie bij Villa Spain of Moraira", "https://villaspainofmoraira.com/property/723/los-molinos-villa-for-sale-benitachell-costa-blanca/"]],
+      maps: "Los+Molinos,+Benitachell,+Alicante"
+    },
+    {
+      nr: 5, titel: "Gelijkvloerse villa met gastenverblijf in doodlopende straat, Rafalet",
+      regio: "javea", regioLabel: "Jávea",
+      prijs: null, prijsLabel: "prijs via link", status: "opvragen",
+      gastenverblijf: true, gelijkvloers: true, zwembad84: false,
+      x: 495, y: 227.3, precies: true,
+      feiten: ["hoofdwoning gelijkvloers", "Villa Spain of Moraira ref. 1482"],
+      punten: [
+        ["ja", "Wonen en slapen op de hoofdverdieping; rustig, einde van een doodlopende straat"],
+        ["wens", "Gastenverblijf beneden met eigen ingang"],
+        ["ja", "Zwembad met loungedeel én jacuzzi; groot deels overdekt terras"],
+        ["wens", "Uitzicht op de Cumbre del Sol en de beboste Rafalet-heuvels"],
+        ["let", "Prijs staat niet in de zoekindex — via de link of makelaar opvragen"]
+      ],
+      links: [["Bekijk de advertentie bij Villa Spain of Moraira", "https://villaspainofmoraira.com/property/1482/villa-for-sale-rafalet-javea-spain/"]],
+      maps: "Rafalet,+Jávea,+Alicante"
+    },
+    {
+      nr: 6, titel: "Villa op vlak perceel met zonneverwarmd zwembad, Cumbre del Sol",
+      regio: "benitachell", regioLabel: "Benitachell",
+      prijs: 650000, prijsLabel: "€ 650.000", status: "bevestigd",
+      gastenverblijf: false, gelijkvloers: false, zwembad84: true,
+      x: 442.1, y: 326.8, precies: true,
+      feiten: ["3 slaapkamers", "master en-suite", "Select Villas of Moraira"],
+      punten: [
+        ["ja", "Vlak perceel met grote vlakke tuin — zeldzaam op de Cumbre"],
+        ["ja", "Niervormig zwembad 8,5×4,5, zonneverwarmd, met pergola"],
+        ["ja", "Apart gastentoilet; open woon-eetkamer"],
+        ["ja", "Oprit en ruime opslag in de onderbouw"],
+        ["wens", "Gedeeltelijk zeezicht"],
+        ["let", "Perceel- en woonoppervlak niet in de index; garage versus onderbouw checken"]
+      ],
+      links: [
+        ["Bekijk de advertentie op Rightmove", "https://www.rightmove.co.uk/properties/149690537"],
+        ["of zoek bij Select Villas", "https://select-villas.es/villas-for-sale-in-cumbre-del-sol-benitachell.html"]
+      ],
+      maps: "Cumbre+del+Sol,+Benitachell,+Alicante"
+    },
+    {
+      nr: 7, titel: "Villa (1995) met zwembad van exact 8×4, Adsubia",
+      regio: "javea", regioLabel: "Jávea",
+      prijs: 599000, prijsLabel: "€ 599.000", status: "bevestigd",
+      gastenverblijf: false, gelijkvloers: false, zwembad84: true,
+      x: 397.6, y: 156.2, precies: true,
+      feiten: ["5 slaapkamers", "4 badkamers", "193 m² gebouwd", "perceel 800 m²", "ThinkSpain ref. 5821072"],
+      punten: [
+        ["ja", "Privézwembad van precies 8×4 meter — de gevraagde maat"],
+        ["ja", "Zeer rustige, vrijwel vrije ligging met panoramisch zeezicht en airco; goede staat"],
+        ["wens", "Vijf slaapkamers: twee daarvan zijn om te vormen tot gastendeel"],
+        ["ja", "Adsubia is een gewilde, groene woonwijk binnen de 5 km-zone"],
+        ["let", "Garage niet vermeld in de index — via de link checken"]
+      ],
+      links: [["Bekijk de advertentie op ThinkSpain", "https://www.thinkspain.com/property-for-sale/5821072"]],
+      maps: "Adsubia,+Jávea,+Alicante"
+    },
+    {
+      nr: 8, titel: "Villa met zeezicht en kelder met mogelijkheden, Cumbre del Sol",
+      regio: "benitachell", regioLabel: "Benitachell",
+      prijs: 550000, prijsLabel: "€ 550.000", status: "bevestigd",
+      gastenverblijf: false, gelijkvloers: false, zwembad84: false,
+      x: 455.9, y: 348.1, precies: true,
+      feiten: ["3 slaapkamers", "2 badkamers + gastentoilet", "ThinkSpain ref. 6632148"],
+      punten: [
+        ["ja", "Open keuken, twee grote terrassen, barbecue, mediterrane tuin"],
+        ["ja", "Privézwembad en zeezicht; apart gastentoilet"],
+        ["wens", "Kelder “met meerdere mogelijkheden” — potentieel gastenverblijf"],
+        ["ja", "Ruim onder budget: ruimte om te verbouwen of te bieden"],
+        ["let", "Drie woonlagen — niet gelijkvloers; ligging en steilte van dit deel van de Cumbre checken"]
+      ],
+      links: [["Bekijk de advertentie op ThinkSpain", "https://www.thinkspain.com/property-for-sale/6632148"]],
+      maps: "Cumbre+del+Sol,+Benitachell,+Alicante"
+    },
+    {
+      nr: 9, titel: "Gelijkvloerse nieuwbouwvilla bij de kust, Benissa-Costa",
+      regio: "calpe-benissa", regioLabel: "Benissa-Costa",
+      prijs: 690000, prijsLabel: "€ 690.000", status: "bevestigd",
+      gastenverblijf: false, gelijkvloers: true, zwembad84: false,
+      x: 225.2, y: 504.4, precies: true,
+      feiten: ["3 slaapkamers", "2 badkamers", "138 m² + 123 m² bijruimte", "perceel 800 m²", "ThinkSpain ref. 6446894"],
+      punten: [
+        ["ja", "Geheel gelijkvloers; open keuken-eet-woonkamer naar terras met barbecue"],
+        ["ja", "Master met eigen badkamer en dressing; zwembad met loungedeel"],
+        ["wens", "Vlakbij de baaien Baladrar, Advocat en La Fustera; tien minuten van Calpe en Moraira"],
+        ["let", "Status “project” — waarschijnlijk nog te bouwen; oplevertermijn en meerwerk navragen"],
+        ["let", "Boven het kernbudget: past bij de biedstrategie (±7% onder vraagprijs is hier gebruikelijk)"]
+      ],
+      links: [["Bekijk de advertentie op ThinkSpain", "https://www.thinkspain.com/property-for-sale/6446894"]],
+      maps: "Playa+Advocat,+Benissa,+Alicante"
+    },
+    {
+      nr: 10, titel: "Villa op 971 m² perceel, Benissa",
+      regio: "calpe-benissa", regioLabel: "Benissa",
+      prijs: 620000, prijsLabel: "€ 620.000", status: "bevestigd",
+      gastenverblijf: false, gelijkvloers: false, zwembad84: false,
+      x: 152.9, y: 408.5, precies: false,
+      feiten: ["3 slaapkamers", "200 m² gebouwd", "perceel 971 m²", "pool + garage"],
+      punten: [
+        ["ja", "Perceelmaat vrijwel exact volgens profiel; zwembad en garage aanwezig"],
+        ["let", "Herpublicatie van februari 2025 — eerst checken of hij nog te koop is en waar precies in Benissa (max 5 km van zee)"]
+      ],
+      links: [["Bekijk de herpublicatie (Olive Press)", "https://www.theolivepress.es/spain-news/2025/02/03/3-bedroom-villa-for-sale-in-benissa-with-pool-garage-e-620000/"]],
+      maps: "Benissa,+Alicante"
+    },
+    {
+      nr: 11, titel: "Gelijkvloerse villa op omheind perceel, Les Fonts",
+      regio: "benitachell", regioLabel: "Benitachell",
+      prijs: null, prijsLabel: "prijs via link", status: "opvragen",
+      gastenverblijf: false, gelijkvloers: true, zwembad84: false,
+      x: 375.4, y: 269.9, precies: true,
+      feiten: ["3 slaapkamers", "2 badkamers", "perceel 782 m²", "zuidoost"],
+      punten: [
+        ["ja", "Alles gelijkvloers; volledig omheind perceel met privézwembad"],
+        ["ja", "Rustige urbanisatie op twee minuten van het dorp; kwartier rijden naar Moraira of Jávea"],
+        ["let", "Perceel iets onder de 1.000 m²; prijs via de link opvragen"]
+      ],
+      links: [["Bekijk de advertentie bij Casas Ambiente", "https://casas-ambiente.com/property/14837/villa-for-sale-in-les-fonts-benitachell/"]],
+      maps: "Les+Fonts,+Benitachell,+Alicante"
+    },
+    {
+      nr: 12, titel: "Twee Jávea-opties om verder uit te zoeken",
+      regio: "javea", regioLabel: "Jávea",
+      prijs: 529000, prijsLabel: "€ 529.000 / € 600.000", status: "bevestigd",
+      gastenverblijf: false, gelijkvloers: false, zwembad84: false,
+      x: 436.6, y: 106.6, precies: false,
+      feiten: ["4 slaapkamers", "weinig details in de index"],
+      punten: [
+        ["ja", "€ 529.000 · 4 slaapkamers, zwembad en garage — laagste prijs met pool + garage in Jávea"],
+        ["let", "€ 600.000 · 4 slaapkamers, “verhoogde ligging met spectaculair uitzicht” — dat betekent vaak een hellend perceel; eerst checken"]
+      ],
+      links: [
+        ["Optie van € 529.000", "https://www.thinkspain.com/property-for-sale/8253385"],
+        ["optie van € 600.000", "https://www.thinkspain.com/property-for-sale/6958123"]
+      ],
+      maps: "Jávea,+Alicante"
+    },
+    {
+      nr: 13, titel: "Budget-optie: villa op loopafstand van strand en winkels",
+      regio: "moraira", regioLabel: "Moraira",
+      prijs: 429000, prijsLabel: "€ 429.000", status: "bevestigd",
+      gastenverblijf: false, gelijkvloers: false, zwembad84: false,
+      x: 347.6, y: 444, precies: false,
+      feiten: ["3 slaapkamers", "pool + garage", "herpublicatie maart 2026"],
+      punten: [
+        ["ja", "Ruim €70.000 onder de onderkant van het budget — ruimte voor verbouwing naar smaak"],
+        ["ja", "Woonwijk op een paar minuten lopen van strand en voorzieningen"],
+        ["let", "Perceel en staat onbekend; alleen interessant als de basis goed is"]
+      ],
+      links: [["Bekijk de herpublicatie (Olive Press)", "https://www.theolivepress.es/spain-news/2026/03/05/3-bedroom-villa-for-sale-in-moraira-with-pool-garage-e-429000/"]],
+      maps: "Moraira,+Alicante"
+    },
+    {
+      nr: 14, titel: "Net boven plafond — alleen bij scherp bod",
+      regio: "benitachell", regioLabel: "Benitachell & Jávea",
+      prijs: 700000, prijsLabel: "drie opties", status: "boven",
+      gastenverblijf: true, gelijkvloers: false, zwembad84: false,
+      x: 464.4, y: 365.9, precies: false,
+      feiten: ["€ 699.999 – € 750.000"],
+      punten: [
+        ["wens", "€ 699.999 · Cumbre del Sol (boven): 180° panoramisch zeezicht, privézwembad — let op: het bovenste deel van de Cumbre is doorgaans steil"],
+        ["wens", "€ 750.000 · Plusvillas C5435: 224 m², 3 slaapkamers, 3 badkamers, mét apart gastenverblijf"],
+        ["wens", "€ 750.000 · Jávea: 3 slaapkamers, 2 badkamers, zwembad 11×4,5, ruime garage — en de onderverdieping is al deels voorbereid als gastenappartement"]
+      ],
+      links: [
+        ["Cumbre del Sol € 699.999", "https://www.rightmove.co.uk/properties/153444179"],
+        ["Plusvillas C5435", "https://www.plusvillas.es/en/inmuebles/c5435-villa-with-3-bedrooms-and-3-bathrooms-in-benitachell/"],
+        ["Jávea € 750.000", "https://www.thinkspain.com/property-for-sale/6387757"]
+      ],
+      maps: "Benitachell,+Alicante"
+    }
+  ];
+
+  var euro = function (n) { return "€ " + n.toLocaleString("nl-NL"); };
+  var lijst = document.getElementById("lijst");
+  var pinnen = document.getElementById("pinnen");
+  var leegMelding = document.getElementById("leeg-melding");
+  var tellingTekst = document.getElementById("telling-tekst");
+  var SVGNS = "http://www.w3.org/2000/svg";
+
+  var filter = {
+    prijsMax: 800000,
+    regios: { "calpe-benissa": true, moraira: true, benitachell: true, javea: true },
+    eisen: { gastenverblijf: false, gelijkvloers: false, zwembad84: false }
+  };
+
+  function past(k) {
+    if (!filter.regios[k.regio]) return false;
+    if (k.prijs !== null && k.prijs > filter.prijsMax) return false;
+    if (filter.eisen.gastenverblijf && !k.gastenverblijf) return false;
+    if (filter.eisen.gelijkvloers && !k.gelijkvloers) return false;
+    if (filter.eisen.zwembad84 && !k.zwembad84) return false;
+    return true;
+  }
+
+  // --- kaarten opbouwen ---
+  K.forEach(function (k) {
+    var art = document.createElement("article");
+    art.className = "kaart";
+    art.id = "villa-" + k.nr;
+
+    var kop = document.createElement("div");
+    kop.className = "kaart-kop";
+    var rang = document.createElement("span");
+    rang.className = "rang";
+    rang.textContent = k.nr;
+    var h3 = document.createElement("h3");
+    h3.textContent = k.titel;
+    var prijs = document.createElement("span");
+    prijs.className = "prijs";
+    if (k.status === "opvragen" || k.status === "boven") {
+      var small = document.createElement("small");
+      small.textContent = k.prijsLabel;
+      prijs.appendChild(small);
+    } else {
+      prijs.textContent = k.prijsLabel;
+    }
+    kop.appendChild(rang); kop.appendChild(h3); kop.appendChild(prijs);
+    art.appendChild(kop);
+
+    var chips = document.createElement("div");
+    chips.className = "chips";
+    var c1 = document.createElement("span");
+    c1.className = "chip";
+    c1.textContent = k.regioLabel;
+    chips.appendChild(c1);
+    var c2 = document.createElement("span");
+    if (k.status === "bevestigd") { c2.className = "chip"; c2.textContent = "Prijs bevestigd"; }
+    else if (k.status === "opvragen") { c2.className = "chip status-check"; c2.textContent = "Prijs opvragen"; }
+    else { c2.className = "chip status-check"; c2.textContent = "Boven budget"; }
+    chips.appendChild(c2);
+    art.appendChild(chips);
+
+    if (k.feiten && k.feiten.length) {
+      var p = document.createElement("p");
+      p.className = "feiten";
+      k.feiten.forEach(function (f) {
+        var s = document.createElement("span");
+        s.textContent = f;
+        p.appendChild(s);
+      });
+      art.appendChild(p);
+    }
+
+    var ul = document.createElement("ul");
+    ul.className = "match";
+    k.punten.forEach(function (pt) {
+      var li = document.createElement("li");
+      li.className = pt[0];
+      li.textContent = pt[1];
+      ul.appendChild(li);
+    });
+    art.appendChild(ul);
+
+    var linkP = document.createElement("p");
+    linkP.className = "link";
+    k.links.forEach(function (l, i) {
+      if (i > 0) linkP.appendChild(document.createTextNode(" · "));
+      var a = document.createElement("a");
+      a.href = l[1];
+      a.rel = "noopener";
+      a.target = "_blank";
+      a.textContent = l[0] + " →";
+      linkP.appendChild(a);
+    });
+    linkP.appendChild(document.createTextNode(" · "));
+    var m = document.createElement("a");
+    m.href = "https://www.google.com/maps/search/?api=1&query=" + k.maps;
+    m.rel = "noopener";
+    m.target = "_blank";
+    m.textContent = "op Google Maps →";
+    linkP.appendChild(m);
+    art.appendChild(linkP);
+
+    lijst.appendChild(art);
+    k.el = art;
+  });
+
+  // --- pinnen op de kaart ---
+  K.forEach(function (k) {
+    var g = document.createElementNS(SVGNS, "g");
+    g.setAttribute("class", "pin");
+    g.setAttribute("data-prijs", k.status === "opvragen" ? "opvragen" : (k.status === "boven" ? "boven" : "bevestigd"));
+    g.setAttribute("tabindex", "0");
+    g.setAttribute("role", "link");
+    g.setAttribute("aria-label", k.nr + ". " + k.titel + ", " + k.prijsLabel);
+
+    if (!k.precies) {
+      var ring = document.createElementNS(SVGNS, "circle");
+      ring.setAttribute("class", "ring");
+      ring.setAttribute("cx", k.x); ring.setAttribute("cy", k.y); ring.setAttribute("r", 18);
+      g.appendChild(ring);
+    }
+    var bol = document.createElementNS(SVGNS, "circle");
+    bol.setAttribute("class", "bol");
+    bol.setAttribute("cx", k.x); bol.setAttribute("cy", k.y); bol.setAttribute("r", 12);
+    g.appendChild(bol);
+
+    var t = document.createElementNS(SVGNS, "text");
+    t.setAttribute("class", "nr");
+    t.setAttribute("x", k.x); t.setAttribute("y", k.y + 4);
+    t.textContent = k.nr;
+    g.appendChild(t);
+
+    var titel = document.createElementNS(SVGNS, "title");
+    titel.textContent = k.nr + ". " + k.titel + " — " + k.prijsLabel;
+    g.appendChild(titel);
+
+    function ga() {
+      k.el.scrollIntoView({ behavior: "smooth", block: "start" });
+      K.forEach(function (a) { a.el.classList.remove("aangewezen"); });
+      k.el.classList.add("aangewezen");
+      window.setTimeout(function () { k.el.classList.remove("aangewezen"); }, 2600);
+    }
+    g.addEventListener("click", ga);
+    g.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); ga(); }
+    });
+
+    pinnen.appendChild(g);
+    k.pin = g;
+  });
+
+  // --- filteren ---
+  function pasToe() {
+    var n = 0;
+    K.forEach(function (k) {
+      var ok = past(k);
+      k.el.hidden = !ok;
+      k.pin.classList.toggle("uit", !ok);
+      if (ok) n++;
+    });
+    tellingTekst.textContent = n + " van de " + K.length + " kaarten";
+    leegMelding.hidden = n !== 0;
+  }
+
+  var schuif = document.getElementById("prijs-max");
+  var uit = document.getElementById("prijs-uit");
+  schuif.addEventListener("input", function () {
+    filter.prijsMax = parseInt(schuif.value, 10);
+    uit.textContent = euro(filter.prijsMax);
+    pasToe();
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-regio]"), function (b) {
+    b.addEventListener("click", function () {
+      var aan = b.getAttribute("aria-pressed") === "true";
+      b.setAttribute("aria-pressed", aan ? "false" : "true");
+      filter.regios[b.getAttribute("data-regio")] = !aan;
+      pasToe();
+    });
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-eis]"), function (b) {
+    b.addEventListener("click", function () {
+      var aan = b.getAttribute("aria-pressed") === "true";
+      b.setAttribute("aria-pressed", aan ? "false" : "true");
+      filter.eisen[b.getAttribute("data-eis")] = !aan;
+      pasToe();
+    });
+  });
+
+  document.getElementById("herstel").addEventListener("click", function () {
+    filter.prijsMax = 800000;
+    schuif.value = 800000;
+    uit.textContent = euro(800000);
+    Object.keys(filter.regios).forEach(function (r) { filter.regios[r] = true; });
+    Object.keys(filter.eisen).forEach(function (e) { filter.eisen[e] = false; });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-regio]"), function (b) { b.setAttribute("aria-pressed", "true"); });
+    Array.prototype.forEach.call(document.querySelectorAll("[data-eis]"), function (b) { b.setAttribute("aria-pressed", "false"); });
+    pasToe();
+  });
+
+  document.getElementById("totaal-kop").textContent = K.length;
+  uit.textContent = euro(filter.prijsMax);
+  pasToe();
+
+  // --- wensenformulier ---
+  var wBudget = document.getElementById("w-budget");
+  var wPerceel = document.getElementById("w-perceel");
+  var wGast = document.getElementById("w-gast");
+  var wVloer = document.getElementById("w-vloer");
+  var wVrij = document.getElementById("w-vrij");
+  var wVoorbeeld = document.getElementById("w-voorbeeld");
+  var wKopieer = document.getElementById("w-kopieer");
+
+  function bericht() {
+    var r = [];
+    if (wBudget.value) r.push("Budget: maximaal " + euro(parseInt(wBudget.value, 10)) + ".");
+    if (wPerceel.value) r.push("Perceel: vanaf " + wPerceel.value + " m².");
+    if (wGast.value) r.push("Gastenverblijf: " + wGast.value + ".");
+    if (wVloer.value) r.push("Gelijkvloers wonen: " + wVloer.value + ".");
+    if (wVrij.value.trim()) r.push(wVrij.value.trim());
+    if (!r.length) return "";
+    return "Aanpassing zoekprofiel villa Spanje:\n\n" + r.map(function (x) { return "• " + x; }).join("\n");
+  }
+
+  function ververs() {
+    var b = bericht();
+    wVoorbeeld.textContent = b || "Vul hierboven iets in — dan verschijnt hier het bericht dat je kunt kopiëren.";
+  }
+  [wBudget, wPerceel, wGast, wVloer, wVrij].forEach(function (el) {
+    el.addEventListener("input", ververs);
+    el.addEventListener("change", ververs);
+  });
+  ververs();
+
+  wKopieer.addEventListener("click", function () {
+    var b = bericht();
+    if (!b) { wKopieer.textContent = "Vul eerst iets in"; window.setTimeout(function () { wKopieer.textContent = "Kopieer bericht voor Matthijs"; }, 1800); return; }
+    var klaar = function () {
+      wKopieer.textContent = "Gekopieerd — plak het in WhatsApp of mail";
+      window.setTimeout(function () { wKopieer.textContent = "Kopieer bericht voor Matthijs"; }, 2600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(b).then(klaar, function () { window.prompt("Kopieer dit bericht:", b); });
+    } else {
+      window.prompt("Kopieer dit bericht:", b);
+    }
+  });
+})();
+</script>
