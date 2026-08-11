@@ -5,6 +5,35 @@ en dat juist de best passende villa's hun prijs niet publiceren. Zelf uitvragen 
 daarom meer op dan afwachten wat er op de portalen verschijnt — Spaanse makelaars hebben
 bovendien eigen en off-market aanbod dat nooit op een portaal komt.
 
+## Adressen om in te vullen
+
+Opgezocht via de zoekindex op 11 aug 2026 en waar mogelijk in twee zoekopdrachten
+bevestigd. Nog even naast de contactpagina van het kantoor leggen voor je verstuurt.
+
+| Kantoor | E-mail | Zekerheid |
+|---|---|---|
+| Villa Spain of Moraira | `info@villaspainofmoraira.com` | Twee keer bevestigd; een derde bron noemde ook `sales@`, dat kwam bij navraag niet terug |
+| Casas Ambiente | `contact@casas-ambiente.com` | Eén bron |
+| Bocasa (NL, Jávea/Moraira) | `info@bocasa.nl` | Eén bron |
+| Select Villas of Moraira | `enquiries@select-villas.es` | Eén bron; noemt ook `info@select-villas.es` |
+| Tabaira Real Estate | `info@tabairarealestate.com` | Eén bron |
+| Orange Villas | `info@orangevillas.com` | Eén bron |
+| Villalux (Jávea) | `info@villalux.com` | Eén bron |
+
+Geen e-mailadres gevonden — deze werken met een contactformulier op hun site, waar de
+Spaanse of Engelse tekst hieronder in geplakt kan worden:
+Immo Moraira / Cuñat Weber (immomoraira.com/contacto, tel. +34 965 744 166) en
+Brassa Homes (brassahomes.com/contact).
+
+**Welk adres bij welke mail:**
+
+- Prijsaanvraag refs 839 / 723 / 1482 → **Villa Spain of Moraira** (zij hebben alle drie)
+- Engelse zoekopdracht → de overige kantoren, **in BCC** zodat ze elkaars adres niet zien
+- Spaanse zoekopdracht → voor de kantoren met alleen een contactformulier
+- Twee villa's met verborgen prijs verdienen nog een eigen mailtje: **ref 14837** (Les Fonts)
+  bij Casas Ambiente, en **ref 1634** (Balcón al Mar) bij Bocasa — die laatste mag in het
+  Nederlands, het is een Nederlands kantoor
+
 ## Concept-mails
 
 Staan klaar als concept in de Gmail van Matthijs (10 aug 2026), zonder geadresseerde —
