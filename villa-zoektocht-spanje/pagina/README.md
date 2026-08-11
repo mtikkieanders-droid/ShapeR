@@ -29,6 +29,53 @@ Velden per kandidaat:
 | `precies` | `false` tekent een streepjesring: ligging bij benadering |
 | `feiten`, `punten`, `links`, `maps` | Inhoud van de kaart; `punten` zijn paren `["ja"\|"wens"\|"let", tekst]` |
 
+De `punten` met soort `let` (aandachtspunten) blijven altijd zichtbaar op de kaart; `ja` en
+`wens` gaan achter het uitklapbare "Wat er verder opvalt". Dat scheelt veel leeswerk, omdat
+het eisenraster de positieve punten toch al samenvat. Bij kaarten die meerdere villa's
+bundelen (nummer 12 en 14) is er geen raster en blijft daarom álles zichtbaar.
+
+## Drie tabellen naast de array
+
+Direct onder `K` staan drie kleine tabellen op volgnummer. Die worden per zoekronde bijgewerkt.
+
+### `HISTORIE` — prijshistorie
+
+Per villa een reeks waarnemingen `[datum, prijs]`. Elke zoekronde één paar aanvullen bij de
+villa's die je daadwerkelijk hebt gecontroleerd. Daaruit leidt de pagina zelf af wat er onder
+de vraagprijs komt te staan:
+
+| Situatie | Wat de pagina toont |
+|---|---|
+| Laatste prijs lager dan de eerste | Groene vlag **Prijs verlaagd**, met bedragen — onderhandelingsmunitie |
+| Twee of meer waarnemingen, gelijk | "Prijs ongewijzigd · N controles sinds 6 aug" |
+| Eén waarneming | Oranje vlag **Niet opnieuw gecheckt** — de prijs is mogelijk verouderd |
+| Geen vermelding in `HISTORIE` | "Op de lijst sinds 6 aug · prijs niet gepubliceerd" |
+
+Een villa niet herbevestigd? Dan gewoon géén paar toevoegen — de oranje vlag is dan terecht.
+
+### `EISEN` — het raster onder elke kaart
+
+Per villa zeven velden: `slk`, `perceel`, `zwembad`, `garage`, `vloer`, `gast`, `zee`.
+Elk veld is `[staat, korte tekst]`, waarbij staat is: `"ja"` (✓ groen), `"krap"` (≈ oranje),
+`"nee"` (– grijs) of `"?"` (? grijs).
+
+Vul alleen in wat de advertentie echt zegt. `"?"` is een eerlijk antwoord en meteen de vraag
+die je aan de makelaar stelt — niet iets om weg te poetsen. Een villa zonder regel in `EISEN`
+krijgt geen raster.
+
+### `PERCEEL` — het staafje bij het perceel
+
+Perceeloppervlak in m². Het staafje vult naar 1.000 m² en kleurt oranje onder die grens.
+
+## Markeringen van de bezoeker
+
+De ★ / ✕ / notitie per villa gaan naar `localStorage` onder de sleutel `villa-oordeel-v1`.
+Ze staan dus alleen in de browser van de bezoeker en worden nergens heen gestuurd; de knop
+"Kopieer mijn reactie" maakt er een plakbaar bericht van. Omdat de sleutel losstaat van de
+inhoud, blijven markeringen gewoon staan als de lijst wordt bijgewerkt. Verander de sleutel
+alleen als de nummering van de villa's op de schop gaat — anders horen oude markeringen
+opeens bij een andere villa.
+
 ### Positie op de kaart uitrekenen
 
 De kaart is een handgetekende SVG met een gelijkhoekige projectie, 32 pixels per kilometer:

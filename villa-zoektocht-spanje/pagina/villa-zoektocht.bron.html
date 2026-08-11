@@ -180,8 +180,10 @@
     flex: 0 0 100%;
     margin-bottom: -6px;
   }
-  .schuif { display: flex; align-items: center; gap: 14px; width: 100%; }
-  .schuif input[type="range"] { flex: 1; accent-color: var(--accent); min-width: 140px; }
+  .schuif { display: flex; align-items: center; gap: 14px; width: 100%; flex-wrap: wrap; }
+  .schuif input[type="range"] { flex: 1 1 140px; accent-color: var(--accent); min-width: 0; }
+  .schuif .filterlabel { flex: 0 0 auto; margin: 0; }
+  @media (max-width: 560px) { .schuif .filterlabel { flex: 0 0 100%; margin-bottom: -8px; } }
   .schuif output {
     font-family: 'Fraunces', Georgia, serif;
     font-size: 19px;
@@ -272,8 +274,10 @@
   .ligging .kompas { color: var(--accent); font-weight: 700; }
 
   .feiten { font-size: 14.5px; color: var(--ink); margin: 0 0 10px; }
+  /* elk feit blijft heel; het scheidingsteken staat als losse tekst ertussen,
+     zodat de regel daar wél mag afbreken op een smal scherm */
   .feiten span { white-space: nowrap; }
-  .feiten span + span::before { content: " \00B7 "; color: var(--ink-soft); }
+  .feiten .scheiding { color: var(--ink-soft); }
 
   .match { margin: 0; padding: 0; list-style: none; font-size: 14.5px; }
   .match li { padding: 2.5px 0 2.5px 24px; position: relative; }
@@ -289,6 +293,136 @@
   a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
 
   .leeg { color: var(--ink-soft); font-size: 15px; padding: 26px 4px; }
+
+  /* ---- prijshistorie ---- */
+  .historie {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin: -6px 0 12px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .historie .vlag {
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-size: 11px;
+    padding: 2px 9px;
+    border-radius: 999px;
+  }
+  .historie .vlag.daling { background: var(--accent-soft); color: var(--accent); }
+  .historie .vlag.oud { background: var(--wens-soft); color: var(--wens); }
+
+  /* ---- eisenraster ---- */
+  .raster {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(116px, 1fr));
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin: 0 0 14px;
+  }
+  /* scheidingslijnen via schaduw in plaats van gaten in het raster: zo blijft de
+     lege ruimte in de laatste rij de kleur van de kaart in plaats van grijs */
+  .raster div {
+    background: var(--card);
+    box-shadow: 1px 0 0 var(--line), 0 1px 0 var(--line);
+    padding: 7px 10px 8px;
+    font-size: 12px;
+    line-height: 1.3;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .raster .naam { color: var(--ink-soft); font-size: 11px; letter-spacing: 0.04em; }
+  .raster .staat { font-weight: 600; display: flex; align-items: center; gap: 5px; }
+  .raster .staat::before { font-weight: 700; font-size: 12.5px; }
+  .raster .ja .staat { color: var(--accent); }
+  .raster .ja .staat::before { content: "\2713"; }
+  .raster .krap .staat { color: var(--wens); }
+  .raster .krap .staat::before { content: "\2248"; }
+  .raster .nee .staat { color: var(--ink-soft); opacity: 0.75; }
+  .raster .nee .staat::before { content: "\2013"; }
+  .raster .onbekend .staat { color: var(--ink-soft); opacity: 0.75; }
+  .raster .onbekend .staat::before { content: "?"; }
+
+  .perceelbalk { height: 4px; border-radius: 2px; background: var(--line); overflow: hidden; margin-top: 3px; }
+  .perceelbalk i { display: block; height: 100%; background: var(--accent); }
+  .perceelbalk.krap i { background: var(--wens); }
+
+  /* ---- inklapbare details ---- */
+  .meer { margin: 0 0 4px; }
+  .meer > summary {
+    cursor: pointer;
+    font-size: 13.5px;
+    color: var(--accent);
+    font-weight: 600;
+    list-style: none;
+    padding: 3px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .meer > summary::-webkit-details-marker { display: none; }
+  .meer > summary::before { content: "\25B8"; transition: transform 0.15s ease; font-size: 11px; }
+  .meer[open] > summary::before { transform: rotate(90deg); }
+  .meer > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+  .meer .match { margin-top: 6px; }
+
+  /* ---- oordeel ---- */
+  .oordeel {
+    border-top: 1px solid var(--line);
+    margin-top: 14px;
+    padding-top: 12px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .stem {
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .stem:hover { border-color: var(--accent); color: var(--accent); }
+  .stem[aria-pressed="true"].ja { background: var(--accent); border-color: var(--accent); color: var(--card); }
+  .stem[aria-pressed="true"].nee { background: var(--flag); border-color: var(--flag); color: var(--card); }
+  .stem:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .notitieknop { margin-left: auto; }
+  .kaart textarea.notitie {
+    font: inherit;
+    font-size: 14px;
+    width: 100%;
+    min-height: 62px;
+    resize: vertical;
+    margin-top: 10px;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 7px;
+    background: var(--ground);
+    color: var(--ink);
+  }
+  .kaart textarea.notitie:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .kaart.gemarkeerd-ja { border-color: var(--accent); }
+  .kaart.gemarkeerd-nee { opacity: 0.62; }
+
+  .reactiebalk { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+  .reactiebalk .telkop { font-size: 15px; flex: 1 1 220px; }
+  .reactiebalk .telkop strong { font-family: 'Fraunces', Georgia, serif; font-size: 20px; color: var(--accent); }
+  .wissen {
+    font: inherit; font-size: 13.5px; background: none; border: none;
+    color: var(--ink-soft); text-decoration: underline; cursor: pointer; padding: 0;
+  }
+  .wissen:hover { color: var(--ink); }
 
   /* ---- wat als ---- */
   .bevinding { display: grid; grid-template-columns: auto 1fr; gap: 4px 18px; align-items: baseline; margin: 0 0 20px; }
@@ -376,7 +510,7 @@
     <p class="kicker">Zoekopdracht · Costa Blanca Noord</p>
     <h1>Villa in Spanje — shortlist</h1>
     <p class="standfirst">Gezocht: vrijstaande villa tussen Calpe (La Fustera / Benissa-Costa), Moraira, Benitachell en Jávea. Budget €500.000–€650.000, tot €700.000 met onderhandelingsruimte. Deze pagina wordt bij elke zoekronde bijgewerkt — de link blijft gelijk.</p>
-    <p class="updated"><strong>Laatste update: 10 augustus 2026</strong> · zoekronde 2 · 17 villa's in vier regio's, gebundeld op <span id="totaal-kop">14</span> kaarten</p>
+    <p class="updated"><strong>Laatste update: 11 augustus 2026</strong> · zoekronde 3 · 17 villa's in vier regio's, gebundeld op <span id="totaal-kop">14</span> kaarten</p>
   </header>
 
   <section aria-labelledby="profiel-titel">
@@ -412,7 +546,7 @@
 
   <section aria-labelledby="kaart-titel">
     <h2 id="kaart-titel">Waar liggen ze?</h2>
-    <p class="sectienote">Klik op een nummer om naar die villa te springen. De kustlijn is nagetekend en dus bij benadering — voor de echte navigatie staat op elke kaart een Google Maps-link. De schaalbalk helpt bij het inschatten van de afstand tot zee.</p>
+    <p class="sectienote">Klik op een nummer om naar die villa te springen. De kustlijn is nagetekend en dus bij benadering; de schaalbalk klopt wel.</p>
     <div class="paneel kaartblok">
       <svg viewBox="0 0 640 772" role="img" aria-labelledby="kaart-svg-titel">
         <title id="kaart-svg-titel">Schematische kaart van de kust tussen Calpe en Jávea met de genummerde kandidaten</title>
@@ -485,7 +619,7 @@
     <p class="sectienote">Draai aan de knoppen om te zien wat er overblijft. De kaart hierboven dimt mee. Villa's zonder gepubliceerde prijs blijven altijd staan — dat zijn juist de interessantste.</p>
     <div class="paneel filters">
       <div class="schuif">
-        <label for="prijs-max" class="filterlabel" style="flex:0 0 auto;margin:0;">Maximale vraagprijs</label>
+        <label for="prijs-max" class="filterlabel">Maximale vraagprijs</label>
         <input type="range" id="prijs-max" min="425000" max="800000" step="25000" value="800000">
         <output id="prijs-uit" for="prijs-max">€ 800.000</output>
       </div>
@@ -502,20 +636,35 @@
         <button class="knopje" type="button" data-eis="gelijkvloers" aria-pressed="false">Gelijkvloers wonen</button>
         <button class="knopje" type="button" data-eis="zwembad84" aria-pressed="false">Zwembad ± 8×4</button>
       </div>
+      <div class="filterrij">
+        <span class="filterlabel">Jouw markeringen</span>
+        <button class="knopje" type="button" id="filter-favoriet" aria-pressed="false">★ Alleen mijn favorieten</button>
+        <button class="knopje" type="button" id="filter-verberg-nee" aria-pressed="false">Afgevallene verbergen</button>
+      </div>
       <p class="telling"><strong id="telling-tekst">14 van de 14 kaarten</strong> — <button class="herstel" type="button" id="herstel">alle filters wissen</button></p>
     </div>
   </section>
 
   <section aria-labelledby="shortlist-titel">
     <h2 id="shortlist-titel">De shortlist</h2>
-    <p class="sectienote">Gerangschikt op hoe goed ze het profiel raken; de nummering is de aanbevolen kijkvolgorde. Alle gegevens komen uit de zoekindex van de portalen — klik altijd door voor de actuele prijs en status. Een vinkje ✓ is een geraakte eis, een ster ★ een vervulde wens, een uitroepteken een aandachtspunt. De afstanden achter het ◎ zijn hemelsbreed en gemeten vanaf de urbanisatie, niet vanaf het exacte adres; ze staan er alleen bij waar de ligging bekend is.</p>
+    <p class="sectienote">De nummering is de aanbevolen kijkvolgorde. Het raster onder elke villa vat in één oogopslag samen wat er klopt (<span style="color:var(--accent);font-weight:700">✓</span>), wat krap zit (<span style="color:var(--wens);font-weight:700">≈</span>) en wat de advertentie niet vermeldt (<span style="color:var(--ink-soft);font-weight:700">?</span>). Markeer met <strong>★ Favoriet</strong> of <strong>✕ Nee</strong> wat je ervan vindt — dat blijft op je eigen apparaat bewaard, en onderaan kun je het als bericht doorsturen.</p>
     <div id="lijst"></div>
     <p class="leeg" id="leeg-melding" hidden>Met deze filters blijft er niets over. Zet er een paar uit, of wis alle filters.</p>
   </section>
 
+  <section aria-labelledby="reactie-titel">
+    <h2 id="reactie-titel">Jouw reactie doorsturen</h2>
+    <p class="sectienote">Alles wat je hierboven markeert en aantekent, verzamelt zich hier. Eén knop maakt er een bericht van dat je in WhatsApp of de mail kunt plakken.</p>
+    <div class="paneel reactiebalk">
+      <p class="telkop" id="reactie-telling">Nog niets gemarkeerd — zet bij de villa's hierboven een ★ of een ✕.</p>
+      <button class="kopieer" type="button" id="reactie-kopieer">Kopieer mijn reactie</button>
+      <button class="wissen" type="button" id="reactie-wissen">alles wissen</button>
+    </div>
+  </section>
+
   <section aria-labelledby="watals-titel">
     <h2 id="watals-titel">Wat kost welke eis?</h2>
-    <p class="sectienote">Na twee zoekrondes en zeventien bekeken villa's tekent zich een patroon af. Dit is geen volledige markttelling — het is wat er in deze zoektocht langskwam — maar het wijst wel duidelijk één richting op.</p>
+    <p class="sectienote">Na drie zoekrondes tekent zich een patroon af. Geen volledige markttelling — wel wat er in deze zoektocht langskwam.</p>
     <div class="paneel">
       <div class="bevinding">
         <span class="getal">0</span>
@@ -583,21 +732,27 @@
     <h2 id="gebruik-titel">Zo gebruik je deze pagina</h2>
     <div class="paneel gebruik">
       <ol>
-        <li><strong>Begin bovenaan.</strong> De nummering is de aanbevolen kijkvolgorde: nummer 1 raakt het profiel het best.</li>
-        <li><strong>Lees de symbolen.</strong> Een ✓ is een harde eis waar de villa aan voldoet, een ★ is een vervulde wens (zoals een gastenverblijf), een uitroepteken is iets om na te vragen of ter plekke te checken.</li>
-        <li><strong>Klik altijd door.</strong> De link onderaan elke kaart opent de echte advertentie met foto's en de actuele prijs. De gegevens hier komen uit de zoekindex en kunnen net achterlopen — de advertentie is leidend.</li>
-        <li><strong>"Prijs opvragen"</strong> betekent dat de makelaar de prijs niet publiek toont; via de link of een kort mailtje is hij meestal zo bekend.</li>
-        <li><strong>De lijst ververst zichzelf.</strong> Elke maandagochtend draait er een nieuwe zoekronde; de link blijft altijd dezelfde. Bovenaan zie je wanneer de pagina voor het laatst is bijgewerkt.</li>
-        <li><strong>Meepraten helpt.</strong> Villa gezien die bevalt — of juist helemaal niks? Geef het door aan Matthijs, dan wordt de lijst daarop aangepast. Eigen vondsten (portalen, Facebook-groepen) zijn welkom: een link of screenshot is genoeg.</li>
-        <li><strong>Over de prijzen.</strong> In deze regio verkopen huizen gemiddeld zo'n 7% onder de vraagprijs. Daarom staan er ook villa's tot €700.000 in de lijst: met een goed bod komen die binnen budget.</li>
+        <li><strong>Van boven naar beneden.</strong> Nummer 1 raakt het profiel het best; dat is meteen de aanbevolen kijkvolgorde.</li>
+        <li><strong>Markeer wat je vindt.</strong> Een ★ of ✕ per villa, eventueel met notitie. Onderaan wordt dat één bericht voor Matthijs.</li>
+        <li><strong>Klik altijd door voor de foto's.</strong> De advertentie is leidend: daar staan de beelden en de actuele prijs. De gegevens hier komen uit de zoekindex en kunnen achterlopen.</li>
+        <li><strong>Elke maandag een nieuwe ronde.</strong> De link blijft altijd dezelfde; bovenaan staat de datum van de laatste update.</li>
       </ol>
+      <details class="meer" style="margin-top:12px">
+        <summary>Nog een paar dingen die helpen</summary>
+        <ol style="margin-top:8px">
+          <li><strong>"Prijs opvragen"</strong> betekent dat de makelaar de prijs niet publiek toont; via de link of een kort mailtje is hij meestal zo bekend. Dat zijn vaak juist de interessantste.</li>
+          <li><strong>Let op de prijsregel</strong> onder de vraagprijs: die laat zien hoe vaak de prijs is gecontroleerd en of hij is gezakt. Twee dalingen in korte tijd betekent een gemotiveerde verkoper.</li>
+          <li><strong>Over de prijzen.</strong> In deze regio verkopen huizen gemiddeld zo'n 7% onder de vraagprijs. Daarom staan er ook villa's tot €700.000 in de lijst: met een goed bod komen die binnen budget.</li>
+          <li><strong>Eigen vondsten zijn welkom.</strong> Een link of screenshot uit een portaal of Facebook-groep is genoeg — die wordt getoetst aan het profiel en op deze pagina gezet.</li>
+        </ol>
+      </details>
     </div>
   </section>
 
   <footer class="voetnoot">
     <p><strong>Biedstrategie.</strong> Woningen op de noordelijke Costa Blanca verkopen gemiddeld zo'n 7% onder de vraagprijs; boven de vraagprijs verkopen is zeldzaam. Villa's met een vraagprijs tot €700.000 zijn daarom meegenomen — een bod richting €650.000 is daar realistisch.</p>
-    <p><strong>Hoe deze lijst tot stand komt.</strong> Wekelijkse zoekronde (maandagochtend) over ThinkSpain, Kyero, lokale makelaars in Moraira, Benissa, Benitachell en Jávea, plus herpublicaties met prijs. De gegevens komen uit de zoekindex van die sites; prijzen en beschikbaarheid kunnen inmiddels afwijken — de link is altijd leidend. Facebook Marketplace en besloten groepen zijn niet automatisch te volgen; publiek vindbare Facebook-posts worden wel in de wekelijkse ronde meegenomen.</p>
-    <p><strong>Zelf iets gezien?</strong> Stuur de link (ook uit Facebook-groepen) door aan Matthijs — dan wordt hij getoetst aan het profiel en op deze pagina gezet.</p>
+    <p><strong>Hoe deze lijst tot stand komt.</strong> Wekelijkse zoekronde (maandagochtend) over ThinkSpain, Kyero, Idealista, Fotocasa en Milanuncios — die laatste voor particulier aanbod zonder makelaar — plus lokale makelaars in Moraira, Benissa, Benitachell en Jávea. De gegevens komen uit de zoekindex van die sites; prijzen en beschikbaarheid kunnen afwijken — de link is leidend. Facebook Marketplace en besloten groepen zijn niet automatisch te volgen; publiek vindbare posts wel.</p>
+    <p><strong>Jouw markeringen</strong> (★, ✕ en notities) worden alleen in deze browser bewaard, niet verstuurd. Ze verdwijnen niet bij een update van de lijst. Wil je ze delen, gebruik dan de knop “Kopieer mijn reactie”.</p>
   </footer>
 </div>
 
@@ -862,6 +1017,58 @@
     }
   ];
 
+  // Prijshistorie — per villa de waarnemingen [datum, prijs] uit de zoekrondes.
+  // Elke ronde één paar aanvullen bij de villa's die je echt hebt gecontroleerd.
+  // Daaruit volgt vanzelf of een prijs is gezakt of juist muf begint te worden.
+  var HISTORIE = {
+    1:  [["2026-08-06", 650000], ["2026-08-10", 650000], ["2026-08-11", 650000]],
+    2:  [["2026-08-06", 595000]],
+    6:  [["2026-08-06", 650000], ["2026-08-10", 650000]],
+    7:  [["2026-08-06", 599000], ["2026-08-10", 599000]],
+    8:  [["2026-08-06", 550000], ["2026-08-10", 550000]],
+    9:  [["2026-08-06", 690000]],
+    10: [["2026-08-06", 620000]],
+    12: [["2026-08-06", 529000], ["2026-08-10", 529000]],
+    13: [["2026-08-06", 429000]]
+  };
+
+  // Eisenraster — per villa [staat, korte tekst]. Staat: "ja" | "krap" | "nee" | "?".
+  // Alleen invullen wat de advertentie daadwerkelijk zegt; "?" is een eerlijk antwoord
+  // en meteen de vraag die je aan de makelaar stelt.
+  var EISEN = {
+    1:  { slk:["ja","3 slk"],      perceel:["?","onbekend"],     zwembad:["?","maat ?"],  garage:["ja","ja"],        vloer:["ja","ja"],       gast:["nee","nee"],          zee:["ja","1,2 km"] },
+    2:  { slk:["ja","3 + gast"],   perceel:["krap","850 m²"],    zwembad:["?","maat ?"],  garage:["ja","ja"],        vloer:["nee","2 lagen"], gast:["ja","ja"],            zee:["ja","0,6 km"] },
+    3:  { slk:["ja","3 + suite"],  perceel:["?","groot, vlak"],  zwembad:["ja","8×4"],    garage:["?","onbekend"],   vloer:["ja","ja"],       gast:["ja","ja"],            zee:["ja","3,5 km"] },
+    4:  { slk:["?","onbekend"],    perceel:["?","onbekend"],     zwembad:["ja","8×4"],    garage:["?","eigen oprit"],vloer:["ja","ja"],       gast:["ja","ja"],            zee:["ja","3,5 km"] },
+    5:  { slk:["?","onbekend"],    perceel:["?","onbekend"],     zwembad:["?","maat ?"],  garage:["?","onbekend"],   vloer:["ja","ja"],       gast:["ja","ja"],            zee:["ja","1,4 km"] },
+    6:  { slk:["ja","3 slk"],      perceel:["?","vlak, maat ?"], zwembad:["ja","8,5×4,5"],garage:["?","onderbouw"],  vloer:["nee","split"],   gast:["nee","nee"],          zee:["ja","1,8 km"] },
+    7:  { slk:["ja","5 slk"],      perceel:["krap","800 m²"],    zwembad:["ja","8×4"],    garage:["?","onbekend"],   vloer:["nee","2 lagen"], gast:["nee","om te vormen"], zee:["ja","3,0 km"] },
+    8:  { slk:["ja","3 slk"],      perceel:["?","onbekend"],     zwembad:["?","maat ?"],  garage:["?","onbekend"],   vloer:["nee","3 lagen"], gast:["?","kelder"],         zee:["ja","1,0 km"] },
+    9:  { slk:["ja","3 slk"],      perceel:["krap","800 m²"],    zwembad:["?","maat ?"],  garage:["?","onbekend"],   vloer:["ja","ja"],       gast:["nee","nee"],          zee:["ja","0,1 km"] },
+    10: { slk:["ja","3 slk"],      perceel:["ja","971 m²"],      zwembad:["?","maat ?"],  garage:["ja","ja"],        vloer:["?","onbekend"],  gast:["nee","nee"],          zee:["?","ligging ?"] },
+    11: { slk:["ja","3 slk"],      perceel:["krap","782 m²"],    zwembad:["?","maat ?"],  garage:["?","onbekend"],   vloer:["ja","ja"],       gast:["nee","nee"],          zee:["ja","4,4 km"] },
+    13: { slk:["ja","3 slk"],      perceel:["?","onbekend"],     zwembad:["?","maat ?"],  garage:["ja","ja"],        vloer:["?","onbekend"],  gast:["nee","nee"],          zee:["?","ligging ?"] }
+  };
+
+  // Perceeloppervlak in m², voor het staafje onder het raster. Doel is 1.000 m².
+  var PERCEEL = { 2: 850, 7: 800, 9: 800, 10: 971, 11: 782 };
+
+  var EISVOLGORDE = [
+    ["slk", "Slaapkamers"],
+    ["perceel", "Perceel ±1.000 m²"],
+    ["zwembad", "Zwembad ±8×4"],
+    ["garage", "Garage"],
+    ["vloer", "Gelijkvloers"],
+    ["gast", "Gastenverblijf"],
+    ["zee", "Binnen 5 km"]
+  ];
+  var KLASSE = { ja: "ja", krap: "krap", nee: "nee", "?": "onbekend" };
+  var MAANDEN = ["jan", "feb", "mrt", "apr", "mei", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
+  function kortDatum(s) {
+    var d = s.split("-");
+    return parseInt(d[2], 10) + " " + MAANDEN[parseInt(d[1], 10) - 1];
+  }
+
   var euro = function (n) { return "€ " + n.toLocaleString("nl-NL"); };
   var lijst = document.getElementById("lijst");
   var pinnen = document.getElementById("pinnen");
@@ -872,16 +1079,33 @@
   var filter = {
     prijsMax: 800000,
     regios: { "calpe-benissa": true, moraira: true, benitachell: true, javea: true },
-    eisen: { gastenverblijf: false, gelijkvloers: false, zwembad84: false }
+    eisen: { gastenverblijf: false, gelijkvloers: false, zwembad84: false },
+    alleenFavoriet: false,
+    verbergNee: false
   };
 
   function past(k) {
+    var mijnOordeel = (oordelen[k.nr] || {}).oordeel || null;
+    if (filter.alleenFavoriet && mijnOordeel !== "ja") return false;
+    if (filter.verbergNee && mijnOordeel === "nee") return false;
     if (!filter.regios[k.regio]) return false;
     if (k.prijs !== null && k.prijs > filter.prijsMax) return false;
     if (filter.eisen.gastenverblijf && !k.gastenverblijf) return false;
     if (filter.eisen.gelijkvloers && !k.gelijkvloers) return false;
     if (filter.eisen.zwembad84 && !k.zwembad84) return false;
     return true;
+  }
+
+  // --- oordelen van de bezoeker, bewaard in deze browser ---
+  var SLEUTEL = "villa-oordeel-v1";
+  var oordelen = {};
+  try { oordelen = JSON.parse(window.localStorage.getItem(SLEUTEL)) || {}; } catch (e) { oordelen = {}; }
+  function bewaarOordelen() {
+    try { window.localStorage.setItem(SLEUTEL, JSON.stringify(oordelen)); } catch (e) { /* privémodus: alleen deze sessie */ }
+  }
+  function oordeelVan(nr) {
+    if (!oordelen[nr]) oordelen[nr] = { oordeel: null, notitie: "" };
+    return oordelen[nr];
   }
 
   // --- kaarten opbouwen ---
@@ -922,10 +1146,39 @@
     chips.appendChild(c2);
     art.appendChild(chips);
 
+    // prijshistorie: is de prijs gezakt, of staat hij er al een tijdje onaangeroerd?
+    var hist = HISTORIE[k.nr];
+    var hp = document.createElement("p");
+    hp.className = "historie";
+    if (hist && hist.length) {
+      var eerste = hist[0], laatste = hist[hist.length - 1];
+      if (hist.length > 1 && laatste[1] < eerste[1]) {
+        var vlagD = document.createElement("span");
+        vlagD.className = "vlag daling";
+        vlagD.textContent = "Prijs verlaagd";
+        hp.appendChild(vlagD);
+        hp.appendChild(document.createTextNode(
+          "van " + euro(eerste[1]) + " naar " + euro(laatste[1]) + " sinds " + kortDatum(eerste[0])));
+      } else if (hist.length > 1) {
+        hp.appendChild(document.createTextNode(
+          "Prijs ongewijzigd · " + hist.length + " controles sinds " + kortDatum(eerste[0])));
+      } else {
+        var vlagO = document.createElement("span");
+        vlagO.className = "vlag oud";
+        vlagO.textContent = "Niet opnieuw gecheckt";
+        hp.appendChild(vlagO);
+        hp.appendChild(document.createTextNode("prijs voor het laatst gezien op " + kortDatum(eerste[0])));
+      }
+    } else {
+      hp.appendChild(document.createTextNode("Op de lijst sinds 6 aug · prijs niet gepubliceerd"));
+    }
+    art.appendChild(hp);
+
     if (k.feiten && k.feiten.length) {
       var p = document.createElement("p");
       p.className = "feiten";
-      k.feiten.forEach(function (f) {
+      k.feiten.forEach(function (f, i) {
+        if (i > 0) p.appendChild(document.createTextNode(" · "));
         var s = document.createElement("span");
         s.textContent = f;
         p.appendChild(s);
@@ -954,15 +1207,66 @@
       art.appendChild(lig);
     }
 
-    var ul = document.createElement("ul");
-    ul.className = "match";
-    k.punten.forEach(function (pt) {
-      var li = document.createElement("li");
-      li.className = pt[0];
-      li.textContent = pt[1];
-      ul.appendChild(li);
-    });
-    art.appendChild(ul);
+    // eisenraster: in één oogopslag wat klopt, wat krap zit en wat de advertentie verzwijgt
+    var eis = EISEN[k.nr];
+    if (eis) {
+      var raster = document.createElement("div");
+      raster.className = "raster";
+      EISVOLGORDE.forEach(function (rij) {
+        var waarde = eis[rij[0]];
+        if (!waarde) return;
+        var cel = document.createElement("div");
+        cel.className = KLASSE[waarde[0]] || "onbekend";
+        var naam = document.createElement("span");
+        naam.className = "naam";
+        naam.textContent = rij[1];
+        var staat = document.createElement("span");
+        staat.className = "staat";
+        staat.textContent = waarde[1];
+        cel.appendChild(naam);
+        cel.appendChild(staat);
+        if (rij[0] === "perceel" && PERCEEL[k.nr]) {
+          var balk = document.createElement("span");
+          balk.className = "perceelbalk" + (PERCEEL[k.nr] < 1000 ? " krap" : "");
+          var vul = document.createElement("i");
+          vul.style.width = Math.min(100, Math.round(PERCEEL[k.nr] / 10)) + "%";
+          balk.appendChild(vul);
+          cel.appendChild(balk);
+        }
+        raster.appendChild(cel);
+      });
+      art.appendChild(raster);
+    }
+
+    // aandachtspunten blijven staan; de rest gaat achter een klik — scheelt veel leeswerk.
+    // Bij de gebundelde kaarten (meerdere villa's op één kaart) is er geen raster dat de
+    // positieve punten samenvat, dus daar blijft alles zichtbaar.
+    var letten = eis ? k.punten.filter(function (pt) { return pt[0] === "let"; }) : k.punten;
+    var rest = eis ? k.punten.filter(function (pt) { return pt[0] !== "let"; }) : [];
+
+    function puntenLijst(punten) {
+      var ul = document.createElement("ul");
+      ul.className = "match";
+      punten.forEach(function (pt) {
+        var li = document.createElement("li");
+        li.className = pt[0];
+        li.textContent = pt[1];
+        ul.appendChild(li);
+      });
+      return ul;
+    }
+
+    if (letten.length) art.appendChild(puntenLijst(letten));
+
+    if (rest.length) {
+      var det = document.createElement("details");
+      det.className = "meer";
+      var sam = document.createElement("summary");
+      sam.textContent = "Wat er verder opvalt (" + rest.length + ")";
+      det.appendChild(sam);
+      det.appendChild(puntenLijst(rest));
+      art.appendChild(det);
+    }
 
     var linkP = document.createElement("p");
     linkP.className = "link";
@@ -983,6 +1287,65 @@
     m.textContent = "op Google Maps →";
     linkP.appendChild(m);
     art.appendChild(linkP);
+
+    // --- oordeel: favoriet, afgevallen, plus een eigen notitie ---
+    var mijn = oordeelVan(k.nr);
+    var balk = document.createElement("div");
+    balk.className = "oordeel";
+
+    var knopJa = document.createElement("button");
+    knopJa.type = "button";
+    knopJa.className = "stem ja";
+    knopJa.textContent = "★ Favoriet";
+    var knopNee = document.createElement("button");
+    knopNee.type = "button";
+    knopNee.className = "stem nee";
+    knopNee.textContent = "✕ Nee";
+    var knopNotitie = document.createElement("button");
+    knopNotitie.type = "button";
+    knopNotitie.className = "stem notitieknop";
+
+    var veld = document.createElement("textarea");
+    veld.className = "notitie";
+    veld.setAttribute("placeholder", "Wat valt je op? Bijvoorbeeld: mooie tuin, maar die trap naar het zwembad lijkt me niks.");
+    veld.setAttribute("aria-label", "Notitie bij villa " + k.nr);
+    veld.value = mijn.notitie || "";
+
+    function toonOordeel() {
+      knopJa.setAttribute("aria-pressed", mijn.oordeel === "ja" ? "true" : "false");
+      knopNee.setAttribute("aria-pressed", mijn.oordeel === "nee" ? "true" : "false");
+      art.classList.toggle("gemarkeerd-ja", mijn.oordeel === "ja");
+      art.classList.toggle("gemarkeerd-nee", mijn.oordeel === "nee");
+      knopNotitie.textContent = mijn.notitie ? "✎ Notitie aanpassen" : "＋ Notitie";
+    }
+    function zet(waarde) {
+      mijn.oordeel = mijn.oordeel === waarde ? null : waarde;
+      bewaarOordelen();
+      toonOordeel();
+      ververReactie();
+      pasToe();
+    }
+    knopJa.addEventListener("click", function () { zet("ja"); });
+    knopNee.addEventListener("click", function () { zet("nee"); });
+    knopNotitie.addEventListener("click", function () {
+      var verborgen = veld.hidden;
+      veld.hidden = !verborgen;
+      if (verborgen) veld.focus();
+    });
+    veld.addEventListener("input", function () {
+      mijn.notitie = veld.value;
+      bewaarOordelen();
+      knopNotitie.textContent = mijn.notitie ? "✎ Notitie aanpassen" : "＋ Notitie";
+      ververReactie();
+    });
+
+    veld.hidden = !mijn.notitie;
+    balk.appendChild(knopJa);
+    balk.appendChild(knopNee);
+    balk.appendChild(knopNotitie);
+    art.appendChild(balk);
+    art.appendChild(veld);
+    toonOordeel();
 
     lijst.appendChild(art);
     k.el = art;
@@ -1072,19 +1435,132 @@
     });
   });
 
+  var knopFavoriet = document.getElementById("filter-favoriet");
+  var knopVerbergNee = document.getElementById("filter-verberg-nee");
+  knopFavoriet.addEventListener("click", function () {
+    filter.alleenFavoriet = knopFavoriet.getAttribute("aria-pressed") !== "true";
+    knopFavoriet.setAttribute("aria-pressed", filter.alleenFavoriet ? "true" : "false");
+    pasToe();
+  });
+  knopVerbergNee.addEventListener("click", function () {
+    filter.verbergNee = knopVerbergNee.getAttribute("aria-pressed") !== "true";
+    knopVerbergNee.setAttribute("aria-pressed", filter.verbergNee ? "true" : "false");
+    pasToe();
+  });
+
   document.getElementById("herstel").addEventListener("click", function () {
     filter.prijsMax = 800000;
     schuif.value = 800000;
     uit.textContent = euro(800000);
     Object.keys(filter.regios).forEach(function (r) { filter.regios[r] = true; });
     Object.keys(filter.eisen).forEach(function (e) { filter.eisen[e] = false; });
+    filter.alleenFavoriet = false;
+    filter.verbergNee = false;
+    knopFavoriet.setAttribute("aria-pressed", "false");
+    knopVerbergNee.setAttribute("aria-pressed", "false");
     Array.prototype.forEach.call(document.querySelectorAll("[data-regio]"), function (b) { b.setAttribute("aria-pressed", "true"); });
     Array.prototype.forEach.call(document.querySelectorAll("[data-eis]"), function (b) { b.setAttribute("aria-pressed", "false"); });
     pasToe();
   });
 
+  // --- reactie verzamelen en doorsturen ---
+  var reactieTelling = document.getElementById("reactie-telling");
+  var reactieKopieer = document.getElementById("reactie-kopieer");
+  var reactieWissen = document.getElementById("reactie-wissen");
+
+  function verzamel() {
+    var favoriet = [], afgevallen = [], losseNotities = [];
+    K.forEach(function (k) {
+      var o = oordelen[k.nr];
+      if (!o) return;
+      if (o.oordeel === "ja") favoriet.push(k);
+      else if (o.oordeel === "nee") afgevallen.push(k);
+      else if (o.notitie) losseNotities.push(k);
+    });
+    return { favoriet: favoriet, afgevallen: afgevallen, losseNotities: losseNotities };
+  }
+
+  function regelVoor(k) {
+    var o = oordelen[k.nr] || {};
+    var r = "• " + k.nr + ". " + k.titel + " (" + k.prijsLabel + ")";
+    if (o.notitie) r += "\n  " + o.notitie.trim().replace(/\n+/g, " ");
+    return r;
+  }
+
+  function reactieBericht() {
+    var v = verzamel();
+    if (!v.favoriet.length && !v.afgevallen.length && !v.losseNotities.length) return "";
+    var d = ["Reactie op de villalijst (bijgewerkt 11 augustus 2026):", ""];
+    if (v.favoriet.length) {
+      d.push("DEZE SPRINGEN ERUIT");
+      v.favoriet.forEach(function (k) { d.push(regelVoor(k)); });
+      d.push("");
+    }
+    if (v.afgevallen.length) {
+      d.push("DEZE LIEVER NIET");
+      v.afgevallen.forEach(function (k) { d.push(regelVoor(k)); });
+      d.push("");
+    }
+    if (v.losseNotities.length) {
+      d.push("OPMERKINGEN");
+      v.losseNotities.forEach(function (k) { d.push(regelVoor(k)); });
+      d.push("");
+    }
+    return d.join("\n").trim();
+  }
+
+  function ververReactie() {
+    var v = verzamel();
+    var totaal = v.favoriet.length + v.afgevallen.length + v.losseNotities.length;
+    if (!totaal) {
+      reactieTelling.textContent = "Nog niets gemarkeerd — zet bij de villa's hierboven een ★ of een ✕.";
+      return;
+    }
+    var delen = [];
+    if (v.favoriet.length) delen.push(v.favoriet.length + (v.favoriet.length === 1 ? " favoriet" : " favorieten"));
+    if (v.afgevallen.length) delen.push(v.afgevallen.length + " afgevallen");
+    var metNotitie = K.filter(function (k) { return (oordelen[k.nr] || {}).notitie; }).length;
+    if (metNotitie) delen.push(metNotitie + (metNotitie === 1 ? " notitie" : " notities"));
+    reactieTelling.innerHTML = "";
+    delen.forEach(function (tekstDeel, i) {
+      if (i > 0) reactieTelling.appendChild(document.createTextNode(" · "));
+      var getal = tekstDeel.split(" ")[0];
+      var rest = tekstDeel.slice(getal.length);
+      var sterk = document.createElement("strong");
+      sterk.textContent = getal;
+      reactieTelling.appendChild(sterk);
+      reactieTelling.appendChild(document.createTextNode(rest));
+    });
+  }
+
+  reactieKopieer.addEventListener("click", function () {
+    var b = reactieBericht();
+    if (!b) {
+      reactieKopieer.textContent = "Markeer eerst een villa";
+      window.setTimeout(function () { reactieKopieer.textContent = "Kopieer mijn reactie"; }, 1800);
+      return;
+    }
+    var klaar = function () {
+      reactieKopieer.textContent = "Gekopieerd — plak het in WhatsApp of mail";
+      window.setTimeout(function () { reactieKopieer.textContent = "Kopieer mijn reactie"; }, 2600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(b).then(klaar, function () { window.prompt("Kopieer dit bericht:", b); });
+    } else {
+      window.prompt("Kopieer dit bericht:", b);
+    }
+  });
+
+  reactieWissen.addEventListener("click", function () {
+    if (!window.confirm("Alle sterren, kruisjes en notities wissen?")) return;
+    oordelen = {};
+    bewaarOordelen();
+    window.location.reload();
+  });
+
   document.getElementById("totaal-kop").textContent = K.length;
   uit.textContent = euro(filter.prijsMax);
+  ververReactie();
   pasToe();
 
   // --- wensenformulier ---

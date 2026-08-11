@@ -36,6 +36,17 @@ Buitenwijk van Calpe gelegen aan de kant van La Fustera / Benissa-Costa, **Morai
 
 ## Werkwijze zoekrondes
 
-1. Portalen: Kyero, ThinkSpain, Luxinmo, Spainhouses, Indomio + lokale makelaars (Cuñat Weber/Immo Moraira, Blue Square, Villalux, 123 Javea Villas, Benimo, Brassa Homes, e.d.)
-2. Alleen advertenties opnemen die daadwerkelijk zijn geopend en gecontroleerd (prijs, slaapkamers, perceel, garage).
-3. Resultaten per zoekronde in een eigen bestand `shortlist-JJJJ-MM-DD.md` in deze map.
+1. Portalen: Kyero, ThinkSpain, Luxinmo, Spainhouses, Indomio, **Idealista**, **Fotocasa** +
+   lokale makelaars (Cuñat Weber/Immo Moraira, Blue Square, Villalux, 123 Javea Villas,
+   Benimo, Brassa Homes, e.d.)
+2. **Milanuncios** apart meenemen: daar staat particulier aanbod zonder makelaar, dat vaak
+   scherper geprijsd is en op geen van de bovenstaande portalen verschijnt. Zoek per gemeente
+   (Teulada-Moraira, Benitachell/Poble Nou, Xàbia, Benissa, Calpe) op `chalet` en `villa`, en
+   let op advertenties met `de particular a particular`.
+3. Alleen advertenties opnemen die daadwerkelijk zijn geopend en gecontroleerd (prijs,
+   slaapkamers, perceel, garage). Wat wel gevonden maar niet geopend is, gaat onder een kopje
+   **"Nog te verifiëren"** in het rondebestand — niet op de shortlist en niet op de pagina.
+4. Prijzen van bestaande kandidaten elke ronde herbevestigen en de waarneming toevoegen aan
+   `HISTORIE` in `pagina/villa-zoektocht.bron.html`. Een prijs die zakt is onderhandelings-
+   munitie; een prijs die al weken niet is gecontroleerd hoort als zodanig zichtbaar te zijn.
+5. Resultaten per zoekronde in een eigen bestand `shortlist-JJJJ-MM-DD.md` in deze map.
