@@ -260,6 +260,17 @@
   }
   .chip.status-check { background: var(--wens-soft); color: var(--wens); }
 
+  .ligging {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin: -4px 0 12px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: baseline;
+  }
+  .ligging .kompas { color: var(--accent); font-weight: 700; }
+
   .feiten { font-size: 14.5px; color: var(--ink); margin: 0 0 10px; }
   .feiten span { white-space: nowrap; }
   .feiten span + span::before { content: " \00B7 "; color: var(--ink-soft); }
@@ -497,7 +508,7 @@
 
   <section aria-labelledby="shortlist-titel">
     <h2 id="shortlist-titel">De shortlist</h2>
-    <p class="sectienote">Gerangschikt op hoe goed ze het profiel raken; de nummering is de aanbevolen kijkvolgorde. Alle gegevens komen uit de zoekindex van de portalen — klik altijd door voor de actuele prijs en status. Een vinkje ✓ is een geraakte eis, een ster ★ een vervulde wens, een uitroepteken een aandachtspunt.</p>
+    <p class="sectienote">Gerangschikt op hoe goed ze het profiel raken; de nummering is de aanbevolen kijkvolgorde. Alle gegevens komen uit de zoekindex van de portalen — klik altijd door voor de actuele prijs en status. Een vinkje ✓ is een geraakte eis, een ster ★ een vervulde wens, een uitroepteken een aandachtspunt. De afstanden achter het ◎ zijn hemelsbreed en gemeten vanaf de urbanisatie, niet vanaf het exacte adres; ze staan er alleen bij waar de ligging bekend is.</p>
     <div id="lijst"></div>
     <p class="leeg" id="leeg-melding" hidden>Met deze filters blijft er niets over. Zet er een paar uit, of wis alle filters.</p>
   </section>
@@ -602,6 +613,7 @@
       prijs: 650000, prijsLabel: "€ 650.000", status: "bevestigd",
       gastenverblijf: false, gelijkvloers: true, zwembad84: false,
       x: 308.7, y: 422.7, precies: true,
+      ligging: "≈ 1,2 km van zee · 1,2 km van Moraira", pano: "38.69600,0.12601",
       feiten: ["3 slaapkamers", "3 badkamers", "zuidgericht", "ThinkSpain ref. 8723486"],
       punten: [
         ["ja", "Volledig gelijkvloers, met verwarmd privézwembad en terras aan de zichtzijde"],
@@ -620,6 +632,7 @@
       prijs: 595000, prijsLabel: "€ 595.000", status: "bevestigd",
       gastenverblijf: true, gelijkvloers: false, zwembad84: false,
       x: 514.5, y: 209.6, precies: true,
+      ligging: "≈ 0,6 km van zee · 4,7 km van Jávea", pano: "38.75599,0.20002",
       feiten: ["3 slaapkamers + gastenappartement", "280 m² gebouwd", "perceel 850 m²", "Bocasa ref. 1634"],
       punten: [
         ["wens", "Apart gastenappartement beneden met eigen ingang en terras: woonhoekje, slaapkamer, badkamer"],
@@ -641,6 +654,7 @@
       prijs: null, prijsLabel: "prijs via link", status: "opvragen",
       gastenverblijf: true, gelijkvloers: true, zwembad84: true,
       x: 422.6, y: 248.6, precies: true,
+      ligging: "≈ 3,5 km van zee · 1,2 km van Benitachell", pano: "38.74501,0.16697",
       feiten: ["3 slaapkamers + gastensuite", "Villa Spain of Moraira ref. 839"],
       punten: [
         ["wens", "Gastenverblijf op zwembadniveau met eigen ingang: keukentje, slaapkamer, doucheruimte"],
@@ -659,6 +673,7 @@
       prijs: null, prijsLabel: "prijs via link", status: "opvragen",
       gastenverblijf: true, gelijkvloers: true, zwembad84: true,
       x: 436.6, y: 262.8, precies: true,
+      ligging: "≈ 3,5 km van zee · 1,0 km van Benitachell", pano: "38.74101,0.17200",
       feiten: ["hoofdwoning gelijkvloers", "zuidoost", "Villa Spain of Moraira ref. 723"],
       punten: [
         ["wens", "Gastenappartement op lager niveau met eigen oprit: open woonkamer, Amerikaanse keuken, slaapkamer, douche én wasruimte"],
@@ -676,6 +691,7 @@
       prijs: null, prijsLabel: "prijs via link", status: "opvragen",
       gastenverblijf: true, gelijkvloers: true, zwembad84: false,
       x: 495, y: 227.3, precies: true,
+      ligging: "≈ 1,4 km van zee · 4,8 km van Jávea", pano: "38.75101,0.19301",
       feiten: ["hoofdwoning gelijkvloers", "Villa Spain of Moraira ref. 1482"],
       punten: [
         ["ja", "Wonen en slapen op de hoofdverdieping; rustig, einde van een doodlopende straat"],
@@ -693,6 +709,7 @@
       prijs: 650000, prijsLabel: "€ 650.000", status: "bevestigd",
       gastenverblijf: false, gelijkvloers: false, zwembad84: true,
       x: 442.1, y: 326.8, precies: true,
+      ligging: "≈ 1,8 km van zee · 1,6 km van Benitachell", pano: "38.72299,0.17398",
       feiten: ["3 slaapkamers", "master en-suite", "Select Villas of Moraira"],
       punten: [
         ["ja", "Vlak perceel met grote vlakke tuin — zeldzaam op de Cumbre"],
@@ -714,6 +731,7 @@
       prijs: 599000, prijsLabel: "€ 599.000", status: "bevestigd",
       gastenverblijf: false, gelijkvloers: false, zwembad84: true,
       x: 397.6, y: 156.2, precies: true,
+      ligging: "≈ 3,0 km van zee · 2,1 km van Jávea", pano: "38.77102,0.15798",
       feiten: ["5 slaapkamers", "4 badkamers", "193 m² gebouwd", "perceel 800 m²", "ThinkSpain ref. 5821072"],
       punten: [
         ["ja", "Privézwembad van precies 8×4 meter — de gevraagde maat"],
@@ -731,6 +749,7 @@
       prijs: 550000, prijsLabel: "€ 550.000", status: "bevestigd",
       gastenverblijf: false, gelijkvloers: false, zwembad84: false,
       x: 455.9, y: 348.1, precies: true,
+      ligging: "≈ 1,0 km van zee · 2,4 km van Benitachell", pano: "38.71700,0.17894",
       feiten: ["3 slaapkamers", "2 badkamers + gastentoilet", "ThinkSpain ref. 6632148"],
       punten: [
         ["ja", "Open keuken, twee grote terrassen, barbecue, mediterrane tuin"],
@@ -748,6 +767,7 @@
       prijs: 690000, prijsLabel: "€ 690.000", status: "bevestigd",
       gastenverblijf: false, gelijkvloers: true, zwembad84: false,
       x: 225.2, y: 504.4, precies: true,
+      ligging: "≈ 0,1 km van zee · 3,9 km van Moraira", pano: "38.67300,0.09599",
       feiten: ["3 slaapkamers", "2 badkamers", "138 m² + 123 m² bijruimte", "perceel 800 m²", "ThinkSpain ref. 6446894"],
       punten: [
         ["ja", "Geheel gelijkvloers; open keuken-eet-woonkamer naar terras met barbecue"],
@@ -779,6 +799,7 @@
       prijs: null, prijsLabel: "prijs via link", status: "opvragen",
       gastenverblijf: false, gelijkvloers: true, zwembad84: false,
       x: 375.4, y: 269.9, precies: true,
+      ligging: "≈ 4,4 km van zee · 1,2 km van Benitachell", pano: "38.73902,0.15000",
       feiten: ["3 slaapkamers", "2 badkamers", "perceel 782 m²", "zuidoost"],
       punten: [
         ["ja", "Alles gelijkvloers; volledig omheind perceel met privézwembad"],
@@ -910,6 +931,27 @@
         p.appendChild(s);
       });
       art.appendChild(p);
+    }
+
+    if (k.ligging) {
+      var lig = document.createElement("p");
+      lig.className = "ligging";
+      var kompas = document.createElement("span");
+      kompas.className = "kompas";
+      kompas.textContent = "◎";
+      var tekst = document.createElement("span");
+      tekst.textContent = k.ligging;
+      lig.appendChild(kompas);
+      lig.appendChild(tekst);
+      if (k.pano) {
+        var sv = document.createElement("a");
+        sv.href = "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=" + k.pano;
+        sv.rel = "noopener";
+        sv.target = "_blank";
+        sv.textContent = "bekijk de straat →";
+        lig.appendChild(sv);
+      }
+      art.appendChild(lig);
     }
 
     var ul = document.createElement("ul");
