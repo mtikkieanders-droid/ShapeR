@@ -313,6 +313,7 @@
     border-radius: 999px;
   }
   .historie .vlag.daling { background: var(--accent-soft); color: var(--accent); }
+  .historie .vlag.nieuw { background: var(--accent-soft); color: var(--accent); }
   .historie .vlag.oud { background: var(--wens-soft); color: var(--wens); }
 
   /* ---- eisenraster ---- */
@@ -510,7 +511,7 @@
     <p class="kicker">Zoekopdracht · Costa Blanca Noord</p>
     <h1>Villa in Spanje — shortlist</h1>
     <p class="standfirst">Gezocht: vrijstaande villa tussen Calpe (La Fustera / Benissa-Costa), Moraira, Benitachell en Jávea. Budget €500.000–€650.000, tot €700.000 met onderhandelingsruimte. Deze pagina wordt bij elke zoekronde bijgewerkt — de link blijft gelijk.</p>
-    <p class="updated"><strong>Laatste update: 11 augustus 2026</strong> · zoekronde 3 · 17 villa's in vier regio's, gebundeld op <span id="totaal-kop">14</span> kaarten</p>
+    <p class="updated"><strong>Laatste update: 17 augustus 2026</strong> · zoekronde 4 · 17 villa's in vier regio's, gebundeld op <span id="totaal-kop">14</span> kaarten</p>
   </header>
 
   <section aria-labelledby="profiel-titel">
@@ -664,7 +665,7 @@
 
   <section aria-labelledby="watals-titel">
     <h2 id="watals-titel">Wat kost welke eis?</h2>
-    <p class="sectienote">Na drie zoekrondes tekent zich een patroon af. Geen volledige markttelling — wel wat er in deze zoektocht langskwam.</p>
+    <p class="sectienote">Na vier zoekrondes tekent zich een patroon af. Geen volledige markttelling — wel wat er in deze zoektocht langskwam.</p>
     <div class="paneel">
       <div class="bevinding">
         <span class="getal">0</span>
@@ -683,8 +684,8 @@
       </div>
 
       <div class="scenario">
-        <h4>Als het perceel 800 m² mag zijn</h4>
-        <p>Dan verandert er in de praktijk bijna niets aan de lijst — want vrijwel alles wat past, zit daar toch al. Het maakt de eis alleen eerlijk: 1.000 m² blijft de wens, 800 m² wordt de ondergrens. Dit kost het minst en levert het meeste op.</p>
+        <h4>Het perceel mag 800 m² zijn — dit is nu de werkregel</h4>
+        <p>Deze aanpassing is per zoekronde 4 doorgevoerd: 1.000 m² blijft de wens, 800 m² is de ondergrens. Aan de lijst verandert dat weinig, want vrijwel alles wat past zat daar toch al — het maakt de eis vooral eerlijk. Eén gevolg: Les Fonts (nummer 11) zit met 782 m² net onder de grens en blijft staan omdat het verschil verwaarloosbaar is, maar het is wel de kleinste van de lijst.</p>
         <h4>Als het gastenverblijf een wens blijft in plaats van een eis</h4>
         <p>Dan komen Benitachell en Jávea flink in beeld: daar staan goede gelijkvloerse villa's met vlak perceel rond de €550.000–€650.000. Met dat prijsverschil valt later vaak een gastenverblijf bij te bouwen of een garage om te bouwen — informeer wel eerst naar de bouwvergunning in die gemeente.</p>
         <h4>Als het plafond naar €750.000 gaat</h4>
@@ -872,7 +873,8 @@
         ["ja", "Apart gastentoilet; open woon-eetkamer"],
         ["ja", "Oprit en ruime opslag in de onderbouw"],
         ["wens", "Gedeeltelijk zeezicht"],
-        ["let", "Perceel- en woonoppervlak niet in de index; garage versus onderbouw checken"]
+        ["let", "Geen echte garage: de advertentie noemt een oprit en opslag in de onderbouw"],
+        ["let", "Perceel- en woonoppervlak staan niet in de index — opvragen"]
       ],
       links: [
         ["Bekijk de advertentie op Rightmove", "https://www.rightmove.co.uk/properties/149690537"],
@@ -889,11 +891,13 @@
       ligging: "≈ 3,0 km van zee · 2,1 km van Jávea", pano: "38.77102,0.15798",
       feiten: ["5 slaapkamers", "4 badkamers", "193 m² gebouwd", "perceel 800 m²", "ThinkSpain ref. 5821072"],
       punten: [
-        ["ja", "Privézwembad van precies 8×4 meter — de gevraagde maat"],
-        ["ja", "Zeer rustige, vrijwel vrije ligging met panoramisch zeezicht en airco; goede staat"],
+        ["ja", "Privézwembad van precies 8×4 meter — de gevraagde maat — mét buitendouche"],
+        ["ja", "Aparte wasruimte aanwezig; ook barbecue, airco en overdekt terras"],
+        ["ja", "Zeer rustige, vrijwel vrije ligging met panoramisch zeezicht; goede staat"],
         ["wens", "Vijf slaapkamers: twee daarvan zijn om te vormen tot gastendeel"],
         ["ja", "Adsubia is een gewilde, groene woonwijk binnen de 5 km-zone"],
-        ["let", "Garage niet vermeld in de index — via de link checken"]
+        ["let", "Geen garage maar een carport — afsluitbare opslag ontbreekt dus"],
+        ["let", "Perceel ligt op afschot (“inclined”, enkele treden) — de vlakke tuin uit het profiel is dit niet"]
       ],
       links: [["Bekijk de advertentie op ThinkSpain", "https://www.thinkspain.com/property-for-sale/5821072"]],
       maps: "Adsubia,+Jávea,+Alicante"
@@ -940,12 +944,18 @@
       prijs: 620000, prijsLabel: "€ 620.000", status: "bevestigd",
       gastenverblijf: false, gelijkvloers: false, zwembad84: false,
       x: 152.9, y: 408.5, precies: false,
-      feiten: ["3 slaapkamers", "200 m² gebouwd", "perceel 971 m²", "pool + garage"],
+      feiten: ["3 slaapkamers", "200 m² gebouwd", "perceel 971 m²", "pool + garage", "ThinkSpain ref. 8712978"],
       punten: [
-        ["ja", "Perceelmaat vrijwel exact volgens profiel; zwembad en garage aanwezig"],
-        ["let", "Herpublicatie van februari 2025 — eerst checken of hij nog te koop is en waar precies in Benissa (max 5 km van zee)"]
+        ["ja", "Grootste perceel van de hele lijst: 971 m², vrijwel exact de gevraagde 1.000 m²"],
+        ["ja", "Zwembad, garage én ruime buitenparkeerplaats; master met eigen badkamer"],
+        ["ja", "Staat nu ook als eigen advertentie op ThinkSpain — dus nog altijd te koop"],
+        ["let", "Waar precies in Benissa is nog onbekend; de gemeente loopt tot ver landinwaarts, dus de 5 km-grens checken"],
+        ["let", "Of het gelijkvloers is, staat er niet bij"]
       ],
-      links: [["Bekijk de herpublicatie (Olive Press)", "https://www.theolivepress.es/spain-news/2025/02/03/3-bedroom-villa-for-sale-in-benissa-with-pool-garage-e-620000/"]],
+      links: [
+        ["Bekijk de advertentie op ThinkSpain", "https://www.thinkspain.com/property-for-sale/8712978"],
+        ["eerdere herpublicatie (Olive Press)", "https://www.theolivepress.es/spain-news/2025/02/03/3-bedroom-villa-for-sale-in-benissa-with-pool-garage-e-620000/"]
+      ],
       maps: "Benissa,+Alicante"
     },
     {
@@ -957,9 +967,11 @@
       ligging: "≈ 4,4 km van zee · 1,2 km van Benitachell", pano: "38.73902,0.15000",
       feiten: ["3 slaapkamers", "2 badkamers", "perceel 782 m²", "zuidoost"],
       punten: [
-        ["ja", "Alles gelijkvloers; volledig omheind perceel met privézwembad"],
+        ["ja", "Alles gelijkvloers; volledig omheind perceel met privézwembad van 9×4,5 m"],
+        ["ja", "Open keuken die overloopt in woon- en eetkamer; alle slaapkamers met inbouwkasten"],
+        ["ja", "Zwembad op het zuidoosten gelegen — zon van de ochtend tot in de middag"],
         ["ja", "Rustige urbanisatie op twee minuten van het dorp; kwartier rijden naar Moraira of Jávea"],
-        ["let", "Perceel iets onder de 1.000 m²; prijs via de link opvragen"]
+        ["let", "Perceel 782 m², net onder de ondergrens van 800 m²; prijs via de link opvragen"]
       ],
       links: [["Bekijk de advertentie bij Casas Ambiente", "https://casas-ambiente.com/property/14837/villa-for-sale-in-les-fonts-benitachell/"]],
       maps: "Les+Fonts,+Benitachell,+Alicante"
@@ -1021,15 +1033,15 @@
   // Elke ronde één paar aanvullen bij de villa's die je echt hebt gecontroleerd.
   // Daaruit volgt vanzelf of een prijs is gezakt of juist muf begint te worden.
   var HISTORIE = {
-    1:  [["2026-08-06", 650000], ["2026-08-10", 650000], ["2026-08-11", 650000]],
-    2:  [["2026-08-06", 595000]],
+    1:  [["2026-08-06", 650000], ["2026-08-10", 650000], ["2026-08-11", 650000], ["2026-08-17", 650000]],
+    2:  [["2026-08-06", 595000], ["2026-08-17", 595000]],
     6:  [["2026-08-06", 650000], ["2026-08-10", 650000]],
-    7:  [["2026-08-06", 599000], ["2026-08-10", 599000]],
-    8:  [["2026-08-06", 550000], ["2026-08-10", 550000]],
-    9:  [["2026-08-06", 690000]],
-    10: [["2026-08-06", 620000]],
-    12: [["2026-08-06", 529000], ["2026-08-10", 529000]],
-    13: [["2026-08-06", 429000]]
+    7:  [["2026-08-06", 599000], ["2026-08-10", 599000], ["2026-08-17", 599000]],
+    8:  [["2026-08-06", 550000], ["2026-08-10", 550000], ["2026-08-17", 550000]],
+    9:  [["2026-08-06", 690000], ["2026-08-17", 690000]],
+    10: [["2026-08-06", 620000], ["2026-08-17", 620000]],
+    12: [["2026-08-06", 529000], ["2026-08-10", 529000], ["2026-08-17", 529000]],
+    13: [["2026-08-06", 429000], ["2026-08-17", 429000]]
   };
 
   // Eisenraster — per villa [staat, korte tekst]. Staat: "ja" | "krap" | "nee" | "?".
@@ -1041,12 +1053,12 @@
     3:  { slk:["ja","3 + suite"],  perceel:["?","groot, vlak"],  zwembad:["ja","8×4"],    garage:["?","onbekend"],   vloer:["ja","ja"],       gast:["ja","ja"],            zee:["ja","3,5 km"] },
     4:  { slk:["?","onbekend"],    perceel:["?","onbekend"],     zwembad:["ja","8×4"],    garage:["?","eigen oprit"],vloer:["ja","ja"],       gast:["ja","ja"],            zee:["ja","3,5 km"] },
     5:  { slk:["?","onbekend"],    perceel:["?","onbekend"],     zwembad:["?","maat ?"],  garage:["?","onbekend"],   vloer:["ja","ja"],       gast:["ja","ja"],            zee:["ja","1,4 km"] },
-    6:  { slk:["ja","3 slk"],      perceel:["?","vlak, maat ?"], zwembad:["ja","8,5×4,5"],garage:["?","onderbouw"],  vloer:["nee","split"],   gast:["nee","nee"],          zee:["ja","1,8 km"] },
-    7:  { slk:["ja","5 slk"],      perceel:["krap","800 m²"],    zwembad:["ja","8×4"],    garage:["?","onbekend"],   vloer:["nee","2 lagen"], gast:["nee","om te vormen"], zee:["ja","3,0 km"] },
+    6:  { slk:["ja","3 slk"],      perceel:["?","vlak, maat ?"], zwembad:["ja","8,5×4,5"],garage:["krap","oprit + berging"], vloer:["nee","split"], gast:["nee","nee"],   zee:["ja","1,8 km"] },
+    7:  { slk:["ja","5 slk"],      perceel:["krap","800 m²"],    zwembad:["ja","8×4"],    garage:["krap","carport"], vloer:["nee","2 lagen"], gast:["nee","om te vormen"], zee:["ja","3,0 km"] },
     8:  { slk:["ja","3 slk"],      perceel:["?","onbekend"],     zwembad:["?","maat ?"],  garage:["?","onbekend"],   vloer:["nee","3 lagen"], gast:["?","kelder"],         zee:["ja","1,0 km"] },
     9:  { slk:["ja","3 slk"],      perceel:["krap","800 m²"],    zwembad:["?","maat ?"],  garage:["?","onbekend"],   vloer:["ja","ja"],       gast:["nee","nee"],          zee:["ja","0,1 km"] },
     10: { slk:["ja","3 slk"],      perceel:["ja","971 m²"],      zwembad:["?","maat ?"],  garage:["ja","ja"],        vloer:["?","onbekend"],  gast:["nee","nee"],          zee:["?","ligging ?"] },
-    11: { slk:["ja","3 slk"],      perceel:["krap","782 m²"],    zwembad:["?","maat ?"],  garage:["?","onbekend"],   vloer:["ja","ja"],       gast:["nee","nee"],          zee:["ja","4,4 km"] },
+    11: { slk:["ja","3 slk"],      perceel:["krap","782 m²"],    zwembad:["ja","9×4,5"],  garage:["?","onbekend"],   vloer:["ja","ja"],       gast:["nee","nee"],          zee:["ja","4,4 km"] },
     13: { slk:["ja","3 slk"],      perceel:["?","onbekend"],     zwembad:["?","maat ?"],  garage:["ja","ja"],        vloer:["?","onbekend"],  gast:["nee","nee"],          zee:["?","ligging ?"] }
   };
 
@@ -1063,6 +1075,9 @@
     ["zee", "Binnen 5 km"]
   ];
   var KLASSE = { ja: "ja", krap: "krap", nee: "nee", "?": "onbekend" };
+  // Datum van de huidige zoekronde. Villa's waarvan de laatste waarneming ouder is,
+  // krijgen de oranje vlag "Niet opnieuw gecheckt" — die zijn deze ronde niet teruggevonden.
+  var RONDE = "2026-08-17";
   var MAANDEN = ["jan", "feb", "mrt", "apr", "mei", "jun", "jul", "aug", "sep", "okt", "nov", "dec"];
   function kortDatum(s) {
     var d = s.split("-");
@@ -1159,15 +1174,22 @@
         hp.appendChild(vlagD);
         hp.appendChild(document.createTextNode(
           "van " + euro(eerste[1]) + " naar " + euro(laatste[1]) + " sinds " + kortDatum(eerste[0])));
-      } else if (hist.length > 1) {
-        hp.appendChild(document.createTextNode(
-          "Prijs ongewijzigd · " + hist.length + " controles sinds " + kortDatum(eerste[0])));
-      } else {
+      } else if (laatste[0] !== RONDE) {
+        // deze ronde niet teruggevonden: de prijs kan inmiddels achterhaald zijn
         var vlagO = document.createElement("span");
         vlagO.className = "vlag oud";
         vlagO.textContent = "Niet opnieuw gecheckt";
         hp.appendChild(vlagO);
-        hp.appendChild(document.createTextNode("prijs voor het laatst gezien op " + kortDatum(eerste[0])));
+        hp.appendChild(document.createTextNode("prijs voor het laatst gezien op " + kortDatum(laatste[0])));
+      } else if (hist.length > 1) {
+        hp.appendChild(document.createTextNode(
+          "Prijs ongewijzigd · " + hist.length + " controles sinds " + kortDatum(eerste[0])));
+      } else {
+        var vlagN = document.createElement("span");
+        vlagN.className = "vlag nieuw";
+        vlagN.textContent = "Nieuw deze ronde";
+        hp.appendChild(vlagN);
+        hp.appendChild(document.createTextNode("voor het eerst gezien op " + kortDatum(eerste[0])));
       }
     } else {
       hp.appendChild(document.createTextNode("Op de lijst sinds 6 aug · prijs niet gepubliceerd"));

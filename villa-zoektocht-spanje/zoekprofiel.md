@@ -16,7 +16,7 @@ Buitenwijk van Calpe gelegen aan de kant van La Fustera / Benissa-Costa, **Morai
 | Eis | Toelichting |
 |---|---|
 | 3 slaapkamers, 2 badkamers | Liefst gelijkvloers, met woonniveau aan het zwembad |
-| Perceel ± 1.000 m² | Tuin enigszins vlak |
+| Perceel ± 1.000 m² | **Ondergrens 800 m²** (per zoekronde 4, 17 aug 2026); 1.000 m² blijft de wens. Tuin enigszins vlak |
 | Privé zwembad ± 8×4 m | Met buitendouche |
 | Garage | Voor auto en/of opslag |
 | Privacy | Geen inkijk, iets vrij van de buren |
